@@ -1,0 +1,144 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+h2 {
+    margin-bottom: 40px;
+    color: #333;
+    text-align: center;
+}
+
+/* Container do semáforo */
+.semaforo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Estilos dos LEDs do Semáforo */
+#ledVermelho, #ledAmarelo, #ledVerde {
+    width: 150px;
+    height: 100px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3), 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#ledVermelho {
+    background: radial-gradient(circle at 35% 35%, #ff4444, #cc0000);
+    opacity: 0.3;
+}
+
+#ledAmarelo {
+    background: radial-gradient(circle at 35% 35%, #ffcc00, #ffb300);
+    opacity: 0.3;
+}
+
+#ledVerde {
+    background: radial-gradient(circle at 35% 35%, #44ff44, #00cc00);
+    opacity: 0.3;
+}
+
+/* LED aceso com brilho */
+.ligado {
+    opacity: 1 !important;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3), 0 0 30px currentColor, 0 0 50px currentColor !important;
+    transform: scale(1.05);
+}
+
+/* Container dos inputs */
+.inputs-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Estilos dos inputs */
+div {
+    margin: 0;
+}
+
+label {
+    display: block;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+input[type="number"] {
+    padding: 8px 12px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 200px;
+    transition: border-color 0.3s;
+}
+
+input[type="number"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+/* Container dos botões */
+.buttons-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+/* Estilos dos botões */
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    border: 2px solid #333;
+    background-color: transparent;
+    color: #333;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+button:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+    transform: translateY(0);
+}

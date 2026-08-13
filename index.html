@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    <script src="assets/js/semaforo.js" defer></script>
+    <script src="assets/js/storageLocal.js" defer></script>
+
+    <script>
+        var l;
+        var s;
+
+        window.onload = () => {
+            s = new Semaforo();
+            l = new storageLocal();
+            
+            l.recuperarDoLocalStorage(); 
+        };
+    </script>
+
+    <title>Aula 02</title>
+</head>
+<body>
+
+    <h2>Semáforo</h2>
+
+    <div class="semaforo-container">
+        <div id="ledVermelho"></div>
+        <div id="ledAmarelo"></div>
+        <div id="ledVerde"></div>
+    </div>
+
+    <div class="inputs-container">
+        <div>
+            <label>Tempo vermelho (ms):</label>
+            <input id="tempoVermelho" name="tempoVermelho" type="number" onkeyup="l.guardarDados()">
+        </div>
+
+        <div>
+            <label>Tempo amarelo (ms):</label>
+            <input id="tempoAmarelo" name="tempoAmarelo" type="number" onkeyup="l.guardarDados()">
+        </div>
+
+        <div>
+            <label>Tempo verde (ms):</label>
+            <input id="tempoVerde" name="tempoVerde" type="number" onkeyup="l.guardarDados()">
+        </div>
+    </div>
+
+    <div class="buttons-container">
+        <button type="button" onclick="s.aplicarTempos()">Aplicar Tempos</button>
+        <button type="button" onclick="s.run()">Iniciar Semáforo</button>
+        <button type="button" onclick="s.parar()">Parar Semáforo</button>
+        <button type="button" onclick="s.ligarIntermitente()">Ligar intermitente</button>
+        <button type="button" onclick="s.reset()">Reset de Tempos</button>
+    </div>
+
+
+
+</body>
+</html>
