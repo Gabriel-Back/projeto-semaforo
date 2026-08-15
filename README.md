@@ -8,11 +8,15 @@ Este projeto consiste no desenvolvimento de um sistema de semáforo inteligente.
 ## ✨ Funcionalidades (Interface Web)
 - Ciclo automático do semáforo (Vermelho -> Verde -> Amarelo).
 - Modo intermitente (luz amarela piscando).
-- Configuração personalizada do tempo de cada luz (em milissegundos).
+- Configuração personalizada do tempo de cada luz.
 - Persistência de dados: os tempos configurados são salvos no `localStorage` do navegador.
 
 ## 📡 Broker MQTT (Docker)
+<<<<<<< HEAD
 A comunicação entre a interface web (e futuramente o ESP32) é feita via MQTT, usando um broker Mosquitto que roda localmente em Docker.
+=======
+A comunicação entre a interface web é feita via MQTT, usando um broker Mosquitto que roda localmente em Docker.
+>>>>>>> cf5abc4d2e71fecf73b8f9176045aa805f4c28aa
 
 Instruções completas de como subir o broker estão na pasta [`docker/`](./docker/README.md).
 
@@ -20,4 +24,8 @@ Instruções completas de como subir o broker estão na pasta [`docker/`](./dock
 * **Front-end:** HTML, CSS, e JavaScript.
 * **Armazenamento:** Web Storage API (`localStorage`).
 * **Comunicação:** MQTT (broker Mosquitto via Docker).
+<<<<<<< HEAD
 * **Hardware:** Placa ESP32, Linguagem C/C++.
+=======
+* **Hardware:** Placa ESP32, Linguagem C/C++.
+>>>>>>> cf5abc4d2e71fecf73b8f9176045aa805f4c28aa
