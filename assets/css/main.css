@@ -1,3 +1,12 @@
+:root {
+    --bg-dark: #0f172a;
+    --bg-soft: #e2e8f0;
+    --panel: rgba(255, 255, 255, 0.92);
+    --text: #111827;
+    --muted: #475569;
+    --shadow: rgba(15, 23, 42, 0.2);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,140 +14,194 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    padding: 20px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top, rgba(59, 130, 246, 0.18), transparent 35%),
+        linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #334155 100%);
+    color: var(--text);
 }
 
-h2 {
-    margin-bottom: 40px;
-    color: #333;
-    text-align: center;
-}
-
-/* Container do semáforo */
-.semaforo-container {
+.page-shell {
+    min-height: 100vh;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 40px;
-    padding: 30px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Estilos dos LEDs do Semáforo */
-#ledVermelho, #ledAmarelo, #ledVerde {
-    width: 150px;
-    height: 100px;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3), 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-#ledVermelho {
-    background: radial-gradient(circle at 35% 35%, #ff4444, #cc0000);
-    opacity: 0.3;
-}
-
-#ledAmarelo {
-    background: radial-gradient(circle at 35% 35%, #ffcc00, #ffb300);
-    opacity: 0.3;
-}
-
-#ledVerde {
-    background: radial-gradient(circle at 35% 35%, #44ff44, #00cc00);
-    opacity: 0.3;
-}
-
-/* LED aceso com brilho */
-.ligado {
-    opacity: 1 !important;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3), 0 0 30px currentColor, 0 0 50px currentColor !important;
-    transform: scale(1.05);
-}
-
-/* Container dos inputs */
-.inputs-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 30px;
-    padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Estilos dos inputs */
-div {
-    margin: 0;
-}
-
-label {
-    display: block;
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 5px;
-}
-
-input[type="number"] {
-    padding: 8px 12px;
-    border: 2px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    width: 100%;
-    max-width: 200px;
-    transition: border-color 0.3s;
-}
-
-input[type="number"]:focus {
-    outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
-}
-
-/* Container dos botões */
-.buttons-container {
-    display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-    flex-wrap: wrap;
+    padding: 32px 16px;
 }
 
-/* Estilos dos botões */
-button {
-    padding: 10px 20px;
-    margin: 5px;
-    font-size: 16px;
-    border: 2px solid #333;
-    background-color: transparent;
-    color: #333;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s;
+.panel-card {
+    background: var(--panel);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    padding: 2rem;
+    box-shadow: 0 28px 60px rgba(15, 23, 42, 0.28);
 }
 
-button:hover {
-    background-color: #f0f0f0;
+.eyebrow {
+    display: inline-block;
+    letter-spacing: 0.18rem;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #1d4ed8;
+    background: rgba(59, 130, 246, 0.12);
+    padding: 0.45rem 0.8rem;
+    border-radius: 999px;
+}
+
+.page-title {
+    font-size: clamp(2.2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: #0f172a;
+    margin-top: 0.75rem;
+}
+
+.semaforo-estrutura {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+}
+
+.poste {
+    width: 18px;
+    height: 70px;
+    background: linear-gradient(180deg, #475569, #0f172a);
+    border-radius: 999px 999px 0 0;
+    box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.15);
+}
+
+.semaforo-caixa {
+    width: 230px;
+    padding: 20px 16px 16px;
+    background: linear-gradient(180deg, #1f2937 0%, #0f172a 100%);
+    border-radius: 32px;
+    border: 4px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+        inset 0 0 18px rgba(255, 255, 255, 0.05),
+        0 20px 30px rgba(0, 0, 0, 0.22);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.lampada {
+    width: 118px;
+    height: 118px;
+    border-radius: 50%;
+    border: 10px solid rgba(255, 255, 255, 0.1);
+    opacity: 0.22;
+    transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+
+.lampada::before {
+    content: "";
+    position: absolute;
+    inset: 12% 14% auto auto;
+    width: 30%;
+    height: 30%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    filter: blur(2px);
+}
+
+.lampada-vermelha {
+    background: radial-gradient(circle at 35% 35%, #ff8a8a, #ef4444 40%, #991b1b 100%);
+}
+
+.lampada-amarela {
+    background: radial-gradient(circle at 35% 35%, #fde68a, #fbbf24 45%, #b45309 100%);
+}
+
+.lampada-verde {
+    background: radial-gradient(circle at 35% 35%, #a7f3d0, #22c55e 42%, #166534 100%);
+}
+
+.ligado {
+    opacity: 1 !important;
+    transform: scale(1.04);
+    box-shadow:
+        inset 0 0 18px rgba(255, 255, 255, 0.18),
+        0 0 18px rgba(255, 255, 255, 0.3),
+        0 0 40px currentColor;
+}
+
+#ledVermelho.ligado {
+    color: #f87171;
+}
+
+#ledAmarelo.ligado {
+    color: #facc15;
+}
+
+#ledVerde.ligado {
+    color: #4ade80;
+}
+
+.config-panel {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(241, 245, 249, 0.85));
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 18px;
+    padding: 1.25rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.form-label {
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    padding: 0.75rem 0.9rem;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.15);
+}
+
+.buttons-container {
+    gap: 0.75rem !important;
+}
+
+.btn-custom {
+    min-width: 150px;
+    padding: 0.8rem 1.2rem;
+    font-weight: 700;
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-custom:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 18px rgba(15, 23, 42, 0.15);
 }
 
-button:active {
-    transform: translateY(0);
+@media (max-width: 767px) {
+    .panel-card {
+        padding: 1.4rem 1rem;
+    }
+
+    .semaforo-caixa {
+        width: 180px;
+    }
+
+    .lampada {
+        width: 92px;
+        height: 92px;
+    }
+
+    .btn-custom {
+        width: 100%;
+    }
 }

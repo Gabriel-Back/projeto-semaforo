@@ -24,7 +24,7 @@ class Semaforo {
 
     ligarLed(led) {
         let l = document.getElementById(led);
-        l.className = "ligado";
+        l.classList.add("ligado");
     }
 
     parar() {

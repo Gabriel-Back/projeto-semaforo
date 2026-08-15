@@ -1,8 +1,6 @@
-=
-
 var pahoConfig = {
     hostname: "localhost",  
-    port: "9001",           
+    port: "8000",           
     clientId: "teste123"    
 }
 

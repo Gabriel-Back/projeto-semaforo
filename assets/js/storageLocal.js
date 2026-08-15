@@ -36,7 +36,8 @@ class storageLocal {
         if (jsonStr != undefined) {
             //preenche o formulário
             let jsonObj = JSON.parse(jsonStr);
-            console.log(jsonObj);
+            //exibe no console o objeto recuperado
+            //console.log(jsonObj);
             this.preencherTemposSemaforo(jsonObj);
         }
 
