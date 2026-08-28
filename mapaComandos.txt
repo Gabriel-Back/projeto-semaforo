@@ -1,0 +1,16 @@
+ABRIR INDEX.HTML PELA PASTA DO WINDOWS (live server dando erro de loop de recarregamento)
+
+--- CONFIGURAÇÕES MQTTX ---
+
+hostname: "localhost"  
+port: "8000"
+Tópico = semaforo/estado
+
+--- COMANDOS SEMAFORO ---
+
+- "iniciar" -> Inicia o ciclo do semáforo.
+- "parar" -> Desliga/interrompe o ciclo.
+- "ligarIntermitente" -> Ativa o modo amarelo piscando.
+- "tempoVermelho = X" -> Altera o tempo do vermelho em segundos (ex: "tempoVermelho = 2").
+- "tempoAmarelo = X" -> Altera o tempo do amarelo em segundos (ex: "tempoAmarelo = 1").
+- "tempoVerde = X" -> Altera o tempo do verde em segundos (ex: "tempoVerde = 4").
