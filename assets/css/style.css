@@ -1669,3 +1669,84 @@ html[data-theme="dark"] {
   border-top-color: var(--admin-sidebar-border);
   color: var(--admin-sidebar-text);
 }
+
+/* ================================================================
+   SEMÁFORO — estilo do conteúdo "clean" do simulador.
+   (O template da página — sidebar, navbar, footer — fica intacto.)
+   ================================================================ */
+.sf-panel {
+  padding: 1.1rem 1.25rem 1rem;
+}
+
+.sf-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0 4px;
+}
+
+/* poste do semáforo */
+.sf-poste {
+  width: 14px;
+  height: 70px;
+  background: linear-gradient(#64748b, #1f2937);
+  border-radius: 6px 6px 0 0;
+}
+
+/* caixa que segura as 3 luzes */
+.sf-caixa {
+  width: 200px;
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(180deg, #1f2937, #0b1220);
+  border: 4px solid rgba(255, 255, 255, 0.12);
+  border-radius: 26px;
+  box-shadow:
+    0 18px 30px rgba(15, 23, 42, 0.35),
+    inset 0 0 18px rgba(255, 255, 255, 0.04);
+}
+
+/* cada luz (apagada por padrão) */
+.sf-luz {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 9px solid rgba(255, 255, 255, 0.08);
+  opacity: 0.15;                 /* apagada: bem discreta */
+  transition: opacity 0.25s, box-shadow 0.25s;
+}
+
+.sf-luz-vermelha { background: radial-gradient(circle at 35% 35%, #ff8a8a, #dc2626 45%, #7f1d1d); }
+.sf-luz-amarela  { background: radial-gradient(circle at 35% 35%, #fde047, #eab308 45%, #854d0e); }
+.sf-luz-verde    { background: radial-gradient(circle at 35% 35%, #86efac, #22c55e 45%, #14532d); }
+
+/* A classe "ligado" é a ÚNICA coisa que o JS mexe no visual.
+   Se o professor pedir para mudar como a luz "acende", o lugar é aqui. */
+.sf-luz.ligado {
+  opacity: 1;
+  box-shadow: 0 0 25px currentColor, 0 0 60px currentColor;
+}
+#luzVermelho.ligado { color: #ef4444; }
+#luzAmarelo.ligado  { color: #facc15; }
+#luzVerde.ligado    { color: #4ade80; }
+
+/* barra de status (só leitura — mostra o que o MQTT entregou) */
+.sf-status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 18px;
+  margin-top: 18px;
+  padding: 0.6rem 0.8rem;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.04);
+  color: #64748b;
+  font-size: 0.78rem;
+}
+html[data-theme="dark"] .sf-status {
+  background: rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+}
