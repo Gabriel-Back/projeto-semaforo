@@ -59,6 +59,30 @@
 
   onReady(function () {
     var body = document.body;
+
+    function initSidebarNavigation() {
+      var sidebarNav = document.querySelector(".sidebar-nav");
+
+      if (!sidebarNav) {
+        return;
+      }
+
+      var path = window.location.pathname.replace(/\\/g, "/");
+      var inApplicationRoot = /\/application\/[^/]+\.html$/.test(path);
+      var inSemaforo = path.indexOf("/cadastros_semaforo/") !== -1;
+      var inUsuarios = path.indexOf("/cadastros_usuarios/") !== -1;
+      var semaforoPath = inApplicationRoot ? "cadastros_semaforo/index.html" : "../cadastros_semaforo/index.html";
+      var usuariosPath = inApplicationRoot ? "cadastros_usuarios/index.html" : "../cadastros_usuarios/index.html";
+      var simuladorPath = inApplicationRoot ? "simulador/index.html" : "../simulador/index.html";
+      var monitoramentoPath = inApplicationRoot ? "monitoramento/index.html" : "../monitoramento/index.html";
+      var semaforoActive = inSemaforo ? " active" : "";
+      var usuariosActive = inUsuarios ? " active" : "";
+      var currentPath = window.location.pathname;
+
+      sidebarNav.innerHTML = '<button class="nav-link nav-accordion-toggle' + semaforoActive + '" type="button" aria-expanded="true" aria-controls="semaforo-submenu"><span class="nav-icon"><i class="bi bi-stoplights" aria-hidden="true"></i></span><span class="nav-text">Semáforo</span><i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i></button><div class="nav-submenu" id="semaforo-submenu"><a class="nav-sublink' + (inSemaforo && /\/index\.html$/.test(currentPath) ? " active" : "") + '" href="' + semaforoPath + '">Cadastros</a><a class="nav-sublink" href="' + simuladorPath + '">Simulador</a><a class="nav-sublink" href="' + monitoramentoPath + '">Monitoramento</a></div><button class="nav-link nav-accordion-toggle" type="button" aria-expanded="false" aria-controls="relatorios-submenu"><span class="nav-icon"><i class="bi bi-file-earmark-bar-graph" aria-hidden="true"></i></span><span class="nav-text">Relatórios</span><i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i></button><div class="nav-submenu" id="relatorios-submenu" hidden><a class="nav-sublink" href="' + monitoramentoPath + '">Logs de alterações</a></div><a class="nav-link' + usuariosActive + '" href="' + usuariosPath + '"><span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span><span class="nav-text">Usuários</span></a><a class="nav-link" href="' + monitoramentoPath + '"><span class="nav-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></span><span class="nav-text">Perfil</span></a><a class="nav-link" href="' + monitoramentoPath + '"><span class="nav-icon"><i class="bi bi-file-earmark" aria-hidden="true"></i></span><span class="nav-text">Blank Page</span></a>';
+    }
+
+    initSidebarNavigation();
     var sidebarToggle = document.querySelector("[data-sidebar-toggle]");
     var themeToggles = document.querySelectorAll("[data-theme-toggle]");
     var themeIcons = document.querySelectorAll("[data-theme-icon]");
