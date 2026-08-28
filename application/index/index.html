@@ -1,14 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Painel de monitoramento de semáforo">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Painel de monitoramento de semáforo" />
   <title>Semáforo | Monitoramento</title>
 
-  <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css">
-  <link rel="stylesheet" href="../../assets/css/style.css">
+  <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css" />
+  <link rel="stylesheet" href="../../assets/css/style.css" />
 </head>
 
 <body>
@@ -27,7 +28,12 @@
       </div>
 
       <nav class="sidebar-nav">
-        <button class="nav-link nav-accordion-toggle active" type="button" aria-expanded="true" aria-controls="semaforo-submenu">
+        <a class="nav-link" href="../../index.html">
+          <span class="nav-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
+          <span class="nav-text">Dashboard</span>
+        </a>
+        <button class="nav-link nav-accordion-toggle active" type="button" aria-expanded="true"
+          aria-controls="semaforo-submenu">
           <span class="nav-icon"><i class="bi bi-stoplights" aria-hidden="true"></i></span>
           <span class="nav-text">Semáforo</span>
           <i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i>
@@ -37,7 +43,8 @@
           <a class="nav-sublink" href="../simulador/index.html">Simulador</a>
           <a class="nav-sublink" href="../simulador/index.html#monitoramento">Monitoramento</a>
         </div>
-        <button class="nav-link nav-accordion-toggle" type="button" aria-expanded="false" aria-controls="relatorios-submenu">
+        <button class="nav-link nav-accordion-toggle" type="button" aria-expanded="false"
+          aria-controls="relatorios-submenu">
           <span class="nav-icon"><i class="bi bi-file-earmark-bar-graph" aria-hidden="true"></i></span>
           <span class="nav-text">Relatórios</span>
           <i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i>
@@ -60,7 +67,8 @@
       </nav>
 
       <div class="sidebar-user">
-        <img class="avatar-img avatar-md sidebar-user-avatar" src="../../assets/images/avatar/avatar.jpg" alt="Administrador">
+        <img class="avatar-img avatar-md sidebar-user-avatar" src="../../assets/images/avatar/avatar.jpg"
+          alt="Administrador" />
         <strong>Administrador</strong>
         <small>Workspace ativo</small>
       </div>
@@ -74,29 +82,38 @@
     <div class="admin-main">
       <nav class="navbar admin-navbar navbar-expand bg-white">
         <div class="container-fluid px-3 px-lg-4">
-          <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar" aria-expanded="true" aria-label="Alternar menu lateral">
+          <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar"
+            aria-expanded="true" aria-label="Alternar menu lateral">
             <span></span>
             <span></span>
             <span></span>
           </button>
-          <a class="btn btn-outline-secondary btn-sm ms-3" href="../../index.html"><i class="bi bi-arrow-left" aria-hidden="true"></i> Voltar</a>
+          <a class="btn btn-outline-secondary btn-sm ms-3" href="../../index.html"><i class="bi bi-arrow-left"
+              aria-hidden="true"></i> Voltar</a>
           <form class="d-none d-md-flex ms-3 flex-grow-1" role="search" onsubmit="return false">
-            <input class="form-control search-input" type="search" placeholder="Buscar semáforo" aria-label="Buscar semáforo">
+            <input class="form-control search-input" type="search" placeholder="Buscar semáforo"
+              aria-label="Buscar semáforo" />
           </form>
 
           <div class="navbar-actions ms-auto">
-            <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema" title="Alternar tema">
+            <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"
+              title="Alternar tema">
               <i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
             </button>
 
             <div class="dropdown">
-              <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="avatar-img avatar-sm" src="../../assets/images/avatar/avatar.jpg" alt="Administrador">
+              <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <img class="avatar-img avatar-sm" src="../../assets/images/avatar/avatar.jpg" alt="Administrador" />
                 <span class="profile-name d-none d-sm-inline">Administrador</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="../cadastros_semaforo/index.html">Cadastros</a></li>
-                <li><a class="dropdown-item" href="../simulador/index.html">Simulador</a></li>
+                <li>
+                  <a class="dropdown-item" href="../cadastros_semaforo/index.html">Cadastros</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="../simulador/index.html">Simulador</a>
+                </li>
               </ul>
             </div>
           </div>
@@ -111,10 +128,20 @@
               <div>
                 <p class="eyebrow mb-1">Overview</p>
                 <h1 class="h3 mb-1">Dashboard</h1>
-                <p class="text-muted mb-0">Monitor performance, sales, users, and support from one clean workspace.</p>
+                <p class="text-muted mb-0">
+                  Monitor performance, sales, users, and support from one
+                  clean workspace.
+                </p>
               </div>
             </div>
-            <div class="heading-actions"><button class="btn btn-outline-secondary btn-sm" type="button"><i class="bi bi-download" aria-hidden="true"></i> Export</button><button class="btn btn-primary btn-sm" type="button"><i class="bi bi-file-earmark-plus" aria-hidden="true"></i> Create Report</button></div>
+            <div class="heading-actions">
+              <button class="btn btn-outline-secondary btn-sm" type="button">
+                <i class="bi bi-download" aria-hidden="true"></i>
+                Export</button><button class="btn btn-primary btn-sm" type="button">
+                <i class="bi bi-file-earmark-plus" aria-hidden="true"></i>
+                Create Report
+              </button>
+            </div>
           </div>
 
           <section class="row g-3 mt-1" aria-label="Dashboard metrics">
@@ -180,19 +207,35 @@
               <div class="panel">
                 <div class="panel-header">
                   <div>
-                    <h2 class="h5 mb-1 section-title"><i class="bi bi-graph-up-arrow" aria-hidden="true"></i><span>Sales Performance</span></h2>
-                    <p class="text-muted mb-0">Monthly revenue compared with operational targets.</p>
+                    <h2 class="h5 mb-1 section-title">
+                      <i class="bi bi-graph-up-arrow" aria-hidden="true"></i><span>Sales Performance</span>
+                    </h2>
+                    <p class="text-muted mb-0">
+                      Monthly revenue compared with operational targets.
+                    </p>
                   </div>
                   <a class="btn btn-light btn-sm" href="charts.html">View Details</a>
                 </div>
 
                 <div class="chart-bars" aria-label="Sales performance chart">
-                  <div class="chart-column bar-42"><span></span><small>Jan</small></div>
-                  <div class="chart-column bar-58"><span></span><small>Feb</small></div>
-                  <div class="chart-column bar-51"><span></span><small>Mar</small></div>
-                  <div class="chart-column bar-72"><span></span><small>Apr</small></div>
-                  <div class="chart-column bar-66"><span></span><small>May</small></div>
-                  <div class="chart-column bar-83"><span></span><small>Jun</small></div>
+                  <div class="chart-column bar-42">
+                    <span></span><small>Jan</small>
+                  </div>
+                  <div class="chart-column bar-58">
+                    <span></span><small>Feb</small>
+                  </div>
+                  <div class="chart-column bar-51">
+                    <span></span><small>Mar</small>
+                  </div>
+                  <div class="chart-column bar-72">
+                    <span></span><small>Apr</small>
+                  </div>
+                  <div class="chart-column bar-66">
+                    <span></span><small>May</small>
+                  </div>
+                  <div class="chart-column bar-83">
+                    <span></span><small>Jun</small>
+                  </div>
                 </div>
               </div>
             </div>
@@ -201,15 +244,41 @@
               <div class="panel h-100">
                 <div class="panel-header">
                   <div>
-                    <h2 class="h5 mb-1 section-title"><i class="bi bi-activity" aria-hidden="true"></i><span>Team Activity</span></h2>
+                    <h2 class="h5 mb-1 section-title">
+                      <i class="bi bi-activity" aria-hidden="true"></i><span>Team Activity</span>
+                    </h2>
                     <p class="text-muted mb-0">Recent operational updates.</p>
                   </div>
                 </div>
 
                 <div class="activity-list">
-                  <div class="activity-item"><span class="activity-dot bg-primary"></span><div><p class="mb-1 fw-semibold">New campaign launched</p><p class="text-muted small mb-0">Marketing team published the May offer.</p></div></div>
-                  <div class="activity-item"><span class="activity-dot bg-success"></span><div><p class="mb-1 fw-semibold">Payment batch cleared</p><p class="text-muted small mb-0">246 invoices were processed successfully.</p></div></div>
-                  <div class="activity-item"><span class="activity-dot bg-warning"></span><div><p class="mb-1 fw-semibold">Support queue rising</p><p class="text-muted small mb-0">Average first response time is 18 minutes.</p></div></div>
+                  <div class="activity-item">
+                    <span class="activity-dot bg-primary"></span>
+                    <div>
+                      <p class="mb-1 fw-semibold">New campaign launched</p>
+                      <p class="text-muted small mb-0">
+                        Marketing team published the May offer.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="activity-item">
+                    <span class="activity-dot bg-success"></span>
+                    <div>
+                      <p class="mb-1 fw-semibold">Payment batch cleared</p>
+                      <p class="text-muted small mb-0">
+                        246 invoices were processed successfully.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="activity-item">
+                    <span class="activity-dot bg-warning"></span>
+                    <div>
+                      <p class="mb-1 fw-semibold">Support queue rising</p>
+                      <p class="text-muted small mb-0">
+                        Average first response time is 18 minutes.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -218,22 +287,38 @@
           <section class="panel mt-3">
             <div class="panel-header">
               <div>
-                <h2 class="h5 mb-1 section-title"><i class="bi bi-people" aria-hidden="true"></i><span>Recent Users</span></h2>
-                <p class="text-muted mb-0">Latest account activity across the workspace.</p>
+                <h2 class="h5 mb-1 section-title">
+                  <i class="bi bi-people" aria-hidden="true"></i><span>Recent Users</span>
+                </h2>
+                <p class="text-muted mb-0">
+                  Latest account activity across the workspace.
+                </p>
               </div>
               <a class="btn btn-outline-secondary btn-sm" href="cadastros_usuarios/index.html">Manage Users</a>
             </div>
             <div class="table-responsive">
               <table class="table align-middle mb-0">
-                <thead><tr><th scope="col">User</th><th scope="col">Role</th><th scope="col">Team</th><th scope="col">Status</th><th scope="col">Joined</th><th scope="col" class="text-end">Action</th></tr></thead>
+                <thead>
+                  <tr>
+                    <th scope="col">User</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Team</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Joined</th>
+                    <th scope="col" class="text-end">Action</th>
+                  </tr>
+                </thead>
                 <tbody>
                   <tr>
                     <td>
                       <div class="d-flex align-items-center gap-2">
-                        <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-1.jpg" alt="Sarah Ahmed">
+                        <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-1.jpg"
+                          alt="Sarah Ahmed" />
                         <div>
                           <p class="fw-semibold mb-0">Sarah Ahmed</p>
-                          <p class="text-muted small mb-0">sarah@example.com</p>
+                          <p class="text-muted small mb-0">
+                            sarah@example.com
+                          </p>
                         </div>
                       </div>
                     </td>
@@ -241,15 +326,19 @@
                     <td>Operations</td>
                     <td><span class="badge text-bg-success">Active</span></td>
                     <td>Jan 12, 2026</td>
-                    <td class="text-end"><a class="btn btn-light btn-sm" href="user-details.html">View</a></td>
+                    <td class="text-end">
+                      <a class="btn btn-light btn-sm" href="user-details.html">View</a>
+                    </td>
                   </tr>
                   <tr>
                     <td>
                       <div class="d-flex align-items-center gap-2">
-                        <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-2.jpg" alt="Rafi Khan">
+                        <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-2.jpg" alt="Rafi Khan" />
                         <div>
                           <p class="fw-semibold mb-0">Rafi Khan</p>
-                          <p class="text-muted small mb-0">rafi@example.com</p>
+                          <p class="text-muted small mb-0">
+                            rafi@example.com
+                          </p>
                         </div>
                       </div>
                     </td>
@@ -257,44 +346,60 @@
                     <td>Sales</td>
                     <td><span class="badge text-bg-success">Active</span></td>
                     <td>Feb 03, 2026</td>
-                    <td class="text-end"><a class="btn btn-light btn-sm" href="user-details.html">View</a></td>
+                    <td class="text-end">
+                      <a class="btn btn-light btn-sm" href="user-details.html">View</a>
+                    </td>
                   </tr>
                   <tr>
                     <td>
                       <div class="d-flex align-items-center gap-2">
-                        <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-3.jpg" alt="Nadia Islam">
+                        <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-3.jpg"
+                          alt="Nadia Islam" />
                         <div>
                           <p class="fw-semibold mb-0">Nadia Islam</p>
-                          <p class="text-muted small mb-0">nadia@example.com</p>
+                          <p class="text-muted small mb-0">
+                            nadia@example.com
+                          </p>
                         </div>
                       </div>
                     </td>
                     <td>Editor</td>
                     <td>Content</td>
-                    <td><span class="badge text-bg-warning">Pending</span></td>
+                    <td>
+                      <span class="badge text-bg-warning">Pending</span>
+                    </td>
                     <td>Mar 18, 2026</td>
-                    <td class="text-end"><a class="btn btn-light btn-sm" href="user-details.html">View</a></td>
+                    <td class="text-end">
+                      <a class="btn btn-light btn-sm" href="user-details.html">View</a>
+                    </td>
                   </tr>
                   <tr>
                     <td>
                       <div class="d-flex align-items-center gap-2">
-                        <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-4.jpg" alt="Mina Torres">
+                        <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-4.jpg"
+                          alt="Mina Torres" />
                         <div>
                           <p class="fw-semibold mb-0">Mina Torres</p>
-                          <p class="text-muted small mb-0">mina@example.com</p>
+                          <p class="text-muted small mb-0">
+                            mina@example.com
+                          </p>
                         </div>
                       </div>
                     </td>
                     <td>Viewer</td>
                     <td>Finance</td>
-                    <td><span class="badge text-bg-secondary">Suspended</span></td>
+                    <td>
+                      <span class="badge text-bg-secondary">Suspended</span>
+                    </td>
                     <td>Apr 07, 2026</td>
-                    <td class="text-end"><a class="btn btn-light btn-sm" href="user-details.html">View</a></td>
+                    <td class="text-end">
+                      <a class="btn btn-light btn-sm" href="user-details.html">View</a>
+                    </td>
                   </tr>
                   <tr>
                     <td>
                       <div class="d-flex align-items-center gap-2">
-                        <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-5.jpg" alt="Jon Oliver">
+                        <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-5.jpg" alt="Jon Oliver" />
                         <div>
                           <p class="fw-semibold mb-0">Jon Oliver</p>
                           <p class="text-muted small mb-0">jon@example.com</p>
@@ -305,7 +410,9 @@
                     <td>Data</td>
                     <td><span class="badge text-bg-success">Active</span></td>
                     <td>Apr 22, 2026</td>
-                    <td class="text-end"><a class="btn btn-light btn-sm" href="user-details.html">View</a></td>
+                    <td class="text-end">
+                      <a class="btn btn-light btn-sm" href="user-details.html">View</a>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -314,7 +421,10 @@
         </div>
       </main>
 
-  <script src="../../assets/js/bootstrap.bundle.min.js"></script>
-  <script src="../../assets/js/main.js"></script>
+      <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+      <script src="../../assets/js/main.js"></script>
+    </div>
+  </div>
 </body>
+
 </html>

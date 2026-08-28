@@ -4,6 +4,80 @@
   var sidebarStorageKey = "adminHMD.sidebarMini";
   var themeStorageKey = "adminHMD.colorTheme";
   var desktopMedia = "(min-width: 992px)";
+  var logsStorageKey = "adminHMD.logsAlteracao";
+
+  function getCurrentUser() {
+    var savedUser = null;
+
+    try {
+      savedUser = sessionStorage.getItem("adminHMD.usuarioAtual");
+      if (savedUser) {
+        return JSON.parse(savedUser);
+      }
+    } catch (error) {
+      savedUser = null;
+    }
+
+    try {
+      savedUser = localStorage.getItem("adminHMD.usuarioAtual");
+      if (savedUser) {
+        return JSON.parse(savedUser);
+      }
+    } catch (error) {
+      savedUser = null;
+    }
+
+    return { name: "Administrador" };
+  }
+
+  function recuperarLogs() {
+    try {
+      return JSON.parse(localStorage.getItem(logsStorageKey) || "[]");
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function registrarLog(acao, usuarioNome) {
+    var usuario = usuarioNome || getCurrentUser().name || "Administrador";
+    var logs = recuperarLogs();
+    var novoLog = {
+      id: Date.now() + Math.random().toString(16).slice(2),
+      horario: new Date().toISOString(),
+      usuario: usuario,
+      alteracao: String(acao || "Alteração registrada").trim(),
+    };
+
+    logs.unshift(novoLog);
+    localStorage.setItem(logsStorageKey, JSON.stringify(logs.slice(0, 500)));
+    return novoLog;
+  }
+
+  function registrarLogin() {
+    try {
+      if (!sessionStorage.getItem("adminHMD.loginRegistrado")) {
+        var usuarioAtual = getCurrentUser();
+        window.registrarLog("Login no sistema", usuarioAtual.name || "Administrador");
+        sessionStorage.setItem("adminHMD.loginRegistrado", "true");
+      }
+    } catch (error) {
+      // Ignora falhas de storage em ambientes restritos.
+    }
+  }
+
+  if (typeof window !== "undefined") {
+    window.adminHMDUser = window.adminHMDUser || { name: "Administrador", workspace: "Workspace ativo", avatar: "../../assets/images/avatar/avatar.jpg" };
+    try {
+      sessionStorage.setItem("adminHMD.usuarioAtual", JSON.stringify(window.adminHMDUser));
+      localStorage.setItem("adminHMD.usuarioAtual", JSON.stringify(window.adminHMDUser));
+    } catch (error) {
+      // Ignora falhas de storage em ambientes restritos.
+    }
+
+    window.registrarLog = registrarLog;
+    window.recuperarLogs = recuperarLogs;
+    registrarLogin();
+  }
 
   function onReady(callback) {
     if (document.readyState === "loading") {
@@ -75,11 +149,12 @@
       var usuariosPath = inApplicationRoot ? "cadastros_usuarios/index.html" : "../cadastros_usuarios/index.html";
       var simuladorPath = inApplicationRoot ? "simulador/index.html" : "../simulador/index.html";
       var monitoramentoPath = inApplicationRoot ? "monitoramento/index.html" : "../monitoramento/index.html";
+      var logsPath = inApplicationRoot ? "logs_alteracao/index.html" : "../logs_alteracao/index.html";
       var semaforoActive = inSemaforo ? " active" : "";
       var usuariosActive = inUsuarios ? " active" : "";
       var currentPath = window.location.pathname;
 
-      sidebarNav.innerHTML = '<button class="nav-link nav-accordion-toggle' + semaforoActive + '" type="button" aria-expanded="true" aria-controls="semaforo-submenu"><span class="nav-icon"><i class="bi bi-stoplights" aria-hidden="true"></i></span><span class="nav-text">Semáforo</span><i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i></button><div class="nav-submenu" id="semaforo-submenu"><a class="nav-sublink' + (inSemaforo && /\/index\.html$/.test(currentPath) ? " active" : "") + '" href="' + semaforoPath + '">Cadastros</a><a class="nav-sublink" href="' + simuladorPath + '">Simulador</a><a class="nav-sublink" href="' + monitoramentoPath + '">Monitoramento</a></div><button class="nav-link nav-accordion-toggle" type="button" aria-expanded="false" aria-controls="relatorios-submenu"><span class="nav-icon"><i class="bi bi-file-earmark-bar-graph" aria-hidden="true"></i></span><span class="nav-text">Relatórios</span><i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i></button><div class="nav-submenu" id="relatorios-submenu" hidden><a class="nav-sublink" href="' + monitoramentoPath + '">Logs de alterações</a></div><a class="nav-link' + usuariosActive + '" href="' + usuariosPath + '"><span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span><span class="nav-text">Usuários</span></a><a class="nav-link" href="' + monitoramentoPath + '"><span class="nav-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></span><span class="nav-text">Perfil</span></a><a class="nav-link" href="' + monitoramentoPath + '"><span class="nav-icon"><i class="bi bi-file-earmark" aria-hidden="true"></i></span><span class="nav-text">Blank Page</span></a>';
+      sidebarNav.innerHTML = '<button class="nav-link nav-accordion-toggle' + semaforoActive + '" type="button" aria-expanded="true" aria-controls="semaforo-submenu"><span class="nav-icon"><i class="bi bi-stoplights" aria-hidden="true"></i></span><span class="nav-text">Semáforo</span><i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i></button><div class="nav-submenu" id="semaforo-submenu"><a class="nav-sublink' + (inSemaforo && /\/index\.html$/.test(currentPath) ? " active" : "") + '" href="' + semaforoPath + '">Cadastros</a><a class="nav-sublink" href="' + simuladorPath + '">Simulador</a><a class="nav-sublink" href="' + monitoramentoPath + '">Monitoramento</a></div><button class="nav-link nav-accordion-toggle" type="button" aria-expanded="false" aria-controls="relatorios-submenu"><span class="nav-icon"><i class="bi bi-file-earmark-bar-graph" aria-hidden="true"></i></span><span class="nav-text">Relatórios</span><i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i></button><div class="nav-submenu" id="relatorios-submenu" hidden><a class="nav-sublink" href="' + logsPath + '">Logs de alterações</a></div><a class="nav-link' + usuariosActive + '" href="' + usuariosPath + '"><span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span><span class="nav-text">Usuários</span></a><a class="nav-link" href="' + monitoramentoPath + '"><span class="nav-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></span><span class="nav-text">Perfil</span></a><a class="nav-link" href="' + monitoramentoPath + '"><span class="nav-icon"><i class="bi bi-file-earmark" aria-hidden="true"></i></span><span class="nav-text">Blank Page</span></a>';
     }
 
     initSidebarNavigation();

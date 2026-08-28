@@ -1,7 +1,7 @@
 var pahoConfig = {
-    hostname: "localhost",  
-    port: "8000",           
-    clientId: "teste123"    
+    hostname: "localhost",
+    port: "8000",
+    clientId: "teste123"
 }
 
 client = new Paho.Client(pahoConfig.hostname, Number(pahoConfig.port), pahoConfig.clientId);

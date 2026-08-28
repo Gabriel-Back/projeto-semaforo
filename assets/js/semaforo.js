@@ -47,8 +47,8 @@ class Semaforo {
         this.parar();
         this.ativo = true;
         let execucaoAtual = this.idExecucao;
-        this.aplicarTempos(); 
-        
+        this.aplicarTempos();
+
         while (this.ativo && this.idExecucao === execucaoAtual) {
             this.desligarLeds();
             this.ligarLed("ledVermelho");
@@ -71,12 +71,12 @@ class Semaforo {
     async ligarIntermitente() {
         this.parar();
         this.ativo = true;
-        let execucaoAtual = this.idExecucao; 
+        let execucaoAtual = this.idExecucao;
         this.aplicarTempos();
 
         while (this.ativo && this.idExecucao === execucaoAtual) {
             this.desligarLeds();
-            
+
             this.ligarLed("ledAmarelo");
             await this.sleep(this.tempoAmarelo);
 

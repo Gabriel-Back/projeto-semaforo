@@ -1,14 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Cadastro de configurações de semáforo">
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="Cadastro de configurações de semáforo" />
 	<title>Semáforo | Cadastros</title>
 
-	<link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css">
-	<link rel="stylesheet" href="../../assets/css/style.css">
+	<link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css" />
+	<link rel="stylesheet" href="../../assets/css/style.css" />
 </head>
 
 <body>
@@ -27,7 +28,8 @@
 			</div>
 
 			<nav class="sidebar-nav">
-				<button class="nav-link nav-accordion-toggle active" type="button" aria-expanded="true" aria-controls="semaforo-submenu">
+				<button class="nav-link nav-accordion-toggle active" type="button" aria-expanded="true"
+					aria-controls="semaforo-submenu">
 					<span class="nav-icon"><i class="bi bi-stoplights" aria-hidden="true"></i></span>
 					<span class="nav-text">Semáforo</span>
 					<i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i>
@@ -37,7 +39,8 @@
 					<a class="nav-sublink" href="../simulador/index.html">Simulador</a>
 					<a class="nav-sublink" href="../simulador/index.html#monitoramento">Monitoramento</a>
 				</div>
-				<button class="nav-link nav-accordion-toggle" type="button" aria-expanded="false" aria-controls="relatorios-submenu">
+				<button class="nav-link nav-accordion-toggle" type="button" aria-expanded="false"
+					aria-controls="relatorios-submenu">
 					<span class="nav-icon"><i class="bi bi-file-earmark-bar-graph" aria-hidden="true"></i></span>
 					<span class="nav-text">Relatórios</span>
 					<i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i>
@@ -48,7 +51,8 @@
 			</nav>
 
 			<div class="sidebar-user">
-				<img class="avatar-img avatar-md sidebar-user-avatar" src="../../assets/images/avatar/avatar.jpg" alt="Administrador">
+				<img class="avatar-img avatar-md sidebar-user-avatar" src="../../assets/images/avatar/avatar.jpg"
+					alt="Administrador" />
 				<strong>Administrador</strong>
 				<small>Workspace ativo</small>
 			</div>
@@ -62,24 +66,33 @@
 		<div class="admin-main">
 			<nav class="navbar admin-navbar navbar-expand bg-white">
 				<div class="container-fluid px-3 px-lg-4">
-					<button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar" aria-expanded="true" aria-label="Alternar menu lateral">
+					<button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar"
+						aria-expanded="true" aria-label="Alternar menu lateral">
 						<span></span><span></span><span></span>
 					</button>
 					<form class="d-none d-md-flex ms-3 flex-grow-1" role="search" onsubmit="return false">
-						<input class="form-control search-input" type="search" placeholder="Buscar configurações" aria-label="Buscar configurações" data-table-search="semaforosTable">
+						<input class="form-control search-input" type="search" placeholder="Buscar configurações"
+							aria-label="Buscar configurações" data-table-search="semaforosTable" />
 					</form>
 					<div class="navbar-actions ms-auto">
-						<button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema" title="Alternar tema">
+						<button class="icon-button theme-toggle" type="button" data-theme-toggle
+							aria-label="Alternar tema" title="Alternar tema">
 							<i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
 						</button>
 						<div class="dropdown">
-							<button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-								<img class="avatar-img avatar-sm" src="../../assets/images/avatar/avatar.jpg" alt="Administrador">
+							<button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown"
+								aria-expanded="false">
+								<img class="avatar-img avatar-sm" src="../../assets/images/avatar/avatar.jpg"
+									alt="Administrador" />
 								<span class="profile-name d-none d-sm-inline">Administrador</span>
 							</button>
 							<ul class="dropdown-menu dropdown-menu-end">
-								<li><a class="dropdown-item" href="index.html">Cadastros</a></li>
-								<li><a class="dropdown-item" href="../simulador/index.html">Simulador</a></li>
+								<li>
+									<a class="dropdown-item" href="index.html">Cadastros</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="../simulador/index.html">Simulador</a>
+								</li>
 							</ul>
 						</div>
 					</div>
@@ -94,7 +107,9 @@
 							<div>
 								<p class="eyebrow mb-1">Gestão operacional</p>
 								<h1 class="h3 mb-1">Cadastros de semáforos</h1>
-								<p class="text-muted mb-0">Crie, consulte, atualize e remova configurações de ciclo.</p>
+								<p class="text-muted mb-0">
+									Crie, consulte, atualize e remova configurações de ciclo.
+								</p>
 							</div>
 						</div>
 					</div>
@@ -104,22 +119,70 @@
 					<section class="row g-3 mt-1" id="cadastro-form-section">
 						<div class="col-12 col-xl-12">
 							<div class="panel h-100">
-								<div class="panel-header"><div><h2 class="h5 mb-1 section-title"><i class="bi bi-pencil-square" aria-hidden="true"></i><span id="formTitle">Novo cadastro</span></h2><p class="text-muted mb-0">Defina os tempos do ciclo.</p></div></div>
+								<div class="panel-header">
+									<div>
+										<h2 class="h5 mb-1 section-title">
+											<i class="bi bi-pencil-square" aria-hidden="true"></i><span
+												id="formTitle">Novo cadastro</span>
+										</h2>
+										<p class="text-muted mb-0">Defina os tempos do ciclo.</p>
+									</div>
+								</div>
 								<form id="semaforoForm" class="needs-validation" novalidate>
-									<input type="hidden" id="recordId">
-									<div class="mb-3"><label for="nome" class="form-label">Nome do semáforo</label><input class="form-control" id="nome" required maxlength="60" placeholder="Ex.: Avenida Central"><div class="invalid-feedback">Informe um nome.</div></div>
-									<div class="mb-3"><label for="tempoVermelho" class="form-label">Vermelho (ms)</label><input class="form-control" id="tempoVermelho" type="number" min="100" required><div class="invalid-feedback">Use um valor a partir de 100 ms.</div></div>
-									<div class="mb-3"><label for="tempoAmarelo" class="form-label">Amarelo (ms)</label><input class="form-control" id="tempoAmarelo" type="number" min="100" required><div class="invalid-feedback">Use um valor a partir de 100 ms.</div></div>
-									<div class="mb-3"><label for="tempoVerde" class="form-label">Verde (ms)</label><input class="form-control" id="tempoVerde" type="number" min="100" required><div class="invalid-feedback">Use um valor a partir de 100 ms.</div></div>
-									<div class="mb-3"><label for="latitudeLongitude" class="form-label">Latitude e Longitude do Semáforo</label><input class="form-control" id="latitudeLongitude" type="text"></div>
-									<div class="form-check form-switch mb-4"><input class="form-check-input" id="ativo" type="checkbox" checked><label class="form-check-label" for="ativo">Cadastro ativo</label></div>
-									<div class="d-flex flex-wrap gap-2"><button class="btn btn-primary" type="submit"><i class="bi bi-check2" aria-hidden="true"></i> <span id="submitLabel">Salvar cadastro</span></button>
-									<button class="btn btn-outline-secondary" type="button" data-cancel-edit>Limpar</button>
-									<a class="btn btn-outline-secondary" href="index.html"><i class="bi bi-arrow-left" aria-hidden="true"></i> Voltar</a></div>
+									<input type="hidden" id="recordId" />
+									<div class="mb-3">
+										<label for="nome" class="form-label">Nome do semáforo</label>
+										<input class="form-control" id="nome" required maxlength="60"
+											placeholder="Ex.: Avenida Central" onkeyup="" />
+										<div class="invalid-feedback">Informe um nome.</div>
+									</div>
+									<div class="mb-3">
+										<label for="tempoVermelho" class="form-label">Vermelho (ms)</label>
+										<input class="form-control" id="tempoVermelho" type="number" min="100"
+											required />
+										<div class="invalid-feedback">
+											Use um valor a partir de 100 ms.
+										</div>
+									</div>
+									<div class="mb-3">
+										<label for="tempoAmarelo" class="form-label">Amarelo (ms)</label>
+										<input class="form-control" id="tempoAmarelo" type="number" min="100"
+											required />
+										<div class="invalid-feedback">
+											Use um valor a partir de 100 ms.
+										</div>
+									</div>
+									<div class="mb-3">
+										<label for="tempoVerde" class="form-label">Verde (ms)</label>
+										<input class="form-control" id="tempoVerde" type="number" min="100" required />
+										<div class="invalid-feedback">
+											Use um valor a partir de 100 ms.
+										</div>
+									</div>
+									<div class="mb-3">
+										<label for="latitudeLongitude" class="form-label">Latitude e Longitude do
+											Semáforo</label>
+										<input class="form-control" id="latitudeLongitude" type="text" />
+									</div>
+									<div class="form-check form-switch mb-4">
+										<input class="form-check-input" id="ativo" type="checkbox" checked />
+										<label class="form-check-label" for="ativo">Cadastro ativo</label>
+									</div>
+									<div class="d-flex flex-wrap gap-2">
+										<button class="btn btn-primary" type="submit">
+											<i class="bi bi-check2" aria-hidden="true"></i>
+											<span id="submitLabel">Salvar cadastro</span>
+										</button>
+										<button class="btn btn-outline-secondary" type="button" data-cancel-edit>
+											Limpar
+										</button>
+										<a class="btn btn-outline-secondary" href="index.html"><i
+												class="bi bi-arrow-left" aria-hidden="true"></i>
+											Voltar</a>
+									</div>
 								</form>
 							</div>
 						</div>
-
 					</section>
 				</div>
 			</main>
@@ -129,54 +192,173 @@
 	<script src="../../assets/js/bootstrap.bundle.min.js"></script>
 	<script src="../../assets/js/main.js"></script>
 	<script>
-				(function () {
-					var storageKey = "semaforosCadastros";
-					var form = document.getElementById("semaforoForm");
-					var params = new URLSearchParams(window.location.search);
-					var recordId = params.get("id");
-					var defaults = { tempoVermelho: 5000, tempoAmarelo: 2000, tempoVerde: 6000 };
-					function getRecords() { return JSON.parse(localStorage.getItem(storageKey) || "null") || [{ id: "principal", nome: "Avenida Central", tempoVermelho: 5000, tempoAmarelo: 2000, tempoVerde: 6000, ativo: true }]; }
-					function saveRecords(records) { localStorage.setItem(storageKey, JSON.stringify(records)); }
-					function showFeedback(message, type) { var feedback = document.getElementById("feedback"); feedback.className = "alert alert-" + type; feedback.textContent = message; }
-					function clearForm() {
-						form.reset();
-						document.getElementById("recordId").value = "";
-						document.getElementById("nome").value = "";
-						document.getElementById("tempoVermelho").value = "";
-						document.getElementById("tempoAmarelo").value = "";
-						document.getElementById("tempoVerde").value = "";
-						document.getElementById("latitudeLongitude").value = "";
-						document.getElementById("ativo").checked = false;
-						form.classList.remove("was-validated");
-					}
-					function fillForm(record) {
-						document.getElementById("recordId").value = record.id;
-						document.getElementById("nome").value = record.nome;
-						document.getElementById("tempoVermelho").value = record.tempoVermelho;
-						document.getElementById("tempoAmarelo").value = record.tempoAmarelo;
-						document.getElementById("tempoVerde").value = record.tempoVerde;
-						document.getElementById("latitudeLongitude").value = record.latitudeLongitude || "";
-						document.getElementById("ativo").checked = record.ativo;
-						document.getElementById("formTitle").textContent = "Editar cadastro";
-						document.getElementById("submitLabel").textContent = "Atualizar cadastro";
-					}
-					form.addEventListener("submit", function (event) {
-						event.preventDefault();
-						if (!form.checkValidity()) { form.classList.add("was-validated"); return; }
-						var records = getRecords();
-						var id = document.getElementById("recordId").value || Date.now().toString();
-						var record = { id: id, nome: document.getElementById("nome").value.trim(), tempoVermelho: Number(document.getElementById("tempoVermelho").value), tempoAmarelo: Number(document.getElementById("tempoAmarelo").value), tempoVerde: Number(document.getElementById("tempoVerde").value), latitudeLongitude: document.getElementById("latitudeLongitude").value.trim(), ativo: document.getElementById("ativo").checked };
-						var index = records.findIndex(function (item) { return item.id === id; });
-						if (index >= 0) records[index] = record; else records.push(record);
-						saveRecords(records); showFeedback(index >= 0 ? "Cadastro atualizado com sucesso." : "Cadastro criado com sucesso.", "success");
-						window.setTimeout(function () { window.location.href = "index.html"; }, 500);
-					});
-					document.querySelector("[data-cancel-edit]").addEventListener("click", clearForm);
-					if (recordId) {
-						var record = getRecords().find(function (item) { return item.id === recordId; });
-						if (record) fillForm(record); else window.location.href = "index.html";
-					} else { clearForm(); document.getElementById("tempoVermelho").value = defaults.tempoVermelho; document.getElementById("tempoAmarelo").value = defaults.tempoAmarelo; document.getElementById("tempoVerde").value = defaults.tempoVerde; document.getElementById("ativo").checked = true; }
-				}());
-			</script>
-	</body>
+		(function () {
+			var storageKey = "semaforosCadastros";
+			var formularioEmCacheKey = "semaforosCadastrosFormCache";
+			var form = document.getElementById("semaforoForm");
+			var params = new URLSearchParams(window.location.search);
+			var recordId = params.get("id");
+			var defaults = {
+				tempoVermelho: 5000,
+				tempoAmarelo: 2000,
+				tempoVerde: 6000,
+			};
+			function getRecords() {
+				return (
+					JSON.parse(localStorage.getItem(storageKey) || "null") || [
+						{
+							id: "principal",
+							nome: "Avenida Central",
+							tempoVermelho: 5000,
+							tempoAmarelo: 2000,
+							tempoVerde: 6000,
+							ativo: true,
+						},
+					]
+				);
+			}
+			function saveRecords(records) {
+				localStorage.setItem(storageKey, JSON.stringify(records));
+			}
+			function salvarFormularioEmCache() {
+				var formularioEmCache = {
+					id: document.getElementById("recordId").value || "",
+					nome: document.getElementById("nome").value.trim(),
+					tempoVermelho: document.getElementById("tempoVermelho").value,
+					tempoAmarelo: document.getElementById("tempoAmarelo").value,
+					tempoVerde: document.getElementById("tempoVerde").value,
+					latitudeLongitude: document
+						.getElementById("latitudeLongitude")
+						.value.trim(),
+					ativo: document.getElementById("ativo").checked,
+				};
+				localStorage.setItem(
+					formularioEmCacheKey,
+					JSON.stringify(formularioEmCache),
+				);
+			}
+			function restaurarFormularioDoCache() {
+				var formularioEmCache = JSON.parse(
+					localStorage.getItem(formularioEmCacheKey) || "null",
+				);
+				if (!formularioEmCache) return false;
+				document.getElementById("recordId").value =
+					formularioEmCache.id || "";
+				document.getElementById("nome").value = formularioEmCache.nome || "";
+				document.getElementById("tempoVermelho").value =
+					formularioEmCache.tempoVermelho || "";
+				document.getElementById("tempoAmarelo").value =
+					formularioEmCache.tempoAmarelo || "";
+				document.getElementById("tempoVerde").value =
+					formularioEmCache.tempoVerde || "";
+				document.getElementById("latitudeLongitude").value =
+					formularioEmCache.latitudeLongitude || "";
+				document.getElementById("ativo").checked = Boolean(
+					formularioEmCache.ativo,
+				);
+				return true;
+			}
+			function limparFormularioEmCache() {
+				localStorage.removeItem(formularioEmCacheKey);
+			}
+			function showFeedback(message, type) {
+				var feedback = document.getElementById("feedback");
+				feedback.className = "alert alert-" + type;
+				feedback.textContent = message;
+			}
+			function clearForm() {
+				form.reset();
+				document.getElementById("recordId").value = "";
+				document.getElementById("nome").value = "";
+				document.getElementById("tempoVermelho").value = "";
+				document.getElementById("tempoAmarelo").value = "";
+				document.getElementById("tempoVerde").value = "";
+				document.getElementById("latitudeLongitude").value = "";
+				document.getElementById("ativo").checked = false;
+				limparFormularioEmCache();
+				form.classList.remove("was-validated");
+			}
+			function fillForm(record) {
+				document.getElementById("recordId").value = record.id;
+				document.getElementById("nome").value = record.nome;
+				document.getElementById("tempoVermelho").value = record.tempoVermelho;
+				document.getElementById("tempoAmarelo").value = record.tempoAmarelo;
+				document.getElementById("tempoVerde").value = record.tempoVerde;
+				document.getElementById("latitudeLongitude").value =
+					record.latitudeLongitude || "";
+				document.getElementById("ativo").checked = record.ativo;
+				document.getElementById("formTitle").textContent = "Editar cadastro";
+				document.getElementById("submitLabel").textContent =
+					"Atualizar cadastro";
+			}
+			form.addEventListener("input", salvarFormularioEmCache);
+			form.addEventListener("change", salvarFormularioEmCache);
+			form.addEventListener("submit", function (event) {
+				event.preventDefault();
+				if (!form.checkValidity()) {
+					form.classList.add("was-validated");
+					return;
+				}
+				var records = getRecords();
+				var id =
+					document.getElementById("recordId").value || Date.now().toString();
+				var record = {
+					id: id,
+					nome: document.getElementById("nome").value.trim(),
+					tempoVermelho: Number(
+						document.getElementById("tempoVermelho").value,
+					),
+					tempoAmarelo: Number(document.getElementById("tempoAmarelo").value),
+					tempoVerde: Number(document.getElementById("tempoVerde").value),
+					latitudeLongitude: document
+						.getElementById("latitudeLongitude")
+						.value.trim(),
+					ativo: document.getElementById("ativo").checked,
+				};
+				var index = records.findIndex(function (item) {
+					return item.id === id;
+				});
+				if (index >= 0) records[index] = record;
+				else records.push(record);
+				saveRecords(records);
+				limparFormularioEmCache();
+				var nomeDoSemaforo = record.nome || "Semáforo sem nome";
+				var descricaoAlteracao = index >= 0
+					? "Atualizou cadastro do semáforo: " + nomeDoSemaforo
+					: "Criou novo semáforo: " + nomeDoSemaforo;
+				window.registrarLog(descricaoAlteracao);
+				showFeedback(
+					index >= 0
+						? "Cadastro atualizado com sucesso."
+						: "Cadastro criado com sucesso.",
+					"success",
+				);
+				window.setTimeout(function () {
+					window.location.href = "index.html";
+				}, 500);
+			});
+			document
+				.querySelector("[data-cancel-edit]")
+				.addEventListener("click", clearForm);
+			if (recordId) {
+				var record = getRecords().find(function (item) {
+					return item.id === recordId;
+				});
+				if (record) fillForm(record);
+				else window.location.href = "index.html";
+			} else {
+				clearForm();
+				if (!restaurarFormularioDoCache()) {
+					document.getElementById("tempoVermelho").value =
+						defaults.tempoVermelho;
+					document.getElementById("tempoAmarelo").value =
+						defaults.tempoAmarelo;
+					document.getElementById("tempoVerde").value = defaults.tempoVerde;
+					document.getElementById("ativo").checked = true;
+				}
+			}
+		})();
+	</script>
+</body>
+
 </html>

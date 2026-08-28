@@ -1,198 +1,310 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Semáforo | Simulador</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Semáforo | Simulador</title>
-
-  <!-- BIBLIOTECA MQTT (Paho) — fala o protocolo MQTT por WebSocket com o
+    <!-- BIBLIOTECA MQTT (Paho) — fala o protocolo MQTT por WebSocket com o
        broker Mosquitto do Docker. Salva localmente em assets/js (sem internet). -->
-  <script src="../../assets/js/paho-mqtt.min.js"></script>
+    <script src="../../assets/js/paho-mqtt.min.js"></script>
 
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="../../assets/css/style.css" />
+  </head>
 
-  <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css">
-  <link rel="stylesheet" href="../../assets/css/style.css">
-</head>
+  <body>
+    <div class="admin-shell">
+      <div class="sidebar-backdrop" data-sidebar-close></div>
 
-<body>
-  <div class="admin-shell">
-    <div class="sidebar-backdrop" data-sidebar-close></div>
-
-    <aside class="admin-sidebar" id="adminSidebar" aria-label="Main navigation">
-      <div class="sidebar-header">
-        <a class="brand-mark" href="../cadastros/index.html" aria-label="Painel adminHMD">
-          <span class="brand-icon"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i></span>
-          <span class="brand-copy">
-            <span class="brand-title">adminHMD</span>
-            <span class="brand-subtitle">Admin Template</span>
-          </span>
-        </a>
-      </div>
-
-      <nav class="sidebar-nav">
-        <button class="nav-link nav-accordion-toggle active" type="button" aria-expanded="true"
-          aria-controls="semaforo-submenu">
-          <span class="nav-icon"><i class="bi bi-stoplights" aria-hidden="true"></i></span>
-          <span class="nav-text">Semáforo</span>
-          <i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i>
-        </button>
-        <div class="nav-submenu" id="semaforo-submenu">
-          <a class="nav-sublink" href="../cadastros/index.html">Cadastros</a>
-          <a class="nav-sublink active" href="index.html" aria-current="page">Simulador</a>
-          <a class="nav-sublink" href="#monitoramento">Monitoramento</a>
+      <aside
+        class="admin-sidebar"
+        id="adminSidebar"
+        aria-label="Main navigation"
+      >
+        <div class="sidebar-header">
+          <a
+            class="brand-mark"
+            href="../cadastros/index.html"
+            aria-label="Painel adminHMD"
+          >
+            <span class="brand-icon"
+              ><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i
+            ></span>
+            <span class="brand-copy">
+              <span class="brand-title">adminHMD</span>
+              <span class="brand-subtitle">Admin Template</span>
+            </span>
+          </a>
         </div>
-        <button class="nav-link nav-accordion-toggle" type="button" aria-expanded="false"
-          aria-controls="relatorios-submenu">
-          <span class="nav-icon"><i class="bi bi-file-earmark-bar-graph" aria-hidden="true"></i></span>
-          <span class="nav-text">Relatórios</span>
-          <i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i>
-        </button>
-        <div class="nav-submenu" id="relatorios-submenu" hidden>
-          <a class="nav-sublink" href="#monitoramento">Logs de alterações</a>
-        </div>
-      </nav>
 
-      <div class="sidebar-user">
-        <img class="avatar-img avatar-md sidebar-user-avatar" src="../../assets/images/avatar/avatar.jpg"
-          alt="Administrador">
-        <strong>Administrador</strong>
-        <small>Workspace ativo</small>
-      </div>
-
-      <div class="sidebar-footer">
-        <span class="status-dot"></span>
-        <span class="sidebar-footer-text">System running smoothly</span>
-      </div>
-    </aside>
-
-    <div class="admin-main">
-      <nav class="navbar admin-navbar navbar-expand bg-white">
-        <div class="container-fluid px-3 px-lg-4">
-          <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar"
-            aria-expanded="true" aria-label="Toggle sidebar">
-            <span></span>
-            <span></span>
-            <span></span>
+        <nav class="sidebar-nav">
+          <button
+            class="nav-link nav-accordion-toggle active"
+            type="button"
+            aria-expanded="true"
+            aria-controls="semaforo-submenu"
+          >
+            <span class="nav-icon"
+              ><i class="bi bi-stoplights" aria-hidden="true"></i
+            ></span>
+            <span class="nav-text">Semáforo</span>
+            <i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i>
           </button>
+          <div class="nav-submenu" id="semaforo-submenu">
+            <a class="nav-sublink" href="../cadastros/index.html">Cadastros</a>
+            <a class="nav-sublink active" href="index.html" aria-current="page"
+              >Simulador</a
+            >
+            <a class="nav-sublink" href="#monitoramento">Monitoramento</a>
+          </div>
+          <button
+            class="nav-link nav-accordion-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="relatorios-submenu"
+          >
+            <span class="nav-icon"
+              ><i class="bi bi-file-earmark-bar-graph" aria-hidden="true"></i
+            ></span>
+            <span class="nav-text">Relatórios</span>
+            <i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i>
+          </button>
+          <div class="nav-submenu" id="relatorios-submenu" hidden>
+            <a class="nav-sublink" href="#monitoramento">Logs de alterações</a>
+          </div>
+        </nav>
 
-          <form class="d-none d-md-flex ms-3 flex-grow-1" role="search">
-            <input class="form-control search-input" type="search" placeholder="Search users, orders, reports"
-              aria-label="Search">
-          </form>
+        <div class="sidebar-user">
+          <img
+            class="avatar-img avatar-md sidebar-user-avatar"
+            src="../../assets/images/avatar/avatar.jpg"
+            alt="Administrador"
+          />
+          <strong>Administrador</strong>
+          <small>Workspace ativo</small>
+        </div>
 
-          <div class="navbar-actions ms-auto">
-            <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme"
-              title="Switch color theme">
-              <i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
+        <div class="sidebar-footer">
+          <span class="status-dot"></span>
+          <span class="sidebar-footer-text">System running smoothly</span>
+        </div>
+      </aside>
+
+      <div class="admin-main">
+        <nav class="navbar admin-navbar navbar-expand bg-white">
+          <div class="container-fluid px-3 px-lg-4">
+            <button
+              class="sidebar-toggle"
+              type="button"
+              data-sidebar-toggle
+              aria-controls="adminSidebar"
+              aria-expanded="true"
+              aria-label="Toggle sidebar"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
             </button>
-            <div class="dropdown">
-              <button class="icon-button" type="button" data-bs-toggle="dropdown" aria-expanded="false"
-                aria-label="Notifications">
-                <span class="notification-dot"></span>
-                <i class="bi bi-bell" aria-hidden="true"></i>
+
+            <form class="d-none d-md-flex ms-3 flex-grow-1" role="search">
+              <input
+                class="form-control search-input"
+                type="search"
+                placeholder="Search users, orders, reports"
+                aria-label="Search"
+              />
+            </form>
+
+            <div class="navbar-actions ms-auto">
+              <button
+                class="icon-button theme-toggle"
+                type="button"
+                data-theme-toggle
+                aria-label="Switch color theme"
+                title="Switch color theme"
+              >
+                <i
+                  class="bi bi-moon-stars"
+                  data-theme-icon
+                  aria-hidden="true"
+                ></i>
               </button>
-              <div class="dropdown-menu dropdown-menu-end notification-menu">
-                <div class="dropdown-header fw-bold text-body">Notifications</div>
-                <a class="dropdown-item" href="../cadastros/index.html">
-                  <span class="notification-title">New user registered</span>
-                  <span class="notification-time">4 minutes ago</span>
-                </a>
-                <a class="dropdown-item" href="#monitoramento">
-                  <span class="notification-title">Revenue target reached</span>
-                  <span class="notification-time">32 minutes ago</span>
-                </a>
-                <a class="dropdown-item" href="../cadastros/index.html#registros">
-                  <span class="notification-title">Security review completed</span>
-                  <span class="notification-time">1 hour ago</span>
-                </a>
+              <div class="dropdown">
+                <button
+                  class="icon-button"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  aria-label="Notifications"
+                >
+                  <span class="notification-dot"></span>
+                  <i class="bi bi-bell" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end notification-menu">
+                  <div class="dropdown-header fw-bold text-body">
+                    Notifications
+                  </div>
+                  <a class="dropdown-item" href="../cadastros/index.html">
+                    <span class="notification-title">New user registered</span>
+                    <span class="notification-time">4 minutes ago</span>
+                  </a>
+                  <a class="dropdown-item" href="#monitoramento">
+                    <span class="notification-title"
+                      >Revenue target reached</span
+                    >
+                    <span class="notification-time">32 minutes ago</span>
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    href="../cadastros/index.html#registros"
+                  >
+                    <span class="notification-title"
+                      >Security review completed</span
+                    >
+                    <span class="notification-time">1 hour ago</span>
+                  </a>
+                </div>
+              </div>
+
+              <div class="dropdown">
+                <button
+                  class="profile-button dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img
+                    class="avatar-img avatar-sm"
+                    src="../../assets/images/avatar/avatar.jpg"
+                    alt="Administrador"
+                  />
+                  <span class="profile-name d-none d-sm-inline"
+                    >Admin Hasan</span
+                  >
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <a class="dropdown-item" href="../cadastros/index.html"
+                      >Cadastros</a
+                    >
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="index.html">Simulador</a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="../cadastros/index.html#registros"
+                      >Registros</a
+                    >
+                  </li>
+                </ul>
               </div>
             </div>
-
-            <div class="dropdown">
-              <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <img class="avatar-img avatar-sm" src="../../assets/images/avatar/avatar.jpg" alt="Administrador">
-                <span class="profile-name d-none d-sm-inline">Admin Hasan</span>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="../cadastros/index.html">Cadastros</a></li>
-                <li><a class="dropdown-item" href="index.html">Simulador</a></li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="../cadastros/index.html#registros">Registros</a></li>
-              </ul>
-            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
 
-      <main class="dashboard-content">
-
-        <!-- =====================================================
+        <main class="dashboard-content">
+          <!-- =====================================================
              CONTEÚDO DA PÁGINA — limpo: só o semáforo + status.
              ===================================================== -->
-        <div class="container-fluid px-3 px-lg-4 py-4">
-          <div class="page-heading">
-            <div class="page-heading-copy">
-              <span class="page-icon"><i class="bi bi-stoplights" aria-hidden="true"></i></span>
-              <div>
-                <p class="eyebrow mb-1">Controle de tráfego</p>
-                <h1 class="h3 mb-1">Simulador de Semáforo</h1>
-                <p class="text-muted mb-0">O semáforo reage apenas às mensagens MQTT enviadas pelo MQTTX.</p>
+          <div class="container-fluid px-3 px-lg-4 py-4">
+            <div class="page-heading">
+              <div class="page-heading-copy">
+                <span class="page-icon"
+                  ><i class="bi bi-stoplights" aria-hidden="true"></i
+                ></span>
+                <div>
+                  <p class="eyebrow mb-1">Controle de tráfego</p>
+                  <h1 class="h3 mb-1">Simulador de Semáforo</h1>
+                  <p class="text-muted mb-0">
+                    O semáforo reage apenas às mensagens MQTT enviadas pelo
+                    MQTTX.
+                  </p>
+                </div>
               </div>
             </div>
+
+            <section class="row g-3 mt-1 justify-content-center">
+              <div class="col-12 col-sm-9 col-lg-7 col-xl-5">
+                <div class="panel sf-panel">
+                  <div class="panel-header">
+                    <div>
+                      <h2 class="h6 mb-1">
+                        <i class="bi bi-stoplights" aria-hidden="true"></i>
+                        <span>Semáforo</span>
+                      </h2>
+                    </div>
+                  </div>
+
+                  <div class="sf-visual">
+                    <div class="sf-poste"></div>
+                    <div class="sf-caixa">
+                      <div
+                        id="luzVermelho"
+                        class="sf-luz sf-luz-vermelha"
+                        aria-label="Luz vermelha"
+                      ></div>
+                      <div
+                        id="luzAmarelo"
+                        class="sf-luz sf-luz-amarela"
+                        aria-label="Luz amarela"
+                      ></div>
+                      <div
+                        id="luzVerde"
+                        class="sf-luz sf-luz-verde"
+                        aria-label="Luz verde"
+                      ></div>
+                    </div>
+                  </div>
+
+                  <div class="sf-status">
+                    <span id="infoModo">Modo: parado</span>
+                    <span id="infoComando">Último comando: —</span>
+                  </div>
+                </div>
+              </div>
+            </section>
           </div>
+        </main>
 
-          <section class="row g-3 mt-1 justify-content-center">
-            <div class="col-12 col-sm-9 col-lg-7 col-xl-5">
-              <div class="panel sf-panel">
-                <div class="panel-header">
-                  <div>
-                    <h2 class="h6 mb-1"><i class="bi bi-stoplights" aria-hidden="true"></i>
-                      <span>Semáforo</span>
-                    </h2>
-
-                  </div>
-                </div>
-
-                <div class="sf-visual">
-                  <div class="sf-poste"></div>
-                  <div class="sf-caixa">
-                    <div id="luzVermelho" class="sf-luz sf-luz-vermelha" aria-label="Luz vermelha"></div>
-                    <div id="luzAmarelo" class="sf-luz sf-luz-amarela" aria-label="Luz amarela"></div>
-                    <div id="luzVerde" class="sf-luz sf-luz-verde" aria-label="Luz verde"></div>
-                  </div>
-                </div>
-
-                <div class="sf-status">
-                  <span id="infoModo">Modo: parado</span>
-                  <span id="infoComando">Último comando: —</span>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </main>
-
-      <footer class="admin-footer">
-        <div class="container-fluid px-3 px-lg-4">
-          <span>Copyright 2026 adminHMD. <br> Developed by <a target="_blank" class="fw-bold text-success"
-              href="https://github.com/HasanMahmudDev">Md. Hasan Mahmud</a> • Distributed by <a target="_blank"
-              class="fw-bold text-success" href="https://themewagon.com">ThemeWagon</a> </span>
-          <span>Professional dashboard template.</span>
-          <span>Blank starter page.</span>
-        </div>
-      </footer>
+        <footer class="admin-footer">
+          <div class="container-fluid px-3 px-lg-4">
+            <span
+              >Copyright 2026 adminHMD. <br />
+              Developed by
+              <a
+                target="_blank"
+                class="fw-bold text-success"
+                href="https://github.com/HasanMahmudDev"
+                >Md. Hasan Mahmud</a
+              >
+              • Distributed by
+              <a
+                target="_blank"
+                class="fw-bold text-success"
+                href="https://themewagon.com"
+                >ThemeWagon</a
+              >
+            </span>
+            <span>Professional dashboard template.</span>
+            <span>Blank starter page.</span>
+          </div>
+        </footer>
+      </div>
     </div>
-  </div>
 
-  <script src="../../assets/js/bootstrap.bundle.min.js"></script>
-  <script src="../../assets/js/main.js"></script>
+    <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/main.js"></script>
 
-  <script src="../../assets/js/semaforoMQTT.js"></script>
-</body>
-
+    <script src="../../assets/js/semaforoMQTT.js"></script>
+  </body>
 </html>

@@ -1,47 +1,290 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Cadastro de usuários">
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="Cadastro de usuários" />
 	<title>AdminHMD | Usuários</title>
-	<link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css">
-	<link rel="stylesheet" href="../../assets/css/style.css">
+	<link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css" />
+	<link rel="stylesheet" href="../../assets/css/style.css" />
 </head>
+
 <body>
 	<div class="admin-shell">
 		<aside class="admin-sidebar" id="adminSidebar" aria-label="Navegação principal">
-			<div class="sidebar-header"><a class="brand-mark" href="../../index.html" aria-label="Painel adminHMD"><span class="brand-icon"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i></span><span class="brand-copy"><span class="brand-title">adminHMD</span><span class="brand-subtitle">Painel administrativo</span></span></a></div>
-			<nav class="sidebar-nav"><a class="nav-link" href="../cadastros_semaforo/index.html"><span class="nav-icon"><i class="bi bi-stoplights" aria-hidden="true"></i></span><span class="nav-text">Semáforos</span></a><a class="nav-link active" href="index.html" aria-current="page"><span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span><span class="nav-text">Usuários</span></a><a class="nav-link" href="../simulador/index.html"><span class="nav-icon"><i class="bi bi-play-circle" aria-hidden="true"></i></span><span class="nav-text">Simulador</span></a></nav>
-			<div class="sidebar-user"><img class="avatar-img avatar-md sidebar-user-avatar" src="../../assets/images/avatar/avatar.jpg" alt="Administrador"><strong>Administrador</strong><small>Workspace ativo</small></div>
-			<div class="sidebar-footer"><span class="status-dot"></span><span class="sidebar-footer-text">Sistema funcionando normalmente</span></div>
+			<div class="sidebar-header">
+				<a class="brand-mark" href="../../index.html" aria-label="Painel adminHMD"><span class="brand-icon"><i
+							class="bi bi-grid-1x2-fill" aria-hidden="true"></i></span><span class="brand-copy"><span
+							class="brand-title">adminHMD</span><span class="brand-subtitle">Painel
+							administrativo</span></span></a>
+			</div>
+			<nav class="sidebar-nav">
+				<a class="nav-link" href="../cadastros_semaforo/index.html"><span class="nav-icon"><i
+							class="bi bi-stoplights" aria-hidden="true"></i></span><span
+						class="nav-text">Semáforos</span></a><a class="nav-link active" href="index.html"
+					aria-current="page"><span class="nav-icon"><i class="bi bi-people"
+							aria-hidden="true"></i></span><span class="nav-text">Usuários</span></a><a class="nav-link"
+					href="../simulador/index.html"><span class="nav-icon"><i class="bi bi-play-circle"
+							aria-hidden="true"></i></span><span class="nav-text">Simulador</span></a>
+			</nav>
+			<div class="sidebar-user">
+				<img class="avatar-img avatar-md sidebar-user-avatar" src="../../assets/images/avatar/avatar.jpg"
+					alt="Administrador" /><strong>Administrador</strong><small>Workspace ativo</small>
+			</div>
+			<div class="sidebar-footer">
+				<span class="status-dot"></span><span class="sidebar-footer-text">Sistema funcionando normalmente</span>
+			</div>
 		</aside>
 		<div class="admin-main">
-			<nav class="navbar admin-navbar navbar-expand bg-white"><div class="container-fluid px-3 px-lg-4"><button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar" aria-expanded="true" aria-label="Alternar menu lateral"><span></span><span></span><span></span></button><a class="btn btn-outline-secondary btn-sm ms-3" href="../../index.html"><i class="bi bi-arrow-left" aria-hidden="true"></i> Voltar</a><div class="navbar-actions ms-auto"><button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema" title="Alternar tema"><i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i></button></div></div></nav>
-			<main class="dashboard-content"><div class="container-fluid px-3 px-lg-4 py-4">
-				<div class="page-heading"><div class="page-heading-copy"><span class="page-icon"><i class="bi bi-people" aria-hidden="true"></i></span><div><p class="eyebrow mb-1">Administração</p><h1 class="h3 mb-1">Usuários</h1><p class="text-muted mb-0">Crie, consulte, atualize e remova usuários do sistema.</p></div></div></div>
-				<div id="feedback" class="alert d-none" role="status" aria-live="polite"></div>
-				<section class="row g-3 mt-1 cadastro-metrics" aria-label="Resumo dos usuários"><div class="col-12 col-sm-6"><article class="metric-card metric-primary"><div class="metric-top"><span class="metric-label">Usuários</span><span class="metric-icon"><i class="bi bi-people" aria-hidden="true"></i></span></div><div class="metric-value" id="totalUsers">0</div><div class="metric-meta"><span>cadastrados</span></div></article></div><div class="col-12 col-sm-6"><article class="metric-card metric-success"><div class="metric-top"><span class="metric-label">Ativos</span><span class="metric-icon"><i class="bi bi-person-check" aria-hidden="true"></i></span></div><div class="metric-value" id="activeUsers">0</div><div class="metric-meta"><span>com acesso liberado</span></div></article></div></section>
-				<section class="row g-3 mt-1"><div class="heading-actions cadastro-actions"><a class="btn btn-primary btn-sm" href="add.html"><i class="bi bi-person-plus" aria-hidden="true"></i> Novo usuário</a></div><div class="col-12"><div class="panel h-100"><div class="panel-header"><div><h2 class="h5 mb-1 section-title"><i class="bi bi-table" aria-hidden="true"></i><span>Usuários cadastrados</span></h2><p class="text-muted mb-0"><span id="tableCount">0</span> usuários encontrados.</p></div><button class="btn btn-outline-secondary btn-sm" type="button" id="clearUsers"><i class="bi bi-trash3" aria-hidden="true"></i> Limpar todos</button></div><div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Usuário</th><th>E-mail</th><th>Perfil</th><th>Status</th><th class="text-end">Ações</th></tr></thead><tbody id="usersTable"></tbody></table></div><div class="empty-state d-none" id="emptyState"><i class="bi bi-inbox" aria-hidden="true"></i><p class="mb-1 fw-semibold">Nenhum usuário encontrado</p><p class="text-muted small mb-0">Crie um usuário para começar.</p></div></div></div></section>
-				<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h2 class="modal-title h5" id="deleteModalLabel">Excluir usuário?</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button></div><div class="modal-body">Tem certeza de que deseja excluir <strong id="deleteUserName"></strong>?</div><div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-danger" id="confirmDelete">Excluir</button></div></div></div></div>
-			</div></main>
+			<nav class="navbar admin-navbar navbar-expand bg-white">
+				<div class="container-fluid px-3 px-lg-4">
+					<button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar"
+						aria-expanded="true" aria-label="Alternar menu lateral">
+						<span></span><span></span><span></span></button><a class="btn btn-outline-secondary btn-sm ms-3"
+						href="../../index.html"><i class="bi bi-arrow-left" aria-hidden="true"></i> Voltar</a>
+					<div class="navbar-actions ms-auto">
+						<button class="icon-button theme-toggle" type="button" data-theme-toggle
+							aria-label="Alternar tema" title="Alternar tema">
+							<i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
+						</button>
+					</div>
+				</div>
+			</nav>
+			<main class="dashboard-content">
+				<div class="container-fluid px-3 px-lg-4 py-4">
+					<div class="page-heading">
+						<div class="page-heading-copy">
+							<span class="page-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+							<div>
+								<p class="eyebrow mb-1">Administração</p>
+								<h1 class="h3 mb-1">Usuários</h1>
+								<p class="text-muted mb-0">
+									Crie, consulte, atualize e remova usuários do sistema.
+								</p>
+							</div>
+						</div>
+					</div>
+					<div id="feedback" class="alert d-none" role="status" aria-live="polite"></div>
+					<section class="row g-3 mt-1 cadastro-metrics" aria-label="Resumo dos usuários">
+						<div class="col-12 col-sm-6">
+							<article class="metric-card metric-primary">
+								<div class="metric-top">
+									<span class="metric-label">Usuários</span><span class="metric-icon"><i
+											class="bi bi-people" aria-hidden="true"></i></span>
+								</div>
+								<div class="metric-value" id="totalUsers">0</div>
+								<div class="metric-meta"><span>cadastrados</span></div>
+							</article>
+						</div>
+						<div class="col-12 col-sm-6">
+							<article class="metric-card metric-success">
+								<div class="metric-top">
+									<span class="metric-label">Ativos</span><span class="metric-icon"><i
+											class="bi bi-person-check" aria-hidden="true"></i></span>
+								</div>
+								<div class="metric-value" id="activeUsers">0</div>
+								<div class="metric-meta">
+									<span>com acesso liberado</span>
+								</div>
+							</article>
+						</div>
+					</section>
+					<section class="row g-3 mt-1">
+						<div class="heading-actions cadastro-actions">
+							<a class="btn btn-primary btn-sm" href="add.html"><i class="bi bi-person-plus"
+									aria-hidden="true"></i> Novo
+								usuário</a>
+						</div>
+						<div class="col-12">
+							<div class="panel h-100">
+								<div class="panel-header">
+									<div>
+										<h2 class="h5 mb-1 section-title">
+											<i class="bi bi-table" aria-hidden="true"></i><span>Usuários
+												cadastrados</span>
+										</h2>
+										<p class="text-muted mb-0">
+											<span id="tableCount">0</span> usuários encontrados.
+										</p>
+									</div>
+									<button class="btn btn-outline-secondary btn-sm" type="button" id="clearUsers">
+										<i class="bi bi-trash3" aria-hidden="true"></i> Limpar
+										todos
+									</button>
+								</div>
+								<div class="table-responsive">
+									<table class="table align-middle mb-0">
+										<thead>
+											<tr>
+												<th>Usuário</th>
+												<th>E-mail</th>
+												<th>Perfil</th>
+												<th>Status</th>
+												<th class="text-end">Ações</th>
+											</tr>
+										</thead>
+										<tbody id="usersTable"></tbody>
+									</table>
+								</div>
+								<div class="empty-state d-none" id="emptyState">
+									<i class="bi bi-inbox" aria-hidden="true"></i>
+									<p class="mb-1 fw-semibold">Nenhum usuário encontrado</p>
+									<p class="text-muted small mb-0">
+										Crie um usuário para começar.
+									</p>
+								</div>
+							</div>
+						</div>
+					</section>
+					<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h2 class="modal-title h5" id="deleteModalLabel">
+										Excluir usuário?
+									</h2>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Fechar"></button>
+								</div>
+								<div class="modal-body">
+									Tem certeza de que deseja excluir
+									<strong id="deleteUserName"></strong>?
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+										Cancelar</button><button type="button" class="btn btn-danger"
+										id="confirmDelete">
+										Excluir
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
 		</div>
 	</div>
-	<script src="../../assets/js/bootstrap.bundle.min.js"></script><script src="../../assets/js/main.js"></script>
+	<script src="../../assets/js/bootstrap.bundle.min.js"></script>
+	<script src="../../assets/js/main.js"></script>
 	<script>
 		(function () {
 			var storageKey = "usuariosCadastros";
-			var defaults = [{ id: "admin", nome: "Administrador", email: "admin@adminhmd.com", perfil: "Administrador", ativo: true }];
-			function getUsers() { return JSON.parse(localStorage.getItem(storageKey) || "null") || defaults; }
-			function saveUsers(users) { localStorage.setItem(storageKey, JSON.stringify(users)); }
-			function render() { var users = getUsers(); document.getElementById("usersTable").innerHTML = users.map(function (user) { return "<tr><td><strong>" + user.nome + "</strong></td><td>" + user.email + "</td><td>" + user.perfil + "</td><td><span class=\"badge text-bg-" + (user.ativo ? "success\">Ativo" : "secondary\">Inativo") + "</span></td><td class=\"text-end\"><div class=\"btn-group btn-group-sm\"><a class=\"btn btn-outline-primary\" href=\"edit.html?id=" + encodeURIComponent(user.id) + "\" aria-label=\"Editar " + user.nome + "\" title=\"Editar\"><i class=\"bi bi-pencil\" aria-hidden=\"true\"></i></a><button class=\"btn btn-outline-danger\" type=\"button\" data-delete=\"" + user.id + "\" aria-label=\"Excluir " + user.nome + "\" title=\"Excluir\"><i class=\"bi bi-trash3\" aria-hidden=\"true\"></i></button></div></td></tr>"; }).join(""); document.getElementById("tableCount").textContent = users.length; document.getElementById("totalUsers").textContent = users.length; document.getElementById("activeUsers").textContent = users.filter(function (user) { return user.ativo; }).length; document.getElementById("emptyState").classList.toggle("d-none", users.length > 0); }
-			function feedback(message, type) { var element = document.getElementById("feedback"); element.className = "alert alert-" + type; element.textContent = message; }
-			document.getElementById("usersTable").addEventListener("click", function (event) { var button = event.target.closest("[data-delete]"); if (!button) return; var user = getUsers().find(function (item) { return item.id === button.dataset.delete; }); if (!user) return; document.getElementById("deleteUserName").textContent = user.nome; document.getElementById("confirmDelete").dataset.id = user.id; bootstrap.Modal.getOrCreateInstance(document.getElementById("deleteModal")).show(); });
-			document.getElementById("confirmDelete").addEventListener("click", function () { var id = this.dataset.id; saveUsers(getUsers().filter(function (user) { return user.id !== id; })); bootstrap.Modal.getInstance(document.getElementById("deleteModal")).hide(); render(); feedback("Usuário excluído com sucesso.", "success"); });
-			document.getElementById("clearUsers").addEventListener("click", function () { if (getUsers().length && window.confirm("Excluir todos os usuários?")) { saveUsers([]); render(); feedback("Todos os usuários foram excluídos.", "success"); } });
+			var defaults = [
+				{
+					id: "admin",
+					nome: "Administrador",
+					email: "admin@adminhmd.com",
+					perfil: "Administrador",
+					ativo: true,
+				},
+			];
+			function getUsers() {
+				return (
+					JSON.parse(localStorage.getItem(storageKey) || "null") || defaults
+				);
+			}
+			function saveUsers(users) {
+				localStorage.setItem(storageKey, JSON.stringify(users));
+			}
+			function render() {
+				var users = getUsers();
+				document.getElementById("usersTable").innerHTML = users
+					.map(function (user) {
+						return (
+							"<tr><td><strong>" +
+							user.nome +
+							"</strong></td><td>" +
+							user.email +
+							"</td><td>" +
+							user.perfil +
+							'</td><td><span class="badge text-bg-' +
+							(user.ativo ? 'success">Ativo' : 'secondary">Inativo') +
+							'</span></td><td class="text-end"><div class="btn-group btn-group-sm"><a class="btn btn-outline-primary" href="edit.html?id=' +
+							encodeURIComponent(user.id) +
+							'" aria-label="Editar ' +
+							user.nome +
+							'" title="Editar"><i class="bi bi-pencil" aria-hidden="true"></i></a><button class="btn btn-outline-danger" type="button" data-delete="' +
+							user.id +
+							'" aria-label="Excluir ' +
+							user.nome +
+							'" title="Excluir"><i class="bi bi-trash3" aria-hidden="true"></i></button></div></td></tr>'
+						);
+					})
+					.join("");
+				document.getElementById("tableCount").textContent = users.length;
+				document.getElementById("totalUsers").textContent = users.length;
+				document.getElementById("activeUsers").textContent = users.filter(
+					function (user) {
+						return user.ativo;
+					},
+				).length;
+				document
+					.getElementById("emptyState")
+					.classList.toggle("d-none", users.length > 0);
+			}
+			function feedback(message, type) {
+				var element = document.getElementById("feedback");
+				element.className = "alert alert-" + type;
+				element.textContent = message;
+			}
+			document
+				.getElementById("usersTable")
+				.addEventListener("click", function (event) {
+					var button = event.target.closest("[data-delete]");
+					if (!button) return;
+					var user = getUsers().find(function (item) {
+						return item.id === button.dataset.delete;
+					});
+					if (!user) return;
+					document.getElementById("deleteUserName").textContent = user.nome;
+					document.getElementById("confirmDelete").dataset.id = user.id;
+					bootstrap.Modal.getOrCreateInstance(
+						document.getElementById("deleteModal"),
+					).show();
+				});
+			document
+				.getElementById("confirmDelete")
+				.addEventListener("click", function () {
+					var id = this.dataset.id;
+					var usuarioRemovido = getUsers().find(function (user) {
+						return user.id === id;
+					});
+					saveUsers(
+						getUsers().filter(function (user) {
+							return user.id !== id;
+						}),
+					);
+					bootstrap.Modal.getInstance(
+						document.getElementById("deleteModal"),
+					).hide();
+					render();
+					if (usuarioRemovido && window.registrarLog) {
+						window.registrarLog("Excluiu usuário: " + usuarioRemovido.nome);
+					}
+					feedback("Usuário excluído com sucesso.", "success");
+				});
+			document
+				.getElementById("clearUsers")
+				.addEventListener("click", function () {
+					if (
+						getUsers().length &&
+						window.confirm("Excluir todos os usuários?")
+					) {
+						var quantidadeUsuarios = getUsers().length;
+						saveUsers([]);
+						render();
+						if (quantidadeUsuarios && window.registrarLog) {
+							window.registrarLog("Excluiu todos os usuários cadastrados");
+						}
+						feedback("Todos os usuários foram excluídos.", "success");
+					}
+				});
 			render();
-		}());
+		})();
 	</script>
 </body>
+
 </html>

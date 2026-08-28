@@ -10,8 +10,8 @@
    ================================================================ */
 const BROKER_HOST = "localhost";                    // mesmo host do Mosquitto no Docker
 const BROKER_PORT = 8000;                           // porta WEBSOCKET do broker
-const TOPICO      = "semaforo/estado";              // tópico usado no MQTTX
-const CLIENT_ID   = "semaforo-web-" + Math.floor(Math.random() * 10000); // id único
+const TOPICO = "semaforo/estado";              // tópico usado no MQTTX
+const CLIENT_ID = "semaforo-web-" + Math.floor(Math.random() * 10000); // id único
 
 /* ================================================================
    2. ESTADO DO SEMÁFORO   (TUDO em SEGUNDOS)
@@ -19,11 +19,11 @@ const CLIENT_ID   = "semaforo-web-" + Math.floor(Math.random() * 10000); // id �
    o comando  "iniciar"  pelo MQTTX.
    ================================================================ */
 let tempoVermelho = 3;   // segundos de luz vermelha
-let tempoAmarelo  = 1;   // segundos de luz amarela
-let tempoVerde    = 3;   // segundos de luz verde
+let tempoAmarelo = 1;   // segundos de luz amarela
+let tempoVerde = 3;   // segundos de luz verde
 
-let rodando   = false;   // há um loop executando agora?
-let idLoop    = 0;       // "número" do loop atual (serve para cancelar o anterior)
+let rodando = false;   // há um loop executando agora?
+let idLoop = 0;       // "número" do loop atual (serve para cancelar o anterior)
 let modoAtual = "parado";// "parado" | "ciclo" | "intermitente"
 
 /* ================================================================
@@ -138,7 +138,7 @@ function normalizarMensagem(texto) {
 // Ex.: "tempoVermelho = 2"  ->  2    (espaços ao redor do "=" não atrapalham)
 function lerSegundos(comando) {
   const partes = comando.split("=");       // ["tempoVermelho ", " 2"]
-  const valor  = parseInt(partes[1], 10);  // parseInt ignora os espaços sobrando
+  const valor = parseInt(partes[1], 10);  // parseInt ignora os espaços sobrando
   return isNaN(valor) ? null : valor;      // devolve null se não for número
 }
 
@@ -147,20 +147,20 @@ function processarComando(payload) {
 
   // ---------- COMANDOS SIMPLES (sem "=") ----------
   switch (comando) {
-    case "iniciar":            iniciarCiclo();      break;
-    case "parar":              pararSemaforo();     break;
-    case "ligarintermitente":  modoIntermitente();  break;
+    case "iniciar": iniciarCiclo(); break;
+    case "parar": pararSemaforo(); break;
+    case "ligarintermitente": modoIntermitente(); break;
   }
 
   // ---------- COMANDOS DE TEMPO (possuem "=") ----------
   if (comando.includes("=")) {
-    const nome  = comando.split("=")[0].trim();   // "tempovermelho" (sem espaços)
+    const nome = comando.split("=")[0].trim();   // "tempovermelho" (sem espaços)
     const tempo = lerSegundos(comando);
 
     switch (nome) {
       case "tempovermelho": if (tempo !== null) tempoVermelho = tempo; break;
-      case "tempoamarelo":  if (tempo !== null) tempoAmarelo  = tempo; break;
-      case "tempoverde":    if (tempo !== null) tempoVerde    = tempo; break;
+      case "tempoamarelo": if (tempo !== null) tempoAmarelo = tempo; break;
+      case "tempoverde": if (tempo !== null) tempoVerde = tempo; break;
     }
   }
 
