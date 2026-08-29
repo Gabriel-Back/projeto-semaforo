@@ -3,39 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="adminHMD professional admin dashboard template">
+  <meta name="description" content="Painel de monitoramento de semáforo">
   <title>Semáforo | Monitoramento</title>
 
-  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../assets/vendors/bootstrap-icons/bootstrap-icons.css">
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
 
 <body>
   <div class="admin-shell">
     <div class="sidebar-backdrop" data-sidebar-close></div>
 
-    <aside class="admin-sidebar" id="adminSidebar" aria-label="Main navigation">
+    <aside class="admin-sidebar" id="adminSidebar" aria-label="Navegação principal">
       <div class="sidebar-header">
-        <a class="brand-mark" href="index.html" aria-label="adminHMD dashboard">
+        <a class="brand-mark" href="../../index.html" aria-label="Painel adminHMD">
           <span class="brand-icon"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i></span>
           <span class="brand-copy">
             <span class="brand-title">adminHMD</span>
-            <span class="brand-subtitle">Admin Template</span>
+            <span class="brand-subtitle">Painel administrativo</span>
           </span>
         </a>
       </div>
 
       <nav class="sidebar-nav">
         <button class="nav-link nav-accordion-toggle active" type="button" aria-expanded="true" aria-controls="semaforo-submenu">
-          <span class="nav-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
+          <span class="nav-icon"><i class="bi bi-stoplights" aria-hidden="true"></i></span>
           <span class="nav-text">Semáforo</span>
           <i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i>
         </button>
         <div class="nav-submenu" id="semaforo-submenu">
-          <a class="nav-sublink active" href="application/cadastros_semaforo/index.html" aria-current="page">Cadastros</a>            
-          <a class="nav-sublink active" href="application/simulador/index.html" aria-current="page">Simulador</a>
-          <a class="nav-sublink" href="#configuracao-semaforo">Monitoramento</a>
+          <a class="nav-sublink" href="../cadastros_semaforo/index.html">Cadastros</a>
+          <a class="nav-sublink" href="../simulador/index.html">Simulador</a>
+          <a class="nav-sublink" href="../simulador/index.html#monitoramento">Monitoramento</a>
         </div>
         <button class="nav-link nav-accordion-toggle" type="button" aria-expanded="false" aria-controls="relatorios-submenu">
           <span class="nav-icon"><i class="bi bi-file-earmark-bar-graph" aria-hidden="true"></i></span>
@@ -43,9 +43,9 @@
           <i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i>
         </button>
         <div class="nav-submenu" id="relatorios-submenu" hidden>
-          <a class="nav-sublink" href="#relatorio-diario">Logs de alterações</a>
+          <a class="nav-sublink" href="#registros">Logs de alterações</a>
         </div>
-        <a class="nav-link" href="cadastros_usuarios/index.html">
+        <a class="nav-link" href="../cadastros_usuarios/index.html">
           <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
           <span class="nav-text">Usuários</span>
         </a>
@@ -60,47 +60,43 @@
       </nav>
 
       <div class="sidebar-user">
-        <img class="avatar-img avatar-md sidebar-user-avatar" src="../assets/images/avatar/avatar.jpg" alt="Admin Hasan">
-        <strong>Admin Hasan</strong>
-        <small>Active Workspace</small>
+        <img class="avatar-img avatar-md sidebar-user-avatar" src="../../assets/images/avatar/avatar.jpg" alt="Administrador">
+        <strong>Administrador</strong>
+        <small>Workspace ativo</small>
       </div>
 
       <div class="sidebar-footer">
         <span class="status-dot"></span>
-        <span class="sidebar-footer-text">System running smoothly</span>
+        <span class="sidebar-footer-text">Sistema funcionando normalmente</span>
       </div>
     </aside>
 
     <div class="admin-main">
       <nav class="navbar admin-navbar navbar-expand bg-white">
         <div class="container-fluid px-3 px-lg-4">
-          <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar" aria-expanded="true" aria-label="Toggle sidebar">
+          <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar" aria-expanded="true" aria-label="Alternar menu lateral">
             <span></span>
             <span></span>
             <span></span>
           </button>
-
-          <form class="d-none d-md-flex ms-3 flex-grow-1" role="search">
-            <input class="form-control search-input" type="search" placeholder="Search users, orders, reports" aria-label="Search">
+          <a class="btn btn-outline-secondary btn-sm ms-3" href="../../index.html"><i class="bi bi-arrow-left" aria-hidden="true"></i> Voltar</a>
+          <form class="d-none d-md-flex ms-3 flex-grow-1" role="search" onsubmit="return false">
+            <input class="form-control search-input" type="search" placeholder="Buscar semáforo" aria-label="Buscar semáforo">
           </form>
 
           <div class="navbar-actions ms-auto">
-            <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">
+            <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema" title="Alternar tema">
               <i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
             </button>
-            <div class="dropdown">
-            </div>
 
             <div class="dropdown">
               <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar.jpg" alt="Admin Hasan">
-                <span class="profile-name d-none d-sm-inline">Admin Hasan</span>
+                <img class="avatar-img avatar-sm" src="../../assets/images/avatar/avatar.jpg" alt="Administrador">
+                <span class="profile-name d-none d-sm-inline">Administrador</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                <li><a class="dropdown-item" href="settings.html">Account settings</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="login.html">Sign out</a></li>
+                <li><a class="dropdown-item" href="../cadastros_semaforo/index.html">Cadastros</a></li>
+                <li><a class="dropdown-item" href="../simulador/index.html">Simulador</a></li>
               </ul>
             </div>
           </div>
@@ -318,7 +314,7 @@
         </div>
       </main>
 
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>
-  <script src="../assets/js/main.js"></script>
+  <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
 </body>
 </html>
