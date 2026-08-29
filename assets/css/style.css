@@ -1750,3 +1750,24 @@ html[data-theme="dark"] .sf-status {
   background: rgba(255, 255, 255, 0.05);
   color: #94a3b8;
 }
+
+
+/* ================================================================
+   INTEGRACAO VIA CEP - feedback visual de carregamento
+   ================================================================ */
+.cep-carregando {
+  padding-right: 2rem !important;
+  background-image:
+    url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  background-size: 1rem;
+  animation: cep-rotacionar 0.9s linear infinite;
+}
+@keyframes cep-rotacionar {
+  to { transform: rotate(360deg); }
+}
+html[data-theme="dark"] .cep-carregando {
+  background-image:
+    url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83'/%3E%3C/svg%3E");
+}

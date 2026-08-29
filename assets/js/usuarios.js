@@ -38,7 +38,98 @@
 
 	document.getElementById("cpf").addEventListener("input", function () { this.value = maskCpf(this.value); });
 	document.getElementById("celular").addEventListener("input", function () { this.value = maskPhone(this.value); });
-	document.getElementById("cep").addEventListener("input", function () { this.value = maskCep(this.value); this.setCustomValidity(""); if (digits(this.value).length === 8) fetch("https://viacep.com.br/ws/" + digits(this.value) + "/json/").then(function (response) { return response.json(); }).then(function (address) { if (address.erro) throw new Error("CEP não encontrado"); document.getElementById("cep").setCustomValidity(""); addressField("logradouro", address.logradouro); addressField("bairro", address.bairro); addressField("cidade", address.localidade); addressField("estado", address.uf); document.getElementById("numero").focus(); }).catch(function () { document.getElementById("cep").setCustomValidity("CEP não encontrado"); }); }); document.querySelectorAll("[data-toggle-password]").forEach(function (button) { button.addEventListener("click", function () { togglePassword(button); }); });
+	configCep(); document.querySelectorAll("[data-toggle-password]").forEach(function (button) { button.addEventListener("click", function () { togglePassword(button); }); });
+
+	// ============================================================
+	// INTEGRAÇÃO VIA CEP
+	// Consulta https://viacep.com.br/ws/{CEP}/json/ quando o usuário
+	// completa os 8 dígitos do CEP e preenche o endereço no modo
+	// "Cadastro" (add.html) e "Edição" (add.html?id=...) — o mesmo
+	// formulário serve para ambos os fluxos.
+	// ============================================================
+	function configCep() {
+		var cepInput = document.getElementById("cep");
+		var addressIds = ["logradouro", "bairro", "cidade", "estado"];
+
+		// aplica a máscara 00000-000 e dispara a busca ao completar 8 dígitos
+		cepInput.addEventListener("input", function () {
+			this.value = maskCep(this.value);
+			this.classList.remove("is-invalid");
+			this.setCustomValidity("");
+			if (digits(this.value).length === 8) buscarCep(this);
+		});
+
+		// dispara a busca também ao sair do campo com 8 dígitos preenchidos
+		cepInput.addEventListener("blur", function () {
+			if (digits(this.value).length === 8) buscarCep(this);
+		});
+
+		function buscarCep(input) {
+			var cep = digits(input.value);
+
+			// valida formato: exatamente 8 números
+			if (!/^\d{8}$/.test(cep)) {
+				exibirAviso(input, "CEP inválido: informe 8 números.");
+				return;
+			}
+
+			// feedback de carregamento: spinner + desabilita campos
+			mostrarCarregando(true);
+
+			fetch("https://viacep.com.br/ws/" + cep + "/json/")
+				.then(function (resposta) { return resposta.json(); })
+				.then(function (address) {
+					if (address.erro) {
+						limparEndereco();
+						exibirAviso(input, "CEP não encontrado. Preencha o endereço manualmente.", true);
+						return;
+					}
+					// preenche apenas se o campo estiver vazio (não sobrescreve o que
+					// o usuário digitou manualmente)
+					input.setCustomValidity("");
+					exibirAviso(input, "", false);
+					addressField("logradouro", address.logradouro);
+					addressField("bairro", address.bairro);
+					addressField("cidade", address.localidade);
+					addressField("estado", address.uf);
+					document.getElementById("numero").focus(); // foco -> Número
+				})
+				.catch(function () {
+					limparEndereco();
+					exibirAviso(input, "Falha de conexão ao consultar o CEP. Preencha manualmente.", false);
+				})
+				.finally(function () { mostrarCarregando(false); });
+		}
+
+		function limparEndereco() {
+			addressIds.forEach(function (id) {
+				var element = document.getElementById(id);
+				// mantém campos vazios e liberados para preenchimento manual
+				if (element) element.value = "";
+			});
+		}
+
+		// aviso visual (tooltip) no campo do CEP
+		// - bloqueiaEnvio=true  -> marca campo inválido (impede salvar, ex.: CEP não existe)
+		// - bloqueiaEnvio=false -> só aviso visual (permite salvar manualmente, ex.: sem conexão)
+		function exibirAviso(input, mensagem, bloqueiaEnvio) {
+			input.classList.remove("is-invalid");
+			input.setCustomValidity("");
+			if (bloqueiaEnvio) {
+				input.classList.add("is-invalid");
+				input.setCustomValidity(mensagem);
+			}
+		}
+
+		// liga/desliga spinner e desabilita/habilita os campos de endereço
+		function mostrarCarregando(ativo) {
+			cepInput.classList.toggle("cep-carregando", ativo);
+			addressIds.forEach(function (id) {
+				var element = document.getElementById(id);
+				if (element) element.disabled = ativo;
+			});
+		}
+	}
 	form.addEventListener("input", salvarFormularioEmCache);
 	form.addEventListener("change", salvarFormularioEmCache);
 	form.addEventListener("submit", function (event) { event.preventDefault(); document.getElementById("email").setCustomValidity(validEmailUnique() ? "" : "Este e-mail já está cadastrado."); var password = document.getElementById("senha").value; var confirmation = document.getElementById("confirmacaoSenha").value; document.getElementById("confirmacaoSenha").setCustomValidity(password === confirmation ? "" : "As senhas devem ser iguais."); if (!form.checkValidity()) { form.classList.add("was-validated"); return; } var user = editingUser || { id: Date.now().toString() }; fields.forEach(function (field) { var element = document.getElementById(field); if (element) user[field] = element.type === "checkbox" ? element.checked : element.value.trim(); }); if (password) user.senha = password; var usuarioNome = user.nome || "Usuário"; var acao = editingUser ? "Atualizou usuário: " + usuarioNome : "Criou novo usuário: " + usuarioNome; if (editingUser) users = users.map(function (item) { return item.id === editingUser.id ? user : item; }); else users.push(user); armazenamento.salvarUsuarios(users); limparFormularioEmCache(); if (window.registrarLog) { window.registrarLog(acao); } window.location.href = "index.html"; });
