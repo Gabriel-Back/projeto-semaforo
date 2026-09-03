@@ -1,16 +1,23 @@
 <!doctype html>
 <html lang="pt-BR">
+  <!-- <head> — metadados da página de redirecionamento -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="refresh" content="0; url=application/index/index.html" />
     <title>Redirecionando...</title>
   </head>
+  <!-- fim <head> -->
+
+  <!-- <body> — conteúdo e script de redirecionamento -->
   <body>
+    <!-- Texto exibido enquanto o navegador não executa o redirecionamento -->
     <p>Redirecionando para a página inicial...</p>
 
+    <!-- Redireciona o usuário automaticamente para o dashboard (application/index/index.html) -->
     <script>
       window.location.href = "application/index/index.html";
     </script>
   </body>
+  <!-- fim <body> -->
 </html>

@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Editar configuração de semáforo" />
   <title>Semáforo | Editar cadastro</title>
+
   <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
   <link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css" />
   <link rel="stylesheet" href="../../assets/css/style.css" />
@@ -13,7 +14,9 @@
 
 <body>
   <admin-layout></admin-layout>
+
   <div class="admin-main">
+      <!-- barra de navegação superior -->
       <nav class="navbar admin-navbar navbar-expand bg-white">
         <div class="container-fluid px-3 px-lg-4">
           <a class="btn btn-outline-secondary btn-sm" href="index.html"><i class="bi bi-arrow-left"
@@ -26,8 +29,12 @@
           </div>
         </div>
       </nav>
+      <!-- fim barra de navegação superior -->
+
+      <!-- conteúdo principal -->
       <main class="dashboard-content">
         <div class="container-fluid px-3 px-lg-4 py-4">
+          <!-- cabeçalho da página -->
           <div class="page-heading">
             <div class="page-heading-copy">
               <span class="page-icon"><i class="bi bi-stoplights" aria-hidden="true"></i></span>
@@ -40,6 +47,9 @@
               </div>
             </div>
           </div>
+          <!-- fim cabeçalho da página -->
+
+          <!-- Feedback de operações (sucesso/erro) -->
           <div id="feedback" class="alert d-none" role="status" aria-live="polite"></div>
           <section class="row g-3 mt-1" id="cadastro-form-section">
             <div class="col-12">
@@ -52,13 +62,17 @@
                     <p class="text-muted mb-0">Defina os tempos do ciclo.</p>
                   </div>
                 </div>
+
+                <!-- formulário de dados do semáforo -->
                 <form id="semaforoForm" class="needs-validation" novalidate>
                   <input type="hidden" id="recordId" />
+
                   <div class="mb-3">
                     <label for="nome" class="form-label">Nome do semáforo</label><input class="form-control" id="nome"
                       required maxlength="60" />
                     <div class="invalid-feedback">Informe um nome.</div>
                   </div>
+
                   <div class="mb-3">
                     <label for="tempoVermelho" class="form-label">Vermelho (ms)</label><input class="form-control"
                       id="tempoVermelho" type="number" min="100" required />
@@ -66,6 +80,7 @@
                       Use um valor a partir de 100 ms.
                     </div>
                   </div>
+
                   <div class="mb-3">
                     <label for="tempoAmarelo" class="form-label">Amarelo (ms)</label><input class="form-control"
                       id="tempoAmarelo" type="number" min="100" required />
@@ -73,6 +88,7 @@
                       Use um valor a partir de 100 ms.
                     </div>
                   </div>
+
                   <div class="mb-3">
                     <label for="tempoVerde" class="form-label">Verde (ms)</label><input class="form-control"
                       id="tempoVerde" type="number" min="100" required />
@@ -80,14 +96,17 @@
                       Use um valor a partir de 100 ms.
                     </div>
                   </div>
+
                   <div class="mb-3">
                     <label for="latitudeLongitude" class="form-label">Latitude e Longitude do Semáforo</label><input
                       class="form-control" id="latitudeLongitude" type="text" />
                   </div>
+
                   <div class="form-check form-switch mb-4">
                     <input class="form-check-input" id="ativo" type="checkbox" /><label class="form-check-label"
                       for="ativo">Cadastro ativo</label>
                   </div>
+
                   <div class="d-flex flex-wrap gap-2">
                     <button class="btn btn-primary" type="submit">
                       <i class="bi bi-check2" aria-hidden="true"></i>
@@ -97,15 +116,16 @@
                       Voltar</a>
                   </div>
                 </form>
+                <!-- fim formulário de dados do semáforo -->
               </div>
             </div>
           </section>
         </div>
       </main>
     </div>
+
   <script src="../../assets/js/bootstrap.bundle.min.js"></script>
   <script src="../../assets/js/layout.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
-
 </html>

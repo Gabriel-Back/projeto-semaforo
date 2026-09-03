@@ -16,6 +16,7 @@
   <admin-layout></admin-layout>
 
   <div class="admin-main">
+      <!-- barra de navegação superior -->
       <nav class="navbar admin-navbar navbar-expand bg-white">
         <div class="container-fluid px-3 px-lg-4">
           <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar"
@@ -51,7 +52,9 @@
           </div>
         </div>
       </nav>
+      <!-- fim barra de navegação superior -->
 
+      <!-- conteúdo principal -->
       <main class="dashboard-content">
         <div class="container-fluid px-3 px-lg-4 py-4">
           <div class="page-heading">
@@ -66,9 +69,11 @@
               </div>
             </div>
           </div>
+          <!-- fim cabeçalho da página -->
 
           <div id="feedback" class="alert d-none" role="status" aria-live="polite"></div>
 
+          <!-- cartões de métricas (resumo) -->
           <section class="row g-3 mt-1 cadastro-metrics" aria-label="Resumo dos cadastros">
             <div class="col-12 col-sm-6">
               <article class="metric-card metric-primary">
@@ -93,7 +98,9 @@
               </article>
             </div>
           </section>
+          <!-- fim cartões de métricas -->
 
+          <!-- seção de cadastro -->
           <section class="row g-3 mt-1" id="cadastro-form-section">
             <div class="heading-actions cadastro-actions">
               <a class="btn btn-primary btn-sm" href="add.html" data-new-record><i class="bi bi-plus-lg"
@@ -103,6 +110,7 @@
 
             <div class="col-12 col-xl-12" id="registros">
               <div class="panel h-100">
+                <!-- Cabeçalho do painel -->
                 <div class="panel-header">
                   <div>
                     <h2 class="h5 mb-1 section-title">
@@ -117,6 +125,7 @@
                     todos
                   </button>
                 </div>
+                <!-- Tabela de semáforos cadastrados -->
                 <div class="table-responsive">
                   <table class="table align-middle mb-0" id="semaforosTable">
                     <thead>
@@ -130,6 +139,7 @@
                     <tbody></tbody>
                   </table>
                 </div>
+                <!-- Estado vazio exibido quando não há cadastros -->
                 <div class="empty-state d-none" id="emptyState">
                   <i class="bi bi-inbox" aria-hidden="true"></i>
                   <p class="mb-1 fw-semibold">Nenhum cadastro encontrado</p>
@@ -140,6 +150,9 @@
               </div>
             </div>
           </section>
+          <!-- fim seção de cadastro -->
+
+          <!-- modal de confirmação de exclusão -->
           <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
@@ -162,6 +175,7 @@
               </div>
             </div>
           </div>
+          <!-- fim modal de confirmação de exclusão -->
         </div>
       </main>
     </div>
@@ -170,5 +184,4 @@
   <script src="../../assets/js/layout.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
-
 </html>

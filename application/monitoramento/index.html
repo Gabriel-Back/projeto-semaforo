@@ -7,8 +7,6 @@
   <meta name="description" content="Monitoramento de semáforo" />
   <title>Semáforo | Monitoramento</title>
 
-  <!-- BIBLIOTECA MQTT (Paho) — fala o protocolo MQTT por WebSocket com o
-     broker Mosquitto do Docker. Salva localmente em assets/js (sem internet). -->
   <script src="../../assets/js/paho-mqtt.min.js"></script>
 
   <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
@@ -20,6 +18,8 @@
   <admin-layout></admin-layout>
 
   <div class="admin-main">
+
+      <!-- barra de navegação superior -->
       <nav class="navbar admin-navbar navbar-expand bg-white">
         <div class="container-fluid px-3 px-lg-4">
           <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar"
@@ -39,11 +39,10 @@
           </div>
         </div>
       </nav>
+      <!-- fim barra de navegação superior -->
 
+      <!-- conteúdo principal -->
       <main class="dashboard-content">
-        <!-- =====================================================
-           CONTEÚDO DA PÁGINA — monitoramento ao vivo do semáforo.
-           ===================================================== -->
         <div class="container-fluid px-3 px-lg-4 py-4" id="monitoramento">
           <div class="page-heading">
             <div class="page-heading-copy">
@@ -57,7 +56,9 @@
               </div>
             </div>
           </div>
+          <!-- fim cabeçalho da página -->
 
+          <!-- grade de painéis -->
           <section class="row g-3 mt-1">
             <div class="col-12 col-md-6 col-lg-5 col-xl-4">
               <div class="panel sf-panel">
@@ -85,7 +86,9 @@
                 </div>
               </div>
             </div>
+            <!-- fim painel do semáforo -->
 
+            <!-- painel de status em tempo real -->
             <div class="col-12 col-md-6 col-lg-7 col-xl-8">
               <div class="panel h-100">
                 <div class="panel-header">
@@ -99,6 +102,7 @@
                   </div>
                 </div>
 
+                <!-- Lista de atividades/telemetria -->
                 <div class="activity-list monitor-list">
                   <div class="activity-item">
                     <span class="activity-dot bg-success"></span>
@@ -124,9 +128,12 @@
                 </div>
               </div>
             </div>
+            <!-- fim painel de status em tempo real -->
           </section>
+          <!-- fim grade de painéis -->
         </div>
       </main>
+      <!-- fim conteúdo principal -->
     </div>
 
   <script src="../../assets/js/bootstrap.bundle.min.js"></script>

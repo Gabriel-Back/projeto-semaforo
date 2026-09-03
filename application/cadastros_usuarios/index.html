@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="description" content="Cadastro de usuários" />
 	<title>Semáforo | Usuários</title>
+
 	<link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css" />
 	<link rel="stylesheet" href="../../assets/css/style.css" />
@@ -14,6 +15,7 @@
 <body>
 	<admin-layout></admin-layout>
 	<div class="admin-main">
+			<!-- barra de navegação superior -->
 			<nav class="navbar admin-navbar navbar-expand bg-white">
 				<div class="container-fluid px-3 px-lg-4">
 					<button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar"
@@ -28,6 +30,9 @@
 					</div>
 				</div>
 			</nav>
+			<!-- fim barra de navegação superior -->
+
+			<!-- conteúdo principal -->
 			<main class="dashboard-content">
 				<div class="container-fluid px-3 px-lg-4 py-4">
 					<div class="page-heading">
@@ -42,7 +47,11 @@
 							</div>
 						</div>
 					</div>
+					<!-- fim cabeçalho da página -->
+
 					<div id="feedback" class="alert d-none" role="status" aria-live="polite"></div>
+
+					<!-- cartões de métricas (resumo) -->
 					<section class="row g-3 mt-1 cadastro-metrics" aria-label="Resumo dos usuários">
 						<div class="col-12 col-sm-6">
 							<article class="metric-card metric-primary">
@@ -67,6 +76,9 @@
 							</article>
 						</div>
 					</section>
+					<!-- fim cartões de métricas -->
+
+					<!-- seção de cadastro (tabela de usuários) -->
 					<section class="row g-3 mt-1">
 						<div class="heading-actions cadastro-actions">
 							<a class="btn btn-primary btn-sm" href="add.html"><i class="bi bi-person-plus"
@@ -75,6 +87,8 @@
 						</div>
 						<div class="col-12">
 							<div class="panel h-100">
+
+								<!-- Cabeçalho do painel -->
 								<div class="panel-header">
 									<div>
 										<h2 class="h5 mb-1 section-title">
@@ -90,6 +104,7 @@
 										todos
 									</button>
 								</div>
+								<!-- Tabela de usuários cadastrados -->
 								<div class="table-responsive">
 									<table class="table align-middle mb-0">
 										<thead>
@@ -104,6 +119,7 @@
 										<tbody id="usersTable"></tbody>
 									</table>
 								</div>
+
 								<div class="empty-state d-none" id="emptyState">
 									<i class="bi bi-inbox" aria-hidden="true"></i>
 									<p class="mb-1 fw-semibold">Nenhum usuário encontrado</p>
@@ -114,6 +130,9 @@
 							</div>
 						</div>
 					</section>
+					<!-- fim seção de cadastro -->
+
+					<!-- modal de confirmação de exclusão -->
 					<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
 						aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered">
@@ -139,12 +158,13 @@
 							</div>
 						</div>
 					</div>
+					<!-- fim modal de confirmação de exclusão -->
 				</div>
 			</main>
+			<!-- fim conteúdo principal -->
 		</div>
 	<script src="../../assets/js/bootstrap.bundle.min.js"></script>
 	<script src="../../assets/js/layout.js"></script>
 	<script src="../../assets/js/main.js"></script>
 </body>
-
 </html>

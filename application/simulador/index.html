@@ -1,220 +1,230 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Semáforo | Simulador</title>
 
-    <!-- BIBLIOTECA MQTT (Paho) — fala o protocolo MQTT por WebSocket com o
-       broker Mosquitto do Docker. Salva localmente em assets/js (sem internet). -->
     <script src="../../assets/js/paho-mqtt.min.js"></script>
 
-    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css"/>
     <link
-      rel="stylesheet"
-      href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css"
+            rel="stylesheet"
+            href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css"
     />
-    <link rel="stylesheet" href="../../assets/css/style.css" />
-  </head>
+    <link rel="stylesheet" href="../../assets/css/style.css"/>
+</head>
 
-  <body>
-    <admin-layout></admin-layout>
+<body>
+<admin-layout></admin-layout>
 
-    <div class="admin-main">
-        <nav class="navbar admin-navbar navbar-expand bg-white">
-          <div class="container-fluid px-3 px-lg-4">
+<div class="admin-main">
+    <!-- barra de navegação superior -->
+    <nav class="navbar admin-navbar navbar-expand bg-white">
+        <div class="container-fluid px-3 px-lg-4">
+            <!-- Botão de recolher/abrir a sidebar -->
             <button
-              class="sidebar-toggle"
-              type="button"
-              data-sidebar-toggle
-              aria-controls="adminSidebar"
-              aria-expanded="true"
-              aria-label="Toggle sidebar"
+                    class="sidebar-toggle"
+                    type="button"
+                    data-sidebar-toggle
+                    aria-controls="adminSidebar"
+                    aria-expanded="true"
+                    aria-label="Toggle sidebar"
             >
-              <span></span>
-              <span></span>
-              <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
 
             <form class="d-none d-md-flex ms-3 flex-grow-1" role="search">
-              <input
-                class="form-control search-input"
-                type="search"
-                placeholder="Search users, orders, reports"
-                aria-label="Search"
-              />
+                <input
+                        class="form-control search-input"
+                        type="search"
+                        placeholder="Buscar semáforo"
+                        aria-label="Buscar semáforo"
+                />
             </form>
 
+            <!-- ações da navbar -->
             <div class="navbar-actions ms-auto">
-              <button
-                class="icon-button theme-toggle"
-                type="button"
-                data-theme-toggle
-                aria-label="Switch color theme"
-                title="Switch color theme"
-              >
-                <i
-                  class="bi bi-moon-stars"
-                  data-theme-icon
-                  aria-hidden="true"
-                ></i>
-              </button>
-              <div class="dropdown">
                 <button
-                  class="icon-button"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  aria-label="Notifications"
+                        class="icon-button theme-toggle"
+                        type="button"
+                        data-theme-toggle
+                        aria-label="Alternar tema"
+                        title="Alternar tema"
                 >
-                  <span class="notification-dot"></span>
-                  <i class="bi bi-bell" aria-hidden="true"></i>
+                    <i
+                            class="bi bi-moon-stars"
+                            data-theme-icon
+                            aria-hidden="true"
+                    ></i>
                 </button>
-                <div class="dropdown-menu dropdown-menu-end notification-menu">
-                  <div class="dropdown-header fw-bold text-body">
-                    Notifications
-                  </div>
-                  <a class="dropdown-item" href="../cadastros/index.html">
-                    <span class="notification-title">New user registered</span>
-                    <span class="notification-time">4 minutes ago</span>
-                  </a>
-                  <a class="dropdown-item" href="#monitoramento">
-                    <span class="notification-title"
-                      >Revenue target reached</span
+                <!-- menu de notificações -->
+                <div class="dropdown">
+                    <button
+                            class="icon-button"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            aria-label="Notificações"
                     >
-                    <span class="notification-time">32 minutes ago</span>
-                  </a>
-                  <a
-                    class="dropdown-item"
-                    href="../cadastros/index.html#registros"
-                  >
-                    <span class="notification-title"
-                      >Security review completed</span
-                    >
-                    <span class="notification-time">1 hour ago</span>
-                  </a>
+                        <span class="notification-dot"></span>
+                        <i class="bi bi-bell" aria-hidden="true"></i>
+                    </button>
+                    <!-- Lista de notificações -->
+                    <div class="dropdown-menu dropdown-menu-end notification-menu">
+                        <div class="dropdown-header fw-bold text-body">
+                            Notificações
+                        </div>
+                        <a class="dropdown-item" href="../cadastros/index.html">
+                            <span class="notification-title">Novo usuário registrado</span>
+                            <span class="notification-time">há 4 minutos</span>
+                        </a>
+                        <a class="dropdown-item" href="#monitoramento">
+                            <span class="notification-title">Meta de semáforos atingida</span>
+                            <span class="notification-time">há 32 minutos</span>
+                        </a>
+                        <a
+                                class="dropdown-item"
+                                href="../cadastros/index.html#registros"
+                        >
+                            <span class="notification-title">Revisão de segurança concluída</span>
+                            <span class="notification-time">há 1 hora</span>
+                        </a>
+                    </div>
                 </div>
-              </div>
+                <!-- fim menu de notificações -->
 
-              <div class="dropdown">
-                <button
-                  class="profile-button dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <img
-                    class="avatar-img avatar-sm"
-                    src="../../assets/images/avatar/avatar.jpg"
-                    alt="Administrador"
-                  />
-                  <span class="profile-name d-none d-sm-inline"
-                    >Administrador</span
-                  >
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li>
-                    <a class="dropdown-item" href="../cadastros/index.html"
-                      >Cadastros</a
+                <!-- menu do perfil -->
+                <div class="dropdown">
+                    <button
+                            class="profile-button dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
                     >
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="index.html">Simulador</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider" />
-                  </li>
-                  <li>
-                    <a
-                      class="dropdown-item"
-                      href="../cadastros/index.html#registros"
-                      >Registros</a
-                    >
-                  </li>
-                </ul>
-              </div>
+                        <img
+                                class="avatar-img avatar-sm"
+                                src="../../assets/images/avatar/avatar.jpg"
+                                alt="Administrador"
+                        />
+                        <span class="profile-name d-none d-sm-inline"
+                        >Administrador</span
+                        >
+                    </button>
+                    <!-- Atalhos do menu do perfil -->
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="../cadastros_semaforo/index.html"
+                            >Cadastros</a
+                            >
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="index.html">Simulador</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        <li>
+                            <a
+                                    class="dropdown-item"
+                                    href="../cadastros_semaforo/index.html#registros"
+                            >Configurações</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+                <!-- fim menu do perfil -->
             </div>
-          </div>
-        </nav>
+            <!-- fim ações da navbar -->
+        </div>
+    </nav>
+    <!-- fim barra de navegação superior -->
 
-        <main class="dashboard-content">
-          <!-- =====================================================
-             CONTEÚDO DA PÁGINA — limpo: só o semáforo + status.
-             ===================================================== -->
-          <div class="container-fluid px-3 px-lg-4 py-4">
+    <!-- conteúdo principal -->
+    <main class="dashboard-content">
+        <div class="container-fluid px-3 px-lg-4 py-4">
+            <!-- cabeçalho da página -->
             <div class="page-heading">
-              <div class="page-heading-copy">
+                <div class="page-heading-copy">
                 <span class="page-icon"
-                  ><i class="bi bi-stoplights" aria-hidden="true"></i
+                ><i class="bi bi-stoplights" aria-hidden="true"></i
                 ></span>
-                <div>
-                  <p class="eyebrow mb-1">Controle de tráfego</p>
-                  <h1 class="h3 mb-1">Simulador de Semáforo</h1>
-                  <p class="text-muted mb-0">
-                    O semáforo reage apenas às mensagens MQTT enviadas pelo
-                    MQTTX.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <section class="row g-3 mt-1 justify-content-center">
-              <div class="col-12 col-sm-9 col-lg-7 col-xl-5">
-                <div class="panel sf-panel">
-                  <div class="panel-header">
                     <div>
-                      <h2 class="h6 mb-1">
-                        <i class="bi bi-stoplights" aria-hidden="true"></i>
-                        <span>Semáforo</span>
-                      </h2>
+                        <p class="eyebrow mb-1">Controle de tráfego</p>
+                        <h1 class="h3 mb-1">Simulador de Semáforo</h1>
+                        <p class="text-muted mb-0">
+                            O semáforo reage apenas às mensagens MQTT enviadas pelo
+                            MQTTX.
+                        </p>
                     </div>
-                  </div>
-
-                  <div class="sf-visual">
-                    <div class="sf-poste"></div>
-                    <div class="sf-caixa">
-                      <div
-                        id="luzVermelho"
-                        class="sf-luz sf-luz-vermelha"
-                        aria-label="Luz vermelha"
-                      ></div>
-                      <div
-                        id="luzAmarelo"
-                        class="sf-luz sf-luz-amarela"
-                        aria-label="Luz amarela"
-                      ></div>
-                      <div
-                        id="luzVerde"
-                        class="sf-luz sf-luz-verde"
-                        aria-label="Luz verde"
-                      ></div>
-                    </div>
-                  </div>
-
-                  <div class="sf-status">
-                    <span id="infoModo">Modo: parado</span>
-                    <span id="infoComando">Último comando: —</span>
-                  </div>
                 </div>
-              </div>
-            </section>
-          </div>
-        </main>
+            </div>
+            <!-- fim cabeçalho da página -->
 
-        <footer class="admin-footer">
-          <div class="container-fluid px-3 px-lg-4">
+            <!-- painel do semáforo (réplica visual) -->
+            <section class="row g-3 mt-1 justify-content-center">
+                <div class="col-12 col-sm-9 col-lg-7 col-xl-5">
+                    <div class="panel sf-panel">
+                        <div class="panel-header">
+                            <div>
+                                <h2 class="h6 mb-1">
+                                    <i class="bi bi-stoplights" aria-hidden="true"></i>
+                                    <span>Semáforo</span>
+                                </h2>
+                            </div>
+                        </div>
+
+                        <!-- Réplica visual -->
+                        <div class="sf-visual">
+                            <div class="sf-poste"></div>
+                            <div class="sf-caixa">
+                                <div
+                                        id="luzVermelho"
+                                        class="sf-luz sf-luz-vermelha"
+                                        aria-label="Luz vermelha"
+                                ></div>
+                                <div
+                                        id="luzAmarelo"
+                                        class="sf-luz sf-luz-amarela"
+                                        aria-label="Luz amarela"
+                                ></div>
+                                <div
+                                        id="luzVerde"
+                                        class="sf-luz sf-luz-verde"
+                                        aria-label="Luz verde"
+                                ></div>
+                            </div>
+                        </div>
+
+                        <!-- último comando -->
+                        <div class="sf-status">
+                            <span id="infoModo">Modo: parado</span>
+                            <span id="infoComando">Último comando: —</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- fim painel do semáforo -->
+        </div>
+    </main>
+    <!-- fim conteúdo principal -->
+
+    <footer class="admin-footer">
+        <div class="container-fluid px-3 px-lg-4">
             <span
-              >© 2026 Semáforo — Sistema de Gestão de Tráfego Urbano.</span
+            >© 2026 Semáforo — Sistema de Gestão de Tráfego Urbano.</span
             >
             <span>Simulador integrado ao broker MQTT local (Mosquitto).</span>
-          </div>
-        </footer>
-      </div>
+        </div>
+    </footer>
+</div>
 
-    <script src="../../assets/js/bootstrap.bundle.min.js"></script>
-    <script src="../../assets/js/layout.js"></script>
-    <script src="../../assets/js/main.js"></script>
+<script src="../../assets/js/bootstrap.bundle.min.js"></script>
+<script src="../../assets/js/layout.js"></script>
+<script src="../../assets/js/main.js"></script>
 
-    <script src="../../assets/js/semaforoMQTT.js"></script>
-  </body>
+<script src="../../assets/js/semaforoMQTT.js"></script>
+</body>
 </html>

@@ -7,8 +7,6 @@
   <meta name="description" content="Gêmeo digital do semáforo" />
   <title>Semáforo | Gêmeo Digital</title>
 
-  <!-- BIBLIOTECA MQTT (Paho) — fala o protocolo MQTT por WebSocket com o
-     broker Mosquitto do Docker. -->
   <script src="../../assets/js/paho-mqtt.min.js"></script>
 
   <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
@@ -20,6 +18,7 @@
   <admin-layout></admin-layout>
 
   <div class="admin-main">
+      <!-- barra de navegação superior  -->
       <nav class="navbar admin-navbar navbar-expand bg-white">
         <div class="container-fluid px-3 px-lg-4">
           <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar"
@@ -32,12 +31,14 @@
             <i class="bi bi-arrow-left" aria-hidden="true"></i> Voltar
           </a>
 
+          <!-- ações da navbar (tema e perfil) -->
           <div class="navbar-actions ms-auto">
             <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"
               title="Alternar tema">
               <i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
             </button>
 
+            <!-- menu do perfil (dropdown)  -->
             <div class="dropdown">
               <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
@@ -56,10 +57,14 @@
                 </li>
               </ul>
             </div>
+            <!-- fim menu do perfil -->
           </div>
+          <!-- ações da navbar -->
         </div>
       </nav>
+      <!-- fim barra de navegação superior -->
 
+      <!-- conteúdo principal -->
       <main class="dashboard-content">
         <div class="container-fluid px-3 px-lg-4 py-4">
           <div class="page-heading">
@@ -74,6 +79,7 @@
                 </p>
               </div>
             </div>
+            <!-- Ações rápidas da página -->
             <div class="heading-actions">
               <a class="btn btn-outline-secondary btn-sm" href="../monitoramento/index.html" type="button">
                 <i class="bi bi-activity" aria-hidden="true"></i>
@@ -85,9 +91,10 @@
               </a>
             </div>
           </div>
+          <!-- fim cabeçalho da página -->
 
+          <!-- grade de painéis (gêmeo) -->
           <section class="row g-3 mt-1">
-            <!-- Gêmeo digital (réplica visual) -->
             <div class="col-12 col-md-6 col-lg-5 col-xl-4">
               <div class="panel sf-panel h-100">
                 <div class="panel-header">
@@ -115,8 +122,9 @@
                 </div>
               </div>
             </div>
+            <!-- fim painel do gêmeo -->
 
-            <!-- Configuração do ciclo -->
+            <!-- painel de configuração do ciclo -->
             <div class="col-12 col-md-6 col-lg-7 col-xl-8">
               <div class="panel h-100">
                 <div class="panel-header">
@@ -130,7 +138,10 @@
                   </div>
                 </div>
 
+                <!-- Formulário de configuração dos tempos -->
                 <form id="twinForm" class="needs-validation" novalidate>
+
+                  <!-- campos de tempo -->
                   <div class="row g-3">
                     <div class="col-12 col-sm-4">
                       <label for="tempoVermelho" class="form-label">Vermelho (s)</label>
@@ -148,6 +159,8 @@
                       <div class="invalid-feedback">Informe o tempo em segundos.</div>
                     </div>
                   </div>
+                  <!-- fim campos de tempo -->
+
 
                   <div class="d-flex flex-wrap gap-2 mt-4">
                     <button class="btn btn-primary" type="submit">
@@ -167,10 +180,12 @@
                       Parar
                     </button>
                   </div>
+
                 </form>
 
                 <hr class="my-4" />
 
+                <!-- lista de status -->
                 <div class="activity-list">
                   <div class="activity-item">
                     <span class="activity-dot bg-success" id="dotConexao"></span>
@@ -194,11 +209,15 @@
                     </div>
                   </div>
                 </div>
+                <!-- fim lista de status -->
               </div>
             </div>
+            <!-- fim painel de configuração do ciclo -->
           </section>
+          <!-- fim grade de painéis -->
         </div>
       </main>
+      <!-- fim conteúdo principal -->
     </div>
 
   <script src="../../assets/js/bootstrap.bundle.min.js"></script>
@@ -209,5 +228,4 @@
   <script src="../../assets/js/storageLocal.js"></script>
   <script src="../../assets/js/gemeoDigital.js"></script>
 </body>
-
 </html>

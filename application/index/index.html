@@ -17,6 +17,7 @@
   <admin-layout></admin-layout>
 
   <div class="admin-main">
+      <!-- barra de navegação superior -->
       <nav class="navbar admin-navbar navbar-expand bg-white">
         <div class="container-fluid px-3 px-lg-4">
           <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar"
@@ -32,12 +33,14 @@
               aria-label="Buscar semáforo" data-table-search="semaforosStatusTable" />
           </form>
 
+          <!-- ações da navbar (tema e perfil)  -->
           <div class="navbar-actions ms-auto">
             <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"
               title="Alternar tema">
               <i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
             </button>
 
+            <!-- menu do perfil (dropdown) -->
             <div class="dropdown">
               <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
@@ -56,10 +59,14 @@
                 </li>
               </ul>
             </div>
+            <!-- fim menu do perfil -->
           </div>
+          <!-- fim ações da navbar -->
         </div>
       </nav>
+      <!-- fim barra de navegação superior -->
 
+      <!-- conteúdo do dashboard  -->
       <main class="dashboard-content">
         <div class="container-fluid px-3 px-lg-4 py-4">
           <div class="page-heading">
@@ -84,7 +91,9 @@
               </a>
             </div>
           </div>
+          <!-- fim cabeçalho da página -->
 
+          <!-- cartões de métricas -->
           <section class="row g-3 mt-1" aria-label="Métricas do dashboard">
             <div class="col-12 col-sm-6 col-xl-3">
               <article class="metric-card metric-primary">
@@ -99,6 +108,7 @@
               </article>
             </div>
 
+            <!-- total cadastrado -->
             <div class="col-12 col-sm-6 col-xl-3">
               <article class="metric-card metric-success">
                 <div class="metric-top">
@@ -112,6 +122,7 @@
               </article>
             </div>
 
+            <!-- semáforos com localização -->
             <div class="col-12 col-sm-6 col-xl-3">
               <article class="metric-card metric-warning">
                 <div class="metric-top">
@@ -125,6 +136,7 @@
               </article>
             </div>
 
+            <!-- semáforos sem localização -->
             <div class="col-12 col-sm-6 col-xl-3">
               <article class="metric-card metric-danger">
                 <div class="metric-top">
@@ -138,7 +150,9 @@
               </article>
             </div>
           </section>
+          <!-- fim cartões de métricas -->
 
+          <!-- painel do mapa de semáforos -->
           <section class="panel mt-3">
             <div class="panel-header">
               <div>
@@ -156,7 +170,9 @@
             </div>
             <div id="mapaSemaforos" class="semaforo-map" aria-label="Mapa com a localização dos semáforos"></div>
           </section>
+          <!-- fim painel do mapa de semáforos -->
 
+          <!-- tabela de semáforos cadastrados -->
           <section class="panel mt-3">
             <div class="panel-header">
               <div>
@@ -190,9 +206,12 @@
               </p>
             </div>
           </section>
+          <!-- fim tabela de semáforos cadastrados -->
         </div>
       </main>
+      <!-- fim conteúdo do dashboard -->
     </div>
+    <!-- fim área principal da página -->
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="../../assets/js/bootstrap.bundle.min.js"></script>
@@ -201,5 +220,4 @@
   <script src="../../assets/js/storageLocal.js"></script>
   <script src="../../assets/js/dashboard.js"></script>
 </body>
-
 </html>

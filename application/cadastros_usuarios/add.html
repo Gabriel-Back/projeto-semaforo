@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Adicionar usuário" />
     <title>Semáforo | Novo usuário</title>
+
     <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css" />
     <link rel="stylesheet" href="../../assets/css/style.css" />
@@ -14,6 +15,7 @@
 <body>
     <admin-layout></admin-layout>
     <div class="admin-main">
+            <!-- barra de navegação superior -->
             <nav class="navbar admin-navbar navbar-expand bg-white">
                 <div class="container-fluid px-3 px-lg-4">
                     <a class="btn btn-outline-secondary btn-sm" href="index.html"><i class="bi bi-arrow-left"
@@ -26,9 +28,11 @@
                     </div>
                 </div>
             </nav>
+            <!-- fim barra de navegação superior -->
+
+            <!-- conteúdo principal -->
             <main class="dashboard-content">
-                <div class="container-fluid px-3 px-lg-4 py-4">
-                    <div class="page-heading">
+                <div class="container-fluid px-3 px-lg-4 py-4"><div class="page-heading">
                         <div class="page-heading-copy">
                             <span class="page-icon"><i class="bi bi-person-plus" aria-hidden="true"></i></span>
                             <div>
@@ -40,7 +44,11 @@
                             </div>
                         </div>
                     </div>
+                    <!-- fim cabeçalho da página -->
+
                     <div id="feedback" class="alert d-none" role="status"></div>
+
+                    <!-- formulário de dados do usuário -->
                     <form id="userForm" class="needs-validation" novalidate>
                         <div class="row g-3">
                             <div class="col-12 col-xl-6">
@@ -78,6 +86,9 @@
                                     </div>
                                 </section>
                             </div>
+                            <!-- fim painel de dados pessoais -->
+
+                            <!-- painel de contato -->
                             <div class="col-12 col-xl-6">
                                 <section class="panel p-4 h-100">
                                     <h2 class="h5 section-title mb-4">
@@ -100,6 +111,9 @@
                                     </div>
                                 </section>
                             </div>
+                            <!-- fim painel de contato -->
+
+                            <!-- painel de endereço -->
                             <div class="col-12">
                                 <section class="panel p-4">
                                     <h2 class="h5 section-title mb-4">
@@ -140,6 +154,9 @@
                                     </div>
                                 </section>
                             </div>
+                            <!-- fim painel de endereço -->
+
+                            <!-- painel de acesso e configurações -->
                             <div class="col-12">
                                 <section class="panel p-4">
                                     <h2 class="h5 section-title mb-4">
@@ -178,7 +195,10 @@
                                     </div>
                                 </section>
                             </div>
+                            <!-- fim painel de acesso e configurações -->
+
                         </div>
+                        <!-- botões de ação do formulário -->
                         <div class="d-flex flex-wrap gap-2 mt-3">
                             <button class="btn btn-primary" type="submit">
                                 <i class="bi bi-check2" aria-hidden="true"></i> Salvar usuário</button><button
@@ -192,10 +212,10 @@
                 </div>
             </main>
         </div>
+
     <script src="../../assets/js/bootstrap.bundle.min.js"></script>
     <script src="../../assets/js/layout.js"></script>
     <script src="../../assets/js/main.js"></script>
     <script src="../../assets/js/usuarios.js"></script>
 </body>
-
 </html>
