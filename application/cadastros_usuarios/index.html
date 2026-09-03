@@ -5,39 +5,15 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="description" content="Cadastro de usuários" />
-	<title>AdminHMD | Usuários</title>
+	<title>Semáforo | Usuários</title>
 	<link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css" />
 	<link rel="stylesheet" href="../../assets/css/style.css" />
 </head>
 
 <body>
-	<div class="admin-shell">
-		<aside class="admin-sidebar" id="adminSidebar" aria-label="Navegação principal">
-			<div class="sidebar-header">
-				<a class="brand-mark" href="../../index.html" aria-label="Painel adminHMD"><span class="brand-icon"><i
-							class="bi bi-grid-1x2-fill" aria-hidden="true"></i></span><span class="brand-copy"><span
-							class="brand-title">adminHMD</span><span class="brand-subtitle">Painel
-							administrativo</span></span></a>
-			</div>
-			<nav class="sidebar-nav">
-				<a class="nav-link" href="../cadastros_semaforo/index.html"><span class="nav-icon"><i
-							class="bi bi-stoplights" aria-hidden="true"></i></span><span
-						class="nav-text">Semáforos</span></a><a class="nav-link active" href="index.html"
-					aria-current="page"><span class="nav-icon"><i class="bi bi-people"
-							aria-hidden="true"></i></span><span class="nav-text">Usuários</span></a><a class="nav-link"
-					href="../simulador/index.html"><span class="nav-icon"><i class="bi bi-play-circle"
-							aria-hidden="true"></i></span><span class="nav-text">Simulador</span></a>
-			</nav>
-			<div class="sidebar-user">
-				<img class="avatar-img avatar-md sidebar-user-avatar" src="../../assets/images/avatar/avatar.jpg"
-					alt="Administrador" /><strong>Administrador</strong><small>Workspace ativo</small>
-			</div>
-			<div class="sidebar-footer">
-				<span class="status-dot"></span><span class="sidebar-footer-text">Sistema funcionando normalmente</span>
-			</div>
-		</aside>
-		<div class="admin-main">
+	<admin-layout></admin-layout>
+	<div class="admin-main">
 			<nav class="navbar admin-navbar navbar-expand bg-white">
 				<div class="container-fluid px-3 px-lg-4">
 					<button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar"
@@ -166,125 +142,9 @@
 				</div>
 			</main>
 		</div>
-	</div>
 	<script src="../../assets/js/bootstrap.bundle.min.js"></script>
+	<script src="../../assets/js/layout.js"></script>
 	<script src="../../assets/js/main.js"></script>
-	<script>
-		(function () {
-			var storageKey = "usuariosCadastros";
-			var defaults = [
-				{
-					id: "admin",
-					nome: "Administrador",
-					email: "admin@adminhmd.com",
-					perfil: "Administrador",
-					ativo: true,
-				},
-			];
-			function getUsers() {
-				return (
-					JSON.parse(localStorage.getItem(storageKey) || "null") || defaults
-				);
-			}
-			function saveUsers(users) {
-				localStorage.setItem(storageKey, JSON.stringify(users));
-			}
-			function render() {
-				var users = getUsers();
-				document.getElementById("usersTable").innerHTML = users
-					.map(function (user) {
-						return (
-							"<tr><td><strong>" +
-							user.nome +
-							"</strong></td><td>" +
-							user.email +
-							"</td><td>" +
-							user.perfil +
-							'</td><td><span class="badge text-bg-' +
-							(user.ativo ? 'success">Ativo' : 'secondary">Inativo') +
-							'</span></td><td class="text-end"><div class="btn-group btn-group-sm"><a class="btn btn-outline-primary" href="edit.html?id=' +
-							encodeURIComponent(user.id) +
-							'" aria-label="Editar ' +
-							user.nome +
-							'" title="Editar"><i class="bi bi-pencil" aria-hidden="true"></i></a><button class="btn btn-outline-danger" type="button" data-delete="' +
-							user.id +
-							'" aria-label="Excluir ' +
-							user.nome +
-							'" title="Excluir"><i class="bi bi-trash3" aria-hidden="true"></i></button></div></td></tr>'
-						);
-					})
-					.join("");
-				document.getElementById("tableCount").textContent = users.length;
-				document.getElementById("totalUsers").textContent = users.length;
-				document.getElementById("activeUsers").textContent = users.filter(
-					function (user) {
-						return user.ativo;
-					},
-				).length;
-				document
-					.getElementById("emptyState")
-					.classList.toggle("d-none", users.length > 0);
-			}
-			function feedback(message, type) {
-				var element = document.getElementById("feedback");
-				element.className = "alert alert-" + type;
-				element.textContent = message;
-			}
-			document
-				.getElementById("usersTable")
-				.addEventListener("click", function (event) {
-					var button = event.target.closest("[data-delete]");
-					if (!button) return;
-					var user = getUsers().find(function (item) {
-						return item.id === button.dataset.delete;
-					});
-					if (!user) return;
-					document.getElementById("deleteUserName").textContent = user.nome;
-					document.getElementById("confirmDelete").dataset.id = user.id;
-					bootstrap.Modal.getOrCreateInstance(
-						document.getElementById("deleteModal"),
-					).show();
-				});
-			document
-				.getElementById("confirmDelete")
-				.addEventListener("click", function () {
-					var id = this.dataset.id;
-					var usuarioRemovido = getUsers().find(function (user) {
-						return user.id === id;
-					});
-					saveUsers(
-						getUsers().filter(function (user) {
-							return user.id !== id;
-						}),
-					);
-					bootstrap.Modal.getInstance(
-						document.getElementById("deleteModal"),
-					).hide();
-					render();
-					if (usuarioRemovido && window.registrarLog) {
-						window.registrarLog("Excluiu usuário: " + usuarioRemovido.nome);
-					}
-					feedback("Usuário excluído com sucesso.", "success");
-				});
-			document
-				.getElementById("clearUsers")
-				.addEventListener("click", function () {
-					if (
-						getUsers().length &&
-						window.confirm("Excluir todos os usuários?")
-					) {
-						var quantidadeUsuarios = getUsers().length;
-						saveUsers([]);
-						render();
-						if (quantidadeUsuarios && window.registrarLog) {
-							window.registrarLog("Excluiu todos os usuários cadastrados");
-						}
-						feedback("Todos os usuários foram excluídos.", "success");
-					}
-				});
-			render();
-		})();
-	</script>
 </body>
 
 </html>

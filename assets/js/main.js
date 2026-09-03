@@ -1,16 +1,16 @@
 "use strict";
 
 (function () {
-  var sidebarStorageKey = "adminHMD.sidebarMini";
-  var themeStorageKey = "adminHMD.colorTheme";
+  var sidebarStorageKey = "semaforo.sidebarMini";
+  var themeStorageKey = "semaforo.colorTheme";
   var desktopMedia = "(min-width: 992px)";
-  var logsStorageKey = "adminHMD.logsAlteracao";
+  var logsStorageKey = "semaforo.logsAlteracao";
 
   function getCurrentUser() {
     var savedUser = null;
 
     try {
-      savedUser = sessionStorage.getItem("adminHMD.usuarioAtual");
+      savedUser = sessionStorage.getItem("semaforo.usuarioAtual");
       if (savedUser) {
         return JSON.parse(savedUser);
       }
@@ -19,7 +19,7 @@
     }
 
     try {
-      savedUser = localStorage.getItem("adminHMD.usuarioAtual");
+      savedUser = localStorage.getItem("semaforo.usuarioAtual");
       if (savedUser) {
         return JSON.parse(savedUser);
       }
@@ -55,10 +55,10 @@
 
   function registrarLogin() {
     try {
-      if (!sessionStorage.getItem("adminHMD.loginRegistrado")) {
+      if (!sessionStorage.getItem("semaforo.loginRegistrado")) {
         var usuarioAtual = getCurrentUser();
         window.registrarLog("Login no sistema", usuarioAtual.name || "Administrador");
-        sessionStorage.setItem("adminHMD.loginRegistrado", "true");
+        sessionStorage.setItem("semaforo.loginRegistrado", "true");
       }
     } catch (error) {
       // Ignora falhas de storage em ambientes restritos.
@@ -66,10 +66,10 @@
   }
 
   if (typeof window !== "undefined") {
-    window.adminHMDUser = window.adminHMDUser || { name: "Administrador", workspace: "Workspace ativo", avatar: "../../assets/images/avatar/avatar.jpg" };
+    window.adminSemaforoUser = window.adminSemaforoUser || { name: "Administrador", workspace: "Operação de tráfego", avatar: "../../assets/images/avatar/avatar.jpg" };
     try {
-      sessionStorage.setItem("adminHMD.usuarioAtual", JSON.stringify(window.adminHMDUser));
-      localStorage.setItem("adminHMD.usuarioAtual", JSON.stringify(window.adminHMDUser));
+      sessionStorage.setItem("semaforo.usuarioAtual", JSON.stringify(window.adminSemaforoUser));
+      localStorage.setItem("semaforo.usuarioAtual", JSON.stringify(window.adminSemaforoUser));
     } catch (error) {
       // Ignora falhas de storage em ambientes restritos.
     }
@@ -134,37 +134,9 @@
   onReady(function () {
     var body = document.body;
 
-    function initSidebarNavigation() {
-      var sidebarNav = document.querySelector(".sidebar-nav");
-
-      if (!sidebarNav) {
-        return;
-      }
-
-      var path = window.location.pathname.replace(/\\/g, "/");
-      var inApplicationRoot = /\/application\/[^/]+\.html$/.test(path);
-      var inSemaforo = path.indexOf("/cadastros_semaforo/") !== -1;
-      var inMonitoramento = path.indexOf("/monitoramento/") !== -1;
-      var inUsuarios = path.indexOf("/cadastros_usuarios/") !== -1;
-      var semaforoPath = inApplicationRoot ? "cadastros_semaforo/index.html" : "../cadastros_semaforo/index.html";
-      var usuariosPath = inApplicationRoot ? "cadastros_usuarios/index.html" : "../cadastros_usuarios/index.html";
-      var simuladorPath = inApplicationRoot ? "simulador/index.html" : "../simulador/index.html";
-      var monitoramentoPath = inApplicationRoot ? "monitoramento/index.html" : "../monitoramento/index.html";
-      var logsPath = inApplicationRoot ? "logs_alteracao/index.html" : "../logs_alteracao/index.html";
-      var semaforoActive = (inSemaforo || inMonitoramento) ? " active" : "";
-      var usuariosActive = inUsuarios ? " active" : "";
-      var currentPath = window.location.pathname;
-
-      sidebarNav.innerHTML = '<button class="nav-link nav-accordion-toggle' + semaforoActive + '" type="button" aria-expanded="true" aria-controls="semaforo-submenu"><span class="nav-icon"><i class="bi bi-stoplights" aria-hidden="true"></i></span><span class="nav-text">Semáforo</span><i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i></button><div class="nav-submenu" id="semaforo-submenu"><a class="nav-sublink' + (inSemaforo && /\/index\.html$/.test(currentPath) ? " active" : "") + '" href="' + semaforoPath + '">Cadastros</a><a class="nav-sublink" href="' + simuladorPath + '">Simulador</a><a class="nav-sublink' + (inMonitoramento ? " active" : "") + '" href="' + monitoramentoPath + '">Monitoramento</a></div><button class="nav-link nav-accordion-toggle" type="button" aria-expanded="false" aria-controls="relatorios-submenu"><span class="nav-icon"><i class="bi bi-file-earmark-bar-graph" aria-hidden="true"></i></span><span class="nav-text">Relatórios</span><i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i></button><div class="nav-submenu" id="relatorios-submenu" hidden><a class="nav-sublink" href="' + logsPath + '">Logs de alterações</a></div><a class="nav-link' + usuariosActive + '" href="' + usuariosPath + '"><span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span><span class="nav-text">Usuários</span></a>';
-    }
-
-    initSidebarNavigation();
     var sidebarToggle = document.querySelector("[data-sidebar-toggle]");
     var themeToggles = document.querySelectorAll("[data-theme-toggle]");
     var themeIcons = document.querySelectorAll("[data-theme-icon]");
-    var closeButtons = document.querySelectorAll("[data-sidebar-close]");
-    var sidebarLinks = document.querySelectorAll(".sidebar-nav .nav-link");
-    var accordionToggles = document.querySelectorAll(".nav-accordion-toggle");
     var mediaQuery = window.matchMedia(desktopMedia);
     var storageAvailable = canUseStorage();
 
@@ -246,39 +218,19 @@
     initTableSearch();
     initThemeToggle();
 
-    // Initialize user profile values in UI. Provide a window.adminHMDUser object to override defaults.
+    // Initialize user profile values in UI. Provide a window.adminSemaforoUser object to override defaults.
+    // A sidebar (sidebar-user) é preenchida pelo layout.js.
     function initUserProfile() {
-      var user = window.adminHMDUser || { name: "Admin Hasan", workspace: "Active Workspace", avatar: "../assets/images/avatar/avatar.jpg" };
+      var user = window.adminSemaforoUser || { name: "Administrador", workspace: "Operação de tráfego", avatar: "../assets/images/avatar/avatar.jpg" };
 
-      var sidebarNameEl = document.querySelector(".sidebar-user strong");
-      var sidebarWorkspaceEl = document.querySelector(".sidebar-user small");
-      var sidebarAvatar = document.querySelector(".sidebar-user .avatar-img");
       var profileNameEls = document.querySelectorAll(".profile-name");
       var profileAvatarEls = document.querySelectorAll(".profile-button .avatar-img, .profile-button img");
-
-      if (sidebarNameEl) sidebarNameEl.textContent = user.name;
-      if (sidebarWorkspaceEl) sidebarWorkspaceEl.textContent = user.workspace;
-      if (sidebarAvatar && user.avatar) { sidebarAvatar.src = user.avatar; sidebarAvatar.alt = user.name; }
 
       Array.prototype.forEach.call(profileNameEls, function (el) { el.textContent = user.name; });
       Array.prototype.forEach.call(profileAvatarEls, function (img) { if (user.avatar) img.src = user.avatar; if (user.name) img.alt = user.name; });
     }
 
     initUserProfile();
-
-    Array.prototype.forEach.call(accordionToggles, function (toggle) {
-      toggle.addEventListener("click", function () {
-        var submenu = document.getElementById(toggle.getAttribute("aria-controls"));
-        var expanded = toggle.getAttribute("aria-expanded") === "true";
-
-        if (!submenu) {
-          return;
-        }
-
-        toggle.setAttribute("aria-expanded", String(!expanded));
-        submenu.hidden = expanded;
-      });
-    });
 
     if (!sidebarToggle) {
       return;
@@ -300,11 +252,6 @@
       sidebarToggle.setAttribute("aria-expanded", String(expanded));
     }
 
-    function closeMobileSidebar() {
-      body.classList.remove("sidebar-open");
-      setToggleExpanded();
-    }
-
     function toggleSidebar() {
       if (isDesktop()) {
         body.classList.toggle("sidebar-mini");
@@ -316,23 +263,11 @@
       setToggleExpanded();
     }
 
-    function addCloseHandlers(items) {
-      Array.prototype.forEach.call(items, function (item) {
-        item.addEventListener("click", function () {
-          if (!isDesktop()) {
-            closeMobileSidebar();
-          }
-        });
-      });
-    }
-
     if (getSavedMiniState(storageAvailable) && isDesktop()) {
       body.classList.add("sidebar-mini");
     }
 
     sidebarToggle.addEventListener("click", toggleSidebar);
-    addCloseHandlers(closeButtons);
-    addCloseHandlers(sidebarLinks);
     setToggleExpanded();
 
     function handleBreakpointChange() {

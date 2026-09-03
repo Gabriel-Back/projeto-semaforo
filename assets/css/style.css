@@ -1771,3 +1771,80 @@ html[data-theme="dark"] .cep-carregando {
   background-image:
     url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83'/%3E%3C/svg%3E");
 }
+
+/* ================================================================
+   DASHBOARD — mapa Leaflet e estado vazio
+   ================================================================ */
+.semaforo-map {
+  height: 460px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--admin-border);
+  z-index: 1;
+}
+
+@media (max-width: 575.98px) {
+  .semaforo-map {
+    height: 320px;
+  }
+}
+
+.sf-marker {
+  background: transparent;
+  border: none;
+}
+
+.sf-marker-pin {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--marker-color, var(--admin-primary));
+  color: #ffffff;
+  font-size: 1rem;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.35);
+  border: 3px solid #ffffff;
+}
+
+.sf-marker-pin i {
+  transform: rotate(45deg);
+}
+
+.sf-popup {
+  min-width: 200px;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.sf-popup-titulo {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.sf-popup-ciclo {
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+}
+
+.sf-popup-coords {
+  color: #6b7280;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.empty-state > i {
+  font-size: 2rem;
+  color: var(--admin-muted);
+  margin-bottom: 0.5rem;
+}

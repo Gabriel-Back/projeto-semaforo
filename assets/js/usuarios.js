@@ -5,7 +5,7 @@
 	var storageKey = "usuariosCadastros";
 	var formularioEmCacheKey = "usuariosCadastrosFormCache";
 	var editId = new URLSearchParams(window.location.search).get("id");
-	var defaults = [{ id: "admin", nome: "Administrador", sobrenome: "", email: "admin@adminhmd.com", perfil: "Administrador", ativo: true }];
+	var defaults = [{ id: "admin", nome: "Administrador", sobrenome: "", email: "admin@semaforo.com", perfil: "Administrador", ativo: true }];
 	var users = armazenamento.recuperarUsuarios(defaults);
 	var editingUser = editId ? users.find(function (user) { return user.id === editId; }) : null;
 	var fields = ["nome", "sobrenome", "cpf", "nascimento", "email", "celular", "cep", "logradouro", "numero", "complemento", "bairro", "cidade", "estado", "perfil", "ativo"];

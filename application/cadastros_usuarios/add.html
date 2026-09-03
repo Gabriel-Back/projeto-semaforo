@@ -5,42 +5,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Adicionar usuário" />
-    <title>AdminHMD | Novo usuário</title>
+    <title>Semáforo | Novo usuário</title>
     <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css" />
     <link rel="stylesheet" href="../../assets/css/style.css" />
 </head>
 
 <body>
-    <div class="admin-shell">
-        <aside class="admin-sidebar" id="adminSidebar" aria-label="Navegação principal">
-            <div class="sidebar-header">
-                <a class="brand-mark" href="index.html" aria-label="Painel adminHMD">
-                    <span class="brand-icon"><i class="bi bi-grid-1x2-fill" aria-hidden="true"> </i></span><span
-                        class="brand-copy">
-                        <span class="brand-title">adminHMD</span>
-                        <span class="brand-subtitle">Painel administrativo</span>
-                    </span>
-                </a>
-            </div>
-            <nav class="sidebar-nav">
-                <a class="nav-link" href="../cadastros_semaforo/index.html">
-                    <span class="nav-icon"><i class="bi bi-stoplights" aria-hidden="true"> </i>
-                    </span>
-                    <span class="nav-text">Semáforos</span> </a><a class="nav-link active" href="index.html">
-                    <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"> </i></span><span
-                        class="nav-text">Usuários</span>
-                </a>
-            </nav>
-            <div class="sidebar-user">
-                <img class="avatar-img avatar-md sidebar-user-avatar" src="../../assets/images/avatar/avatar.jpg"
-                    alt="Administrador" /><strong>Administrador</strong><small>Workspace ativo</small>
-            </div>
-            <div class="sidebar-footer">
-                <span class="status-dot"></span><span class="sidebar-footer-text">Sistema funcionando normalmente</span>
-            </div>
-        </aside>
-        <div class="admin-main">
+    <admin-layout></admin-layout>
+    <div class="admin-main">
             <nav class="navbar admin-navbar navbar-expand bg-white">
                 <div class="container-fluid px-3 px-lg-4">
                     <a class="btn btn-outline-secondary btn-sm" href="index.html"><i class="bi bi-arrow-left"
@@ -210,14 +183,17 @@
                             <button class="btn btn-primary" type="submit">
                                 <i class="bi bi-check2" aria-hidden="true"></i> Salvar usuário</button><button
                                 class="btn btn-outline-secondary" type="reset">
-                                Limpar</button><a class="btn btn-outline-secondary" href="index.html">Voltar</a>
+                                Limpar</button>
+                                <a class="btn btn-outline-secondary" href="index.html"><i
+												class="bi bi-arrow-left" aria-hidden="true"></i>
+											Voltar</a>
                         </div>
                     </form>
                 </div>
             </main>
         </div>
-    </div>
     <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/layout.js"></script>
     <script src="../../assets/js/main.js"></script>
     <script src="../../assets/js/usuarios.js"></script>
 </body>

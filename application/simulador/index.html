@@ -18,84 +18,9 @@
   </head>
 
   <body>
-    <div class="admin-shell">
-      <div class="sidebar-backdrop" data-sidebar-close></div>
+    <admin-layout></admin-layout>
 
-      <aside
-        class="admin-sidebar"
-        id="adminSidebar"
-        aria-label="Main navigation"
-      >
-        <div class="sidebar-header">
-          <a
-            class="brand-mark"
-            href="../cadastros/index.html"
-            aria-label="Painel adminHMD"
-          >
-            <span class="brand-icon"
-              ><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i
-            ></span>
-            <span class="brand-copy">
-              <span class="brand-title">adminHMD</span>
-              <span class="brand-subtitle">Admin Template</span>
-            </span>
-          </a>
-        </div>
-
-        <nav class="sidebar-nav">
-          <button
-            class="nav-link nav-accordion-toggle active"
-            type="button"
-            aria-expanded="true"
-            aria-controls="semaforo-submenu"
-          >
-            <span class="nav-icon"
-              ><i class="bi bi-stoplights" aria-hidden="true"></i
-            ></span>
-            <span class="nav-text">Semáforo</span>
-            <i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i>
-          </button>
-          <div class="nav-submenu" id="semaforo-submenu">
-            <a class="nav-sublink" href="../cadastros/index.html">Cadastros</a>
-            <a class="nav-sublink active" href="index.html" aria-current="page"
-              >Simulador</a
-            >
-            <a class="nav-sublink" href="#monitoramento">Monitoramento</a>
-          </div>
-          <button
-            class="nav-link nav-accordion-toggle"
-            type="button"
-            aria-expanded="false"
-            aria-controls="relatorios-submenu"
-          >
-            <span class="nav-icon"
-              ><i class="bi bi-file-earmark-bar-graph" aria-hidden="true"></i
-            ></span>
-            <span class="nav-text">Relatórios</span>
-            <i class="bi bi-chevron-down nav-chevron" aria-hidden="true"></i>
-          </button>
-          <div class="nav-submenu" id="relatorios-submenu" hidden>
-            <a class="nav-sublink" href="#monitoramento">Logs de alterações</a>
-          </div>
-        </nav>
-
-        <div class="sidebar-user">
-          <img
-            class="avatar-img avatar-md sidebar-user-avatar"
-            src="../../assets/images/avatar/avatar.jpg"
-            alt="Administrador"
-          />
-          <strong>Administrador</strong>
-          <small>Workspace ativo</small>
-        </div>
-
-        <div class="sidebar-footer">
-          <span class="status-dot"></span>
-          <span class="sidebar-footer-text">System running smoothly</span>
-        </div>
-      </aside>
-
-      <div class="admin-main">
+    <div class="admin-main">
         <nav class="navbar admin-navbar navbar-expand bg-white">
           <div class="container-fluid px-3 px-lg-4">
             <button
@@ -184,7 +109,7 @@
                     alt="Administrador"
                   />
                   <span class="profile-name d-none d-sm-inline"
-                    >Admin Hasan</span
+                    >Administrador</span
                   >
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -279,30 +204,15 @@
         <footer class="admin-footer">
           <div class="container-fluid px-3 px-lg-4">
             <span
-              >Copyright 2026 adminHMD. <br />
-              Developed by
-              <a
-                target="_blank"
-                class="fw-bold text-success"
-                href="https://github.com/HasanMahmudDev"
-                >Md. Hasan Mahmud</a
-              >
-              • Distributed by
-              <a
-                target="_blank"
-                class="fw-bold text-success"
-                href="https://themewagon.com"
-                >ThemeWagon</a
-              >
-            </span>
-            <span>Professional dashboard template.</span>
-            <span>Blank starter page.</span>
+              >© 2026 Semáforo — Sistema de Gestão de Tráfego Urbano.</span
+            >
+            <span>Simulador integrado ao broker MQTT local (Mosquitto).</span>
           </div>
         </footer>
       </div>
-    </div>
 
     <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/layout.js"></script>
     <script src="../../assets/js/main.js"></script>
 
     <script src="../../assets/js/semaforoMQTT.js"></script>
