@@ -212,7 +212,7 @@ setInterval(conectar, 3000);
 function refrescarPainel(ultimoComando) {
   definirTexto("infoModo", "Modo: " + modoAtual);
   definirTexto("infoTempos",
-    "V=" + tempoVermelho + "s &#183; A=" + tempoAmarelo + "s &#183; G=" + tempoVerde + "s");
+    "V=" + tempoVermelho + "s · A=" + tempoAmarelo + "s · G=" + tempoVerde + "s");
   if (ultimoComando) {
     definirTexto("infoComando", "Último comando: " + ultimoComando);
   }

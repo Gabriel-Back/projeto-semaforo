@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Gêmeo digital do semáforo" />
+  <title>Semáforo | Gêmeo Digital</title>
+
+  <!-- BIBLIOTECA MQTT (Paho) — fala o protocolo MQTT por WebSocket com o
+     broker Mosquitto do Docker. -->
+  <script src="../../assets/js/paho-mqtt.min.js"></script>
+
+  <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css" />
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+
+<body>
+  <admin-layout></admin-layout>
+
+  <div class="admin-main">
+      <nav class="navbar admin-navbar navbar-expand bg-white">
+        <div class="container-fluid px-3 px-lg-4">
+          <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar"
+            aria-expanded="true" aria-label="Alternar menu lateral">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <a class="btn btn-outline-secondary btn-sm ms-3" href="../../index.html">
+            <i class="bi bi-arrow-left" aria-hidden="true"></i> Voltar
+          </a>
+
+          <div class="navbar-actions ms-auto">
+            <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"
+              title="Alternar tema">
+              <i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
+            </button>
+
+            <div class="dropdown">
+              <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <img class="avatar-img avatar-sm" src="../../assets/images/avatar/avatar.jpg" alt="Administrador" />
+                <span class="profile-name d-none d-sm-inline">Administrador</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="../cadastros_semaforo/index.html">Cadastros</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="../simulador/index.html">Simulador</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="../monitoramento/index.html">Monitoramento</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <main class="dashboard-content">
+        <div class="container-fluid px-3 px-lg-4 py-4">
+          <div class="page-heading">
+            <div class="page-heading-copy">
+              <span class="page-icon"><i class="bi bi-cpu" aria-hidden="true"></i></span>
+              <div>
+                <p class="eyebrow mb-1">Réplica virtual do equipamento</p>
+                <h1 class="h3 mb-1">Gêmeo Digital do Semáforo</h1>
+                <p class="text-muted mb-0">
+                  Representação virtual do semáforo físico, que espelha o estado
+                  recebido pelo broker MQTT e permite configurar o ciclo.
+                </p>
+              </div>
+            </div>
+            <div class="heading-actions">
+              <a class="btn btn-outline-secondary btn-sm" href="../monitoramento/index.html" type="button">
+                <i class="bi bi-activity" aria-hidden="true"></i>
+                Monitoramento
+              </a>
+              <a class="btn btn-primary btn-sm" href="../simulador/index.html" type="button">
+                <i class="bi bi-play-circle" aria-hidden="true"></i>
+                Simulador
+              </a>
+            </div>
+          </div>
+
+          <section class="row g-3 mt-1">
+            <!-- Gêmeo digital (réplica visual) -->
+            <div class="col-12 col-md-6 col-lg-5 col-xl-4">
+              <div class="panel sf-panel h-100">
+                <div class="panel-header">
+                  <div>
+                    <h2 class="h6 mb-1">
+                      <i class="bi bi-cpu" aria-hidden="true"></i>
+                      <span>Gêmeo Digital</span>
+                    </h2>
+                  </div>
+                  <span class="badge text-bg-info" id="twinStatus">Sincronizando...</span>
+                </div>
+
+                <div class="sf-visual">
+                  <div class="sf-poste"></div>
+                  <div class="sf-caixa">
+                    <div id="luzVermelho" class="sf-luz sf-luz-vermelha" aria-label="Luz vermelha"></div>
+                    <div id="luzAmarelo" class="sf-luz sf-luz-amarela" aria-label="Luz amarela"></div>
+                    <div id="luzVerde" class="sf-luz sf-luz-verde" aria-label="Luz verde"></div>
+                  </div>
+                </div>
+
+                <div class="sf-status">
+                  <span id="infoModo">Modo: parado</span>
+                  <span id="infoTempos">V: — · A: — · G: —</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Configuração do ciclo -->
+            <div class="col-12 col-md-6 col-lg-7 col-xl-8">
+              <div class="panel h-100">
+                <div class="panel-header">
+                  <div>
+                    <h2 class="h5 mb-1 section-title">
+                      <i class="bi bi-sliders" aria-hidden="true"></i><span>Configuração do ciclo</span>
+                    </h2>
+                    <p class="text-muted mb-0">
+                      Ajuste os tempos do gêmeo digital e sincronize com o equipamento físico.
+                    </p>
+                  </div>
+                </div>
+
+                <form id="twinForm" class="needs-validation" novalidate>
+                  <div class="row g-3">
+                    <div class="col-12 col-sm-4">
+                      <label for="tempoVermelho" class="form-label">Vermelho (s)</label>
+                      <input class="form-control" id="tempoVermelho" type="number" min="1" max="120" required />
+                      <div class="invalid-feedback">Informe o tempo em segundos.</div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                      <label for="tempoAmarelo" class="form-label">Amarelo (s)</label>
+                      <input class="form-control" id="tempoAmarelo" type="number" min="1" max="120" required />
+                      <div class="invalid-feedback">Informe o tempo em segundos.</div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                      <label for="tempoVerde" class="form-label">Verde (s)</label>
+                      <input class="form-control" id="tempoVerde" type="number" min="1" max="120" required />
+                      <div class="invalid-feedback">Informe o tempo em segundos.</div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-wrap gap-2 mt-4">
+                    <button class="btn btn-primary" type="submit">
+                      <i class="bi bi-save" aria-hidden="true"></i>
+                      Salvar e aplicar
+                    </button>
+                    <button class="btn btn-success" type="button" id="btnIniciar">
+                      <i class="bi bi-play-fill" aria-hidden="true"></i>
+                      Iniciar ciclo
+                    </button>
+                    <button class="btn btn-warning" type="button" id="btnIntermitente">
+                      <i class="bi bi-broadcast" aria-hidden="true"></i>
+                      Intermitente
+                    </button>
+                    <button class="btn btn-danger" type="button" id="btnParar">
+                      <i class="bi bi-stop-fill" aria-hidden="true"></i>
+                      Parar
+                    </button>
+                  </div>
+                </form>
+
+                <hr class="my-4" />
+
+                <div class="activity-list">
+                  <div class="activity-item">
+                    <span class="activity-dot bg-success" id="dotConexao"></span>
+                    <div>
+                      <p class="mb-1 fw-semibold">Conexão com o broker MQTT</p>
+                      <p class="text-muted small mb-0" id="statusConexao">Conectando...</p>
+                    </div>
+                  </div>
+                  <div class="activity-item">
+                    <span class="activity-dot bg-primary"></span>
+                    <div>
+                      <p class="mb-1 fw-semibold">Sincronização com o físico</p>
+                      <p class="text-muted small mb-0" id="infoBruto">Aguardando telemetria do tópico "semaforo/estado"...</p>
+                    </div>
+                  </div>
+                  <div class="activity-item">
+                    <span class="activity-dot bg-warning"></span>
+                    <div>
+                      <p class="mb-1 fw-semibold">Diagnóstico</p>
+                      <p class="text-muted small mb-0" id="infoReload">Recarregamentos: 0</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+  <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/layout.js"></script>
+  <script src="../../assets/js/main.js"></script>
+
+  <script src="../../assets/js/semaforoMQTT.js"></script>
+  <script src="../../assets/js/storageLocal.js"></script>
+  <script src="../../assets/js/gemeoDigital.js"></script>
+</body>
+
+</html>
