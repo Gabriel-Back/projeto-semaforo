@@ -6,9 +6,15 @@ const ID_CLIENTE = "semaforo-web-" + Math.floor(Math.random() * 10000);
 const COMANDO_INICIAR = "iniciar";
 const COMANDO_PARAR = "parar";
 const COMANDO_INTERMITENTE = "ligarintermitente";
+const COMANDO_VERMELHO = "vermelho";
+const COMANDO_AMARELO = "amarelo";
+const COMANDO_VERDE = "verde";
 const MODO_PARADO = "parado";
 const MODO_CICLO = "ciclo";
 const MODO_INTERMITENTE = "intermitente";
+const MODO_VERMELHO = "vermelho";
+const MODO_AMARELO = "amarelo";
+const MODO_VERDE = "verde";
 
 const TEMPO_PISCA_AMARELO = 1;
 const INTERVALO_RECONEXAO_MS = 3000;
@@ -135,6 +141,21 @@ function executarComandoSimples(comando) {
             break;
         case COMANDO_INTERMITENTE:
             iniciarModoIntermitente();
+            break;
+        case COMANDO_VERMELHO:
+            pararSemaforo();
+            acenderSomenteLuz("luzVermelho");
+            modoAtual = MODO_VERMELHO;
+            break;
+        case COMANDO_AMARELO:
+            pararSemaforo();
+            acenderSomenteLuz("luzAmarelo");
+            modoAtual = MODO_AMARELO;
+            break;
+        case COMANDO_VERDE:
+            pararSemaforo();
+            acenderSomenteLuz("luzVerde");
+            modoAtual = MODO_VERDE;
             break;
     }
 }

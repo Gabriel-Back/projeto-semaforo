@@ -11,6 +11,9 @@ Tópico = semaforo/estado
 - "iniciar" -> Inicia o ciclo do semáforo.
 - "parar" -> Desliga/interrompe o ciclo.
 - "ligarIntermitente" -> Ativa o modo amarelo piscando.
+- "vermelho" -> Mantém somente a luz vermelha ligada.
+- "amarelo" -> Mantém somente a luz amarela ligada.
+- "verde" -> Mantém somente a luz verde ligada.
 - "tempoVermelho = X" -> Altera o tempo do vermelho em segundos (ex: "tempoVermelho = 2").
 - "tempoAmarelo = X" -> Altera o tempo do amarelo em segundos (ex: "tempoAmarelo = 1").
 - "tempoVerde = X" -> Altera o tempo do verde em segundos (ex: "tempoVerde = 4").
