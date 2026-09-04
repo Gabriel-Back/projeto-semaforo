@@ -7,11 +7,26 @@
   <meta name="description" content="Gêmeo digital do semáforo" />
   <title>Semáforo | Gêmeo Digital</title>
 
-  <script src="../../assets/js/paho-mqtt.min.js"></script>
-
   <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
   <link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css" />
   <link rel="stylesheet" href="../../assets/css/style.css" />
+  <script src="../../assets/js/semaforo.js"></script>
+  <script src="../../assets/js/storageLocal.js"></script>
+
+  <script>
+    var l;
+    var s;
+
+    window.onload = () => {
+      s = new Semaforo();
+      l = new storageLocal();
+
+      s.reset();
+      l.recuperarDoLocalStorage();
+      s.aplicarTempos();
+      atualizarPainelDeStatus();
+    };
+  </script>
 </head>
 
 <body>
@@ -74,8 +89,8 @@
                 <p class="eyebrow mb-1">Réplica virtual do equipamento</p>
                 <h1 class="h3 mb-1">Gêmeo Digital do Semáforo</h1>
                 <p class="text-muted mb-0">
-                  Representação virtual do semáforo físico, que espelha o estado
-                  recebido pelo broker MQTT e permite configurar o ciclo.
+                  Representação virtual do semáforo físico, controlada
+                  diretamente pelos comandos desta página.
                 </p>
               </div>
             </div>
@@ -104,7 +119,7 @@
                       <span>Gêmeo Digital</span>
                     </h2>
                   </div>
-                  <span class="badge text-bg-info" id="twinStatus">Sincronizando...</span>
+                  <span class="badge text-bg-info" id="twinStatus">Local</span>
                 </div>
 
                 <div class="sf-visual">
@@ -145,17 +160,17 @@
                   <div class="row g-3">
                     <div class="col-12 col-sm-4">
                       <label for="tempoVermelho" class="form-label">Vermelho (s)</label>
-                      <input class="form-control" id="tempoVermelho" type="number" min="1" max="120" required />
+                      <input class="form-control" id="tempoVermelho" type="number" min="1" max="120" onkeyup="l.guardarDados()" required />
                       <div class="invalid-feedback">Informe o tempo em segundos.</div>
                     </div>
                     <div class="col-12 col-sm-4">
                       <label for="tempoAmarelo" class="form-label">Amarelo (s)</label>
-                      <input class="form-control" id="tempoAmarelo" type="number" min="1" max="120" required />
+                      <input class="form-control" id="tempoAmarelo" type="number" min="1" max="120" onkeyup="l.guardarDados()" required />
                       <div class="invalid-feedback">Informe o tempo em segundos.</div>
                     </div>
                     <div class="col-12 col-sm-4">
                       <label for="tempoVerde" class="form-label">Verde (s)</label>
-                      <input class="form-control" id="tempoVerde" type="number" min="1" max="120" required />
+                      <input class="form-control" id="tempoVerde" type="number" min="1" max="120" onkeyup="l.guardarDados()" required />
                       <div class="invalid-feedback">Informe o tempo em segundos.</div>
                     </div>
                   </div>
@@ -163,19 +178,19 @@
 
 
                   <div class="d-flex flex-wrap gap-2 mt-4">
-                    <button class="btn btn-primary" type="submit">
+                    <button class="btn btn-primary" type="button" onclick="s.aplicarTempos(); registrarAcao(modoAtual)">
                       <i class="bi bi-save" aria-hidden="true"></i>
                       Salvar e aplicar
                     </button>
-                    <button class="btn btn-success" type="button" id="btnIniciar">
+                    <button class="btn btn-success" type="button" id="btnIniciar" onclick="s.run(); registrarAcao('ciclo')">
                       <i class="bi bi-play-fill" aria-hidden="true"></i>
                       Iniciar ciclo
                     </button>
-                    <button class="btn btn-warning" type="button" id="btnIntermitente">
+                    <button class="btn btn-warning" type="button" id="btnIntermitente" onclick="s.ligarIntermitente(); registrarAcao('intermitente')">
                       <i class="bi bi-broadcast" aria-hidden="true"></i>
                       Intermitente
                     </button>
-                    <button class="btn btn-danger" type="button" id="btnParar">
+                    <button class="btn btn-danger" type="button" id="btnParar" onclick="s.parar(); registrarAcao('parar')" >
                       <i class="bi bi-stop-fill" aria-hidden="true"></i>
                       Parar
                     </button>
@@ -190,15 +205,15 @@
                   <div class="activity-item">
                     <span class="activity-dot bg-success" id="dotConexao"></span>
                     <div>
-                      <p class="mb-1 fw-semibold">Conexão com o broker MQTT</p>
-                      <p class="text-muted small mb-0" id="statusConexao">Conectando...</p>
+                      <p class="mb-1 fw-semibold">Controle local</p>
+                      <p class="text-muted small mb-0" id="statusConexao">Carregando...</p>
                     </div>
                   </div>
                   <div class="activity-item">
                     <span class="activity-dot bg-primary"></span>
                     <div>
-                      <p class="mb-1 fw-semibold">Sincronização com o físico</p>
-                      <p class="text-muted small mb-0" id="infoBruto">Aguardando telemetria do tópico "semaforo/estado"...</p>
+                      <p class="mb-1 fw-semibold">Modo de operação</p>
+                      <p class="text-muted small mb-0" id="infoBruto">Controlado pelos botões desta página.</p>
                     </div>
                   </div>
                   <div class="activity-item">
@@ -224,8 +239,5 @@
   <script src="../../assets/js/layout.js"></script>
   <script src="../../assets/js/main.js"></script>
 
-  <script src="../../assets/js/semaforoMQTT.js"></script>
-  <script src="../../assets/js/storageLocal.js"></script>
-  <script src="../../assets/js/gemeoDigital.js"></script>
 </body>
 </html>
