@@ -1,231 +1,248 @@
-/* ================================================================
-   SEMAFORO MQTT — lógica completa do simulador de semáforo.
-   Arquivo externo, referenciado pela página:
-     application/simulador/index.html
-   ================================================================ */
+/*  Configuração do broker */
+const HOST_BROKER = "localhost";
+const PORTA_BROKER = 8000;
+const TOPICO_ESTADO = "semaforo/estado";
+const ID_CLIENTE = "semaforo-web-" + Math.floor(Math.random() * 10000);
 
-/* ================================================================
-   1. CONFIGURAÇÕES
-   É aqui que se troca o broker, a porta e o tópico, se preciso.
-   ================================================================ */
-const BROKER_HOST = "localhost";                    // mesmo host do Mosquitto no Docker
-const BROKER_PORT = 8000;                           // porta WEBSOCKET do broker
-const TOPICO = "semaforo/estado";              // tópico usado no MQTTX
-const CLIENT_ID = "semaforo-web-" + Math.floor(Math.random() * 10000); // id único
+/* Comandos e modos  */
+const COMANDO_INICIAR = "iniciar";
+const COMANDO_PARAR = "parar";
+const COMANDO_INTERMITENTE = "ligarintermitente";
+const MODO_PARADO = "parado";
+const MODO_CICLO = "ciclo";
+const MODO_INTERMITENTE = "intermitente";
 
-/* ================================================================
-   2. ESTADO DO SEMÁFORO   (TUDO em SEGUNDOS)
-   O semáforo nasce em "parado". Para sair dele é só enviar
-   o comando  "iniciar"  pelo MQTTX.
-   ================================================================ */
-let tempoVermelho = 3;   // segundos de luz vermelha
-let tempoAmarelo = 1;   // segundos de luz amarela
-let tempoVerde = 3;   // segundos de luz verde
+const TEMPO_PISCA_AMARELO = 1;
+const INTERVALO_RECONEXAO_MS = 3000;
+const TEMPOS_PADRAO = { vermelho: 3, amarelo: 1, verde: 3 };
 
-let rodando = false;   // há um loop executando agora?
-let idLoop = 0;       // "número" do loop atual (serve para cancelar o anterior)
-let modoAtual = "parado";// "parado" | "ciclo" | "intermitente"
+/* ---------- 3) Estado atual do semáforo (tempos em segundos) ---------- */
+let tempoVermelho = TEMPOS_PADRAO.vermelho;
+let tempoAmarelo = TEMPOS_PADRAO.amarelo;
+let tempoVerde = TEMPOS_PADRAO.verde;
 
-/* ================================================================
-   3. CONTROLE DAS LUZES  (funções diretas no HTML)
-   ================================================================ */
+let semaforoEmExecucao = false;
+let idExecucaoCorrente = 0;
+let modoAtual = MODO_PARADO;
 
-// Escreve texto num elemento, SEM quebrar se o elemento não existir.
-// (Se o HTML mudar e faltar um span, a página continua funcionando.)
-function definirTexto(id, valor) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = valor;
+/* ---------- 4) Controle das luzes ---------- */
+
+// Atualiza o texto de um elemento sem quebrar se ele não existir.
+function definirTextoNoElemento(idDoElemento, texto) {
+  const elemento = document.getElementById(idDoElemento);
+  if (elemento) elemento.textContent = texto;
 }
 
-function desligarTodas() {
-  document.getElementById("luzVermelho").classList.remove("ligado");
-  document.getElementById("luzAmarelo").classList.remove("ligado");
-  document.getElementById("luzVerde").classList.remove("ligado");
+function desligarTodasAsLuzes() {
+  desligarLuz("luzVermelho");
+  desligarLuz("luzAmarelo");
+  desligarLuz("luzVerde");
 }
 
-function ligarApenas(idLuz) {
-  desligarTodas();
-  document.getElementById(idLuz).classList.add("ligado");
+function desligarLuz(idDaLuz) {
+  document.getElementById(idDaLuz).classList.remove("ligado");
 }
 
-// setTimeout trabalha em milissegundos; aqui o código todo fala em segundos.
-function esperar(segundos) {
-  return new Promise(ok => setTimeout(ok, segundos * 1000));
+// Liga apenas a luz indicada, apagando as demais.
+function acenderSomenteLuz(idDaLuz) {
+  desligarTodasAsLuzes();
+  document.getElementById(idDaLuz).classList.add("ligado");
 }
 
-/* ================================================================
-   4. MÁQUINA DE ESTADOS
-   Cada bloco "ESTADO X" é a regra daquele estado. Para mudar uma
-   regra na apresentação, o lugar é exatamente dentro desses blocos.
-   ================================================================ */
+// setTimeout usa milissegundos; aqui o código fala em segundos.
+function aguardarSegundos(segundos) {
+  return new Promise(resolver => setTimeout(resolver, segundos * 1000));
+}
 
-// Desliga tudo e cancela qualquer execução anterior.
+/* ---------- 5) Máquina de estados ---------- */
+
+// Desliga tudo e cancela qualquer execução pendente.
 function pararSemaforo() {
-  idLoop++;               // aumenta o número: burla todos os loops pendentes
-  rodando = false;
-  modoAtual = "parado";
-  desligarTodas();
+  idExecucaoCorrente++;  // invalida os loops pendentes
+  semaforoEmExecucao = false;
+  modoAtual = MODO_PARADO;
+  desligarTodasAsLuzes();
 }
 
-// -------- CICLO NORMAL: VERMELHO -> VERDE -> AMARELO -> repete --------
+// Acende a luz, aguarda o tempo e informa se o loop continua válido.
+async function executarFase(idDaLuz, tempoEmSegundos, idDoLoop) {
+  acenderSomenteLuz(idDaLuz);
+  await aguardarSegundos(tempoEmSegundos);
+  return idExecucaoCorrente === idDoLoop;
+}
+
+// Ciclo normal: vermelho -> verde -> amarelo (repete).
 async function iniciarCiclo() {
-  pararSemaforo();        // encerra o que estava rodando (ciclo ou pisca)
-  rodando = true;
-  modoAtual = "ciclo";
-  const meuLoop = ++idLoop;   // este loop recebe um número exclusivo
+  pararSemaforo();
+  semaforoEmExecucao = true;
+  modoAtual = MODO_CICLO;
+  const idDesteLoop = ++idExecucaoCorrente;
 
-  while (rodando && idLoop === meuLoop) {   // roda até mandarem "parar"
-
-    // ---------- ESTADO 1: VERMELHO ----------
-    ligarApenas("luzVermelho");
-    await esperar(tempoVermelho);
-    if (idLoop !== meuLoop) return;        // foi parado no meio? sai já
-
-    // ---------- ESTADO 2: VERDE ----------
-    ligarApenas("luzVerde");
-    await esperar(tempoVerde);
-    if (idLoop !== meuLoop) return;
-
-    // ---------- ESTADO 3: AMARELO ----------
-    ligarApenas("luzAmarelo");
-    await esperar(tempoAmarelo);
-    // fim do ciclo -> o while volta para o VERMELHO
+  while (semaforoEmExecucao && idExecucaoCorrente === idDesteLoop) {
+    if (!(await executarFase("luzVermelho", tempoVermelho, idDesteLoop))) break;
+    if (!(await executarFase("luzVerde", tempoVerde, idDesteLoop))) break;
+    if (!(await executarFase("luzAmarelo", tempoAmarelo, idDesteLoop))) break;
   }
 }
 
-// -------- MODO INTERMITENTE: amarelo piscando (1s aceso / 1s apagado) --------
-async function modoIntermitente() {
-  pararSemaforo();        // encerra o que estava rodando
-  rodando = true;
-  modoAtual = "intermitente";
-  const meuLoop = ++idLoop;
+// Modo intermitente: amarelo piscando (1s aceso / 1s apagado).
+async function iniciarModoIntermitente() {
+  pararSemaforo();
+  semaforoEmExecucao = true;
+  modoAtual = MODO_INTERMITENTE;
+  const idDesteLoop = ++idExecucaoCorrente;
 
-  while (rodando && idLoop === meuLoop) {
-    ligarApenas("luzAmarelo");           // acende
-    await esperar(1);
-    if (idLoop !== meuLoop) return;
-
-    desligarTodas();                     // apaga
-    await esperar(1);
+  while (semaforoEmExecucao && idExecucaoCorrente === idDesteLoop) {
+    if (!(await executarFase("luzAmarelo", TEMPO_PISCA_AMARELO, idDesteLoop))) break;
+    desligarTodasAsLuzes();
+    await aguardarSegundos(TEMPO_PISCA_AMARELO);
+    if (idExecucaoCorrente !== idDesteLoop) break;
   }
 }
 
-/* ================================================================
-   5. PARSER DOS COMANDOS  (texto simples vindo do MQTTX)
-   ================================================================ */
+/* ---------- 6) Interpretação dos comandos (texto do MQTTX) ---------- */
 
-// Prepara a mensagem recebida para o switch de comandos:
-//  - tira espaços/acentos de fora (trim)
-//  - aceita JSON antigo:  {"msg": "iniciar"}  ->  "iniciar"
-//  - aceita texto com aspas:  "iniciar"  ->  iniciar
-//  - ignora CAIXA ALTA:  INICIAR  ->  iniciar
-function normalizarMensagem(texto) {
-  let msg = texto.trim();
+// Normaliza a mensagem em um comando minúsculo e sem aspas.
+// Aceita: "iniciar", '"iniciar"', '{"msg":"iniciar"}', "INICIAR".
+function obterComandoDaMensagem(mensagemBruta) {
+  let comando = mensagemBruta.trim();
 
-  if (msg.startsWith("{")) {              // era JSON no sistema antigo?
-    try {
-      msg = JSON.parse(msg).msg || "";
-    } catch (erro) {
-      msg = "";                           // JSON inválido: não é comando
-    }
+  if (comando.startsWith("{")) {  // era JSON no sistema antigo?
+    comando = extrairMensagemDoJson(comando);
   }
 
-  msg = msg.replace(/^['"]+/, "").replace(/['"]+$/, "");  // remove aspas sobrando
-  return msg.trim().toLowerCase();
+  comando = removerAspas(comando);
+  return comando.trim().toLowerCase();
 }
 
-// Extrai o número depois do "=" de um comando de tempo.
-// Ex.: "tempoVermelho = 2"  ->  2    (espaços ao redor do "=" não atrapalham)
-function lerSegundos(comando) {
-  const partes = comando.split("=");       // ["tempoVermelho ", " 2"]
-  const valor = parseInt(partes[1], 10);  // parseInt ignora os espaços sobrando
-  return isNaN(valor) ? null : valor;      // devolve null se não for número
+// Extrai o campo "msg" de um comando em formato JSON.
+function extrairMensagemDoJson(comandoEmJson) {
+  try {
+    return JSON.parse(comandoEmJson).msg || "";
+  } catch {
+    return "";  // JSON inválido não é um comando
+  }
 }
 
-function processarComando(payload) {
-  const comando = normalizarMensagem(payload);
+// Remove aspas simples/duplas nas extremidades do texto.
+function removerAspas(texto) {
+  return texto.replace(/^['"]+/, "").replace(/['"]+$/, "");
+}
 
-  // ---------- COMANDOS SIMPLES (sem "=") ----------
+// Pega o número depois do "=" (ex.: "tempovermelho= 2" -> 2).
+function extrairTempoDoComando(comando) {
+  const partes = comando.split("=");
+  const valor = parseInt(partes[1], 10);
+  return Number.isNaN(valor) ? null : valor;
+}
+
+// Executa os comandos simples (sem "=").
+function executarComandoSimples(comando) {
   switch (comando) {
-    case "iniciar": iniciarCiclo(); break;
-    case "parar": pararSemaforo(); break;
-    case "ligarintermitente": modoIntermitente(); break;
+    case COMANDO_INICIAR:
+      iniciarCiclo();
+      break;
+    case COMANDO_PARAR:
+      pararSemaforo();
+      break;
+    case COMANDO_INTERMITENTE:
+      iniciarModoIntermitente();
+      break;
   }
-
-  // ---------- COMANDOS DE TEMPO (possuem "=") ----------
-  if (comando.includes("=")) {
-    const nome = comando.split("=")[0].trim();   // "tempovermelho" (sem espaços)
-    const tempo = lerSegundos(comando);
-
-    switch (nome) {
-      case "tempovermelho": if (tempo !== null) tempoVermelho = tempo; break;
-      case "tempoamarelo": if (tempo !== null) tempoAmarelo = tempo; break;
-      case "tempoverde": if (tempo !== null) tempoVerde = tempo; break;
-    }
-  }
-
-  refrescarPainel(comando);   // atualiza a barra de status
 }
 
-/* ================================================================
-   6. MQTT — conexão com o broker e chegada das mensagens
-   ================================================================ */
-const client = new Paho.Client(BROKER_HOST, BROKER_PORT, CLIENT_ID);
-client.onConnectionLost = aoPerderConexao;   // chamado se a conexão cair
-client.onMessageArrived = aoReceberMensagem; // chamado ao chegar mensagem
+// Aplica comandos de tempo do tipo "tempovermelho=5".
+function executarComandoDeTempo(comando) {
+  const nomeDoCampo = comando.split("=")[0].trim();
+  const novoTempo = extrairTempoDoComando(comando);
+  if (novoTempo === null) return;
 
-conectar();
+  switch (nomeDoCampo) {
+    case "tempovermelho":
+      tempoVermelho = novoTempo;
+      break;
+    case "tempoamarelo":
+      tempoAmarelo = novoTempo;
+      break;
+    case "tempoverde":
+      tempoVerde = novoTempo;
+      break;
+  }
+}
 
-function conectar() {
-  if (client.isConnected()) return;          // já estamos conectados
-  client.connect({
+// Roteia a mensagem recebida para o comando correspondente.
+function processarMensagemRecebida(payload) {
+  const comando = obterComandoDaMensagem(payload);
+
+  executarComandoSimples(comando);
+
+  if (comando.includes("=")) {
+    executarComandoDeTempo(comando);
+  }
+
+  atualizarPainelDeStatus(comando);
+}
+
+/* ---------- 7) MQTT: conexão e recebimento de mensagens ---------- */
+const clienteMqtt = new Paho.Client(HOST_BROKER, PORTA_BROKER, ID_CLIENTE);
+clienteMqtt.onConnectionLost = aoPerderConexao;
+clienteMqtt.onMessageArrived = aoReceberMensagem;
+
+conectarAoBroker();
+
+// Estabelece a conexão com o broker, se ainda não estiver conectado.
+function conectarAoBroker() {
+  if (clienteMqtt.isConnected()) return;
+  clienteMqtt.connect({
     onSuccess: aoConectar,
-    onFailure: e => console.log("Falha na conexão:", e.errorMessage),
+    onFailure: erro => console.log("Falha na conexão:", erro.errorMessage),
   });
 }
 
+// Chamado quando a conexão é estabelecida com sucesso.
 function aoConectar() {
-  client.subscribe(TOPICO);                 // passa a ouvir o tópico do MQTTX
-  definirTexto("statusConexao", "Conectado ao broker");
+  clienteMqtt.subscribe(TOPICO_ESTADO);
+  definirTextoNoElemento("statusConexao", "Conectado ao broker");
 }
 
+// Chamado quando a conexão com o broker é perdida.
 function aoPerderConexao(resposta) {
   if (resposta.errorCode !== 0) {
     console.log("Conexão perdida:", resposta.errorMessage);
   }
-  definirTexto("statusConexao", "Desconectado — reconectando...");
+  definirTextoNoElemento("statusConexao", "Desconectado — reconectando...");
 }
 
+// Chamado a cada mensagem recebida no tópico MQTT.
 function aoReceberMensagem(mensagem) {
   const payload = mensagem.payloadString;
   console.log("Mensagem recebida:", payload);
-  definirTexto("infoBruto", "Recebido: " + payload);
-  processarComando(payload);                      // toca o parser da seção 5
+  definirTextoNoElemento("infoBruto", "Recebido: " + payload);
+  processarMensagemRecebida(payload);
 }
 
-// Tenta reconectar sozinho a cada 3s (útil se o Docker subir depois da página).
-setInterval(conectar, 3000);
+// Reconecta sozinho a cada poucos segundos (caso o Docker suba depois).
+setInterval(conectarAoBroker, INTERVALO_RECONEXAO_MS);
 
-/* ================================================================
-   7. BARRA DE STATUS (só leitura, apenas reflete o estado atual)
-   ================================================================ */
-function refrescarPainel(ultimoComando) {
-  definirTexto("infoModo", "Modo: " + modoAtual);
-  definirTexto("infoTempos",
-    "V=" + tempoVermelho + "s · A=" + tempoAmarelo + "s · G=" + tempoVerde + "s");
+/* ---------- 8) Barra de status (só leitura) ---------- */
+function atualizarPainelDeStatus(ultimoComando) {
+  definirTextoNoElemento("infoModo", "Modo: " + modoAtual);
+  definirTextoNoElemento(
+    "infoTempos",
+    "V=" + tempoVermelho + "s · A=" + tempoAmarelo + "s · G=" + tempoVerde + "s"
+  );
+
   if (ultimoComando) {
-    definirTexto("infoComando", "Último comando: " + ultimoComando);
+    definirTextoNoElemento("infoComando", "Último comando: " + ultimoComando);
   }
 }
 
-refrescarPainel(); // mostra os tempos padrão assim que a página abre
+atualizarPainelDeStatus();  // mostra os tempos padrão ao abrir a página
 
-/* ================================================================
-   8. DIAGNÓSTICO: contador de recarregamentos
-   Se este número subir sem ninguém apertar F5, a página está sendo
-   recarregada por uma ferramenta/EXTENSÃO externa — não pelo código.
-   (sessionStorage sobrevive ao reload da própria aba.)
-   ================================================================ */
-const qtdRecarregamentos = (Number(sessionStorage.getItem("sfRecarregamentos")) || 0) + 1;
-sessionStorage.setItem("sfRecarregamentos", String(qtdRecarregamentos));
-definirTexto("infoReload", "Recarregamentos: " + qtdRecarregamentos);
+/* ---------- 9) Contador de recarregamentos (diagnóstico) ---------- */
+// Se o número subir sem ninguém apertar F5, a página está sendo recarregada
+// por uma ferramenta/extensão externa. (sessionStorage dura no reload normal.)
+const quantidadeDeRecarregamentos =
+  (Number(sessionStorage.getItem("sfRecarregamentos")) || 0) + 1;
+sessionStorage.setItem("sfRecarregamentos", String(quantidadeDeRecarregamentos));
+definirTextoNoElemento("infoReload", "Recarregamentos: " + quantidadeDeRecarregamentos);

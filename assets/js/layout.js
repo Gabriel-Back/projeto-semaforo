@@ -1,10 +1,5 @@
 "use strict";
 
-// Layout compartilhado (Master Layout): injeta o shell (application/layout.html),
-// monta a sidebar (application/sidebar.html) dentro dele e move o .admin-main da
-// página para dentro do shell. Cada página mantém apenas o painel de conteúdo.
-// Nenhum framework: <admin-layout> e <admin-sidebar> são "slots" declarativos
-// resolvidos por este script; os de conteúdo principal ficam nas páginas.
 (function () {
   var desktopMedia = "(min-width: 992px)";
 

@@ -16,15 +16,15 @@
     }
   }
 
-  function formatarMilissegundos(ms) {
-    if (!ms && ms !== 0) {
+  function formatarTempo(valor) {
+    if (!valor && valor !== 0) {
       return "—";
     }
-    var valor = Number(ms);
-    if (isNaN(valor)) {
-      return String(ms);
+    var numero = Number(valor);
+    if (isNaN(numero)) {
+      return String(valor);
     }
-    return valor >= 1000 ? valor / 1000 + " s" : valor + " ms";
+    return numero >= 1000 ? numero / 1000 + " s" : numero + " ms";
   }
 
   function parsearLocalizacao(latitudeLongitude) {
@@ -40,22 +40,10 @@
     return { latitude: lat, longitude: lng };
   }
 
-  function configurarMetricas(semaforos) {
-    var total = semaforos.length;
-    var ativos = semaforos.filter(function (s) { return !!s.ativo; }).length;
-    var comLocalizacao = semaforos.filter(function (s) {
-      return !!parsearLocalizacao(s.latitudeLongitude);
-    }).length;
-
-    var elTotal = document.getElementById("metricTotal");
-    var elAtivos = document.getElementById("metricAtivos");
-    var elLocalizacao = document.getElementById("metricLocalizacao");
-    var elSemLocal = document.getElementById("metricSemLocal");
-
-    if (elTotal) { elTotal.textContent = total; }
-    if (elAtivos) { elAtivos.textContent = ativos; }
-    if (elLocalizacao) { elLocalizacao.textContent = comLocalizacao; }
-    if (elSemLocal) { elSemLocal.textContent = total - comLocalizacao; }
+  function escaparHtml(texto) {
+    var div = document.createElement("div");
+    div.textContent = texto;
+    return div.innerHTML;
   }
 
   function configurarMapa(semaforos) {
@@ -94,9 +82,9 @@
       var marcador = L.marker([pos.latitude, pos.longitude], { icon: icon }).addTo(camadaMarcadores);
       marcadores.push(marcador);
 
-      var ciclo = formatarMilissegundos(semaforo.tempoVermelho) + " / " +
-        formatarMilissegundos(semaforo.tempoAmarelo) + " / " +
-        formatarMilissegundos(semaforo.tempoVerde);
+      var ciclo = formatarTempo(semaforo.tempoVermelho) + " / " +
+        formatarTempo(semaforo.tempoAmarelo) + " / " +
+        formatarTempo(semaforo.tempoVerde);
 
       var status = semaforo.ativo
         ? '<span class="badge text-bg-success">Ativo</span>'
@@ -124,53 +112,6 @@
     }
   }
 
-  function escaparHtml(texto) {
-    var div = document.createElement("div");
-    div.textContent = texto;
-    return div.innerHTML;
-  }
-
-  function configurarTabela(semaforos) {
-    var tbody = document.getElementById("semaforosStatusBody");
-    var contador = document.getElementById("semaforosCount");
-    var vazio = document.getElementById("semaforosEmpty");
-
-    if (!tbody) {
-      return;
-    }
-
-    if (contador) { contador.textContent = semaforos.length; }
-
-    if (semaforos.length === 0) {
-      if (vazio) { vazio.classList.remove("d-none"); }
-      return;
-    }
-
-    semaforos.forEach(function (semaforo) {
-      var tr = document.createElement("tr");
-      var pos = parsearLocalizacao(semaforo.latitudeLongitude);
-      var ciclo = formatarMilissegundos(semaforo.tempoVermelho) + " / " +
-        formatarMilissegundos(semaforo.tempoAmarelo) + " / " +
-        formatarMilissegundos(semaforo.tempoVerde);
-
-      var statusBadge = semaforo.ativo
-        ? '<span class="badge text-bg-success">Ativo</span>'
-        : '<span class="badge text-bg-secondary">Inativo</span>';
-
-      var localizacao = pos
-        ? pos.latitude.toFixed(4) + ", " + pos.longitude.toFixed(4)
-        : '<span class="text-muted">Sem localização</span>';
-
-      tr.innerHTML =
-        "<td>" + escaparHtml(semaforo.nome || "—") + "</td>" +
-        "<td>" + ciclo + "</td>" +
-        "<td>" + localizacao + "</td>" +
-        "<td>" + statusBadge + "</td>";
-
-      tbody.appendChild(tr);
-    });
-  }
-
   function onReady(callback) {
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", callback);
@@ -181,9 +122,6 @@
 
   onReady(function () {
     var semaforos = recuperarSemaforos();
-    configurarMetricas(semaforos);
-    configurarTabela(semaforos);
-
     if (typeof L !== "undefined") {
       configurarMapa(semaforos);
     } else {

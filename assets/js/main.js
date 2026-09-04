@@ -4,79 +4,9 @@
   var sidebarStorageKey = "semaforo.sidebarMini";
   var themeStorageKey = "semaforo.colorTheme";
   var desktopMedia = "(min-width: 992px)";
-  var logsStorageKey = "semaforo.logsAlteracao";
-
-  function getCurrentUser() {
-    var savedUser = null;
-
-    try {
-      savedUser = sessionStorage.getItem("semaforo.usuarioAtual");
-      if (savedUser) {
-        return JSON.parse(savedUser);
-      }
-    } catch (error) {
-      savedUser = null;
-    }
-
-    try {
-      savedUser = localStorage.getItem("semaforo.usuarioAtual");
-      if (savedUser) {
-        return JSON.parse(savedUser);
-      }
-    } catch (error) {
-      savedUser = null;
-    }
-
-    return { name: "Administrador" };
-  }
-
-  function recuperarLogs() {
-    try {
-      return JSON.parse(localStorage.getItem(logsStorageKey) || "[]");
-    } catch (error) {
-      return [];
-    }
-  }
-
-  function registrarLog(acao, usuarioNome) {
-    var usuario = usuarioNome || getCurrentUser().name || "Administrador";
-    var logs = recuperarLogs();
-    var novoLog = {
-      id: Date.now() + Math.random().toString(16).slice(2),
-      horario: new Date().toISOString(),
-      usuario: usuario,
-      alteracao: String(acao || "Alteração registrada").trim(),
-    };
-
-    logs.unshift(novoLog);
-    localStorage.setItem(logsStorageKey, JSON.stringify(logs.slice(0, 500)));
-    return novoLog;
-  }
-
-  function registrarLogin() {
-    try {
-      if (!sessionStorage.getItem("semaforo.loginRegistrado")) {
-        var usuarioAtual = getCurrentUser();
-        window.registrarLog("Login no sistema", usuarioAtual.name || "Administrador");
-        sessionStorage.setItem("semaforo.loginRegistrado", "true");
-      }
-    } catch (error) {
-      // Ignora falhas de storage em ambientes restritos.
-    }
-  }
 
   if (typeof window !== "undefined") {
     window.adminSemaforoUser = window.adminSemaforoUser || { name: "Administrador", workspace: "Operação de tráfego", avatar: "../../assets/images/avatar/avatar.jpg" };
-    try {
-      sessionStorage.setItem("semaforo.usuarioAtual", JSON.stringify(window.adminSemaforoUser));
-      localStorage.setItem("semaforo.usuarioAtual", JSON.stringify(window.adminSemaforoUser));
-    } catch (error) {
-      // Ignora falhas de storage em ambientes restritos.
-    }
-
-    window.registrarLog = registrarLog;
-    window.recuperarLogs = recuperarLogs;
-    registrarLogin();
   }
 
   function onReady(callback) {
