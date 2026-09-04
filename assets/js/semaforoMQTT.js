@@ -9,6 +9,7 @@ const COMANDO_INTERMITENTE = "ligarintermitente";
 const COMANDO_VERMELHO = "vermelho";
 const COMANDO_AMARELO = "amarelo";
 const COMANDO_VERDE = "verde";
+
 const MODO_PARADO = "parado";
 const MODO_CICLO = "ciclo";
 const MODO_INTERMITENTE = "intermitente";
