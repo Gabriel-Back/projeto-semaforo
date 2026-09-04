@@ -52,7 +52,7 @@
       return;
     }
 
-    var mapa = L.map(container).setView([-15.78, -47.93], 5);
+    var mapa = L.map(container).setView([-27.09795, -48.91093], 13);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
