@@ -1,16 +1,42 @@
-ABRIR INDEX.HTML PELA PASTA DO WINDOWS (live server dando erro de loop de recarregamento)
+LARAVEL
+php artisan serve --port=8080
 
---- CONFIGURAÇÕES MQTTX ---
+e
 
-hostname: "localhost"  
-port: "8000"
-Tópico = semaforo/estado
+php artisan mqtt:escutar
 
---- COMANDOS SEMAFORO ---
+DOCKER.yaml
 
-- "iniciar" -> Inicia o ciclo do semáforo.
-- "parar" -> Desliga/interrompe o ciclo.
-- "ligarIntermitente" -> Ativa o modo amarelo piscando.
-- "tempoVermelho = X" -> Altera o tempo do vermelho em segundos (ex: "tempoVermelho = 2").
-- "tempoAmarelo = X" -> Altera o tempo do amarelo em segundos (ex: "tempoAmarelo = 1").
-- "tempoVerde = X" -> Altera o tempo do verde em segundos (ex: "tempoVerde = 4").
+services:
+  db:
+    image: mysql:8.4
+    container_name: mysql-projeto-integrador
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: projeto-integrador
+      MYSQL_USER: semaforo
+      MYSQL_PASSWORD: semaforo123
+    ports:
+      - "3336:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mosquitto-projeto-integrador
+    restart: always
+    ports:
+      - "1883:1883"   # MQTT TCP (Laravel)
+      - "8000:9001"   # WebSocket (seu JS)
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+volumes:
+  mysql_data:
+    driver: local
+
+
+docker compose up -d
+
+
