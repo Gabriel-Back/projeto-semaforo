@@ -1,231 +1,141 @@
-/* ================================================================
-   SEMAFORO MQTT — lógica completa do simulador de semáforo.
-   Arquivo externo, referenciado pela página:
-     application/simulador/index.html
-   ================================================================ */
+/* ---------- 1) Configuração da API ---------- */
+const URL_API = "http://localhost:8080/api";   // porta do php artisan serve
+const INTERVALO_CONSULTA_MS = 500;
 
-/* ================================================================
-   1. CONFIGURAÇÕES
-   É aqui que se troca o broker, a porta e o tópico, se preciso.
-   ================================================================ */
-const BROKER_HOST = "localhost";                    // mesmo host do Mosquitto no Docker
-const BROKER_PORT = 8000;                           // porta WEBSOCKET do broker
-const TOPICO = "semaforo/estado";              // tópico usado no MQTTX
-const CLIENT_ID = "semaforo-web-" + Math.floor(Math.random() * 10000); // id único
+// Cor enviada pelo ESP32 -> id da luz no HTML
+const LUZ_POR_COR = {
+  vermelho: "luzVermelho",
+  amarelo: "luzAmarelo",
+  verde: "luzVerde",
+};
 
-/* ================================================================
-   2. ESTADO DO SEMÁFORO   (TUDO em SEGUNDOS)
-   O semáforo nasce em "parado". Para sair dele é só enviar
-   o comando  "iniciar"  pelo MQTTX.
-   ================================================================ */
-let tempoVermelho = 3;   // segundos de luz vermelha
-let tempoAmarelo = 1;   // segundos de luz amarela
-let tempoVerde = 3;   // segundos de luz verde
+/* ---------- 2) Estado atual (espelho do ESP32) ---------- */
+let ultimoIdProcessado = 0;
+let cicloAtivo = false;
+let estadoDasLuzes = { vermelho: false, amarelo: false, verde: false };
 
-let rodando = false;   // há um loop executando agora?
-let idLoop = 0;       // "número" do loop atual (serve para cancelar o anterior)
-let modoAtual = "parado";// "parado" | "ciclo" | "intermitente"
+/* ---------- 3) Controle das luzes ---------- */
 
-/* ================================================================
-   3. CONTROLE DAS LUZES  (funções diretas no HTML)
-   ================================================================ */
-
-// Escreve texto num elemento, SEM quebrar se o elemento não existir.
-// (Se o HTML mudar e faltar um span, a página continua funcionando.)
-function definirTexto(id, valor) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = valor;
+// Atualiza o texto de um elemento sem quebrar se ele não existir.
+function definirTextoNoElemento(idDoElemento, texto) {
+  const elemento = document.getElementById(idDoElemento);
+  if (elemento) elemento.textContent = texto;
 }
 
-function desligarTodas() {
-  document.getElementById("luzVermelho").classList.remove("ligado");
-  document.getElementById("luzAmarelo").classList.remove("ligado");
-  document.getElementById("luzVerde").classList.remove("ligado");
+// Liga ou desliga UMA luz.
+function definirLuz(idDaLuz, ligada) {
+  const luz = document.getElementById(idDaLuz);
+  if (luz) luz.classList.toggle("ligado", ligada);
 }
 
-function ligarApenas(idLuz) {
-  desligarTodas();
-  document.getElementById(idLuz).classList.add("ligado");
-}
-
-// setTimeout trabalha em milissegundos; aqui o código todo fala em segundos.
-function esperar(segundos) {
-  return new Promise(ok => setTimeout(ok, segundos * 1000));
-}
-
-/* ================================================================
-   4. MÁQUINA DE ESTADOS
-   Cada bloco "ESTADO X" é a regra daquele estado. Para mudar uma
-   regra na apresentação, o lugar é exatamente dentro desses blocos.
-   ================================================================ */
-
-// Desliga tudo e cancela qualquer execução anterior.
-function pararSemaforo() {
-  idLoop++;               // aumenta o número: burla todos os loops pendentes
-  rodando = false;
-  modoAtual = "parado";
-  desligarTodas();
-}
-
-// -------- CICLO NORMAL: VERMELHO -> VERDE -> AMARELO -> repete --------
-async function iniciarCiclo() {
-  pararSemaforo();        // encerra o que estava rodando (ciclo ou pisca)
-  rodando = true;
-  modoAtual = "ciclo";
-  const meuLoop = ++idLoop;   // este loop recebe um número exclusivo
-
-  while (rodando && idLoop === meuLoop) {   // roda até mandarem "parar"
-
-    // ---------- ESTADO 1: VERMELHO ----------
-    ligarApenas("luzVermelho");
-    await esperar(tempoVermelho);
-    if (idLoop !== meuLoop) return;        // foi parado no meio? sai já
-
-    // ---------- ESTADO 2: VERDE ----------
-    ligarApenas("luzVerde");
-    await esperar(tempoVerde);
-    if (idLoop !== meuLoop) return;
-
-    // ---------- ESTADO 3: AMARELO ----------
-    ligarApenas("luzAmarelo");
-    await esperar(tempoAmarelo);
-    // fim do ciclo -> o while volta para o VERMELHO
-  }
-}
-
-// -------- MODO INTERMITENTE: amarelo piscando (1s aceso / 1s apagado) --------
-async function modoIntermitente() {
-  pararSemaforo();        // encerra o que estava rodando
-  rodando = true;
-  modoAtual = "intermitente";
-  const meuLoop = ++idLoop;
-
-  while (rodando && idLoop === meuLoop) {
-    ligarApenas("luzAmarelo");           // acende
-    await esperar(1);
-    if (idLoop !== meuLoop) return;
-
-    desligarTodas();                     // apaga
-    await esperar(1);
-  }
-}
-
-/* ================================================================
-   5. PARSER DOS COMANDOS  (texto simples vindo do MQTTX)
-   ================================================================ */
-
-// Prepara a mensagem recebida para o switch de comandos:
-//  - tira espaços/acentos de fora (trim)
-//  - aceita JSON antigo:  {"msg": "iniciar"}  ->  "iniciar"
-//  - aceita texto com aspas:  "iniciar"  ->  iniciar
-//  - ignora CAIXA ALTA:  INICIAR  ->  iniciar
-function normalizarMensagem(texto) {
-  let msg = texto.trim();
-
-  if (msg.startsWith("{")) {              // era JSON no sistema antigo?
-    try {
-      msg = JSON.parse(msg).msg || "";
-    } catch (erro) {
-      msg = "";                           // JSON inválido: não é comando
-    }
-  }
-
-  msg = msg.replace(/^['"]+/, "").replace(/['"]+$/, "");  // remove aspas sobrando
-  return msg.trim().toLowerCase();
-}
-
-// Extrai o número depois do "=" de um comando de tempo.
-// Ex.: "tempoVermelho = 2"  ->  2    (espaços ao redor do "=" não atrapalham)
-function lerSegundos(comando) {
-  const partes = comando.split("=");       // ["tempoVermelho ", " 2"]
-  const valor = parseInt(partes[1], 10);  // parseInt ignora os espaços sobrando
-  return isNaN(valor) ? null : valor;      // devolve null se não for número
-}
-
-function processarComando(payload) {
-  const comando = normalizarMensagem(payload);
-
-  // ---------- COMANDOS SIMPLES (sem "=") ----------
-  switch (comando) {
-    case "iniciar": iniciarCiclo(); break;
-    case "parar": pararSemaforo(); break;
-    case "ligarintermitente": modoIntermitente(); break;
-  }
-
-  // ---------- COMANDOS DE TEMPO (possuem "=") ----------
-  if (comando.includes("=")) {
-    const nome = comando.split("=")[0].trim();   // "tempovermelho" (sem espaços)
-    const tempo = lerSegundos(comando);
-
-    switch (nome) {
-      case "tempovermelho": if (tempo !== null) tempoVermelho = tempo; break;
-      case "tempoamarelo": if (tempo !== null) tempoAmarelo = tempo; break;
-      case "tempoverde": if (tempo !== null) tempoVerde = tempo; break;
-    }
-  }
-
-  refrescarPainel(comando);   // atualiza a barra de status
-}
-
-/* ================================================================
-   6. MQTT — conexão com o broker e chegada das mensagens
-   ================================================================ */
-const client = new Paho.Client(BROKER_HOST, BROKER_PORT, CLIENT_ID);
-client.onConnectionLost = aoPerderConexao;   // chamado se a conexão cair
-client.onMessageArrived = aoReceberMensagem; // chamado ao chegar mensagem
-
-conectar();
-
-function conectar() {
-  if (client.isConnected()) return;          // já estamos conectados
-  client.connect({
-    onSuccess: aoConectar,
-    onFailure: e => console.log("Falha na conexão:", e.errorMessage),
+function desligarTodasAsLuzes() {
+  Object.keys(LUZ_POR_COR).forEach(cor => {
+    estadoDasLuzes[cor] = false;
+    definirLuz(LUZ_POR_COR[cor], false);
   });
 }
 
-function aoConectar() {
-  client.subscribe(TOPICO);                 // passa a ouvir o tópico do MQTTX
-  definirTexto("statusConexao", "Conectado ao broker");
+// "Vermelho", " VERDE " -> "vermelho", "verde"
+function normalizarCor(cor) {
+  return String(cor || "").trim().toLowerCase();
 }
 
-function aoPerderConexao(resposta) {
-  if (resposta.errorCode !== 0) {
-    console.log("Conexão perdida:", resposta.errorMessage);
+/* ---------- 4) Aplicar uma mudança vinda do ESP32 ---------- */
+function aplicarMudanca(log) {
+  const cor = normalizarCor(log.cor);
+  const idDaLuz = LUZ_POR_COR[cor];
+
+  // Ignora logs sem cor conhecida (ex.: comandos de texto antigos).
+  if (!idDaLuz || typeof log.estado !== "boolean") return;
+
+  // Semáforo: ao ligar uma cor, as outras apagam (funciona mesmo que
+  // o ESP32 não envie o "false" da cor anterior).
+  if (log.estado) desligarTodasAsLuzes();
+
+  estadoDasLuzes[cor] = log.estado;
+  definirLuz(idDaLuz, log.estado);
+
+  if (typeof log.ciclo === "boolean") cicloAtivo = log.ciclo;
+
+  atualizarPainelDeStatus(log);
+}
+
+/* ---------- 5) Comunicação com a API ---------- */
+async function buscarJson(caminho) {
+  const resposta = await fetch(URL_API + caminho, {
+    headers: { Accept: "application/json" },
+  });
+  if (!resposta.ok) throw new Error("HTTP " + resposta.status);
+  const corpo = await resposta.json();
+  return corpo.data ?? corpo;  // Laravel Resource envolve em "data"
+}
+
+// Ao abrir a página: reconstrói o estado atual a partir do histórico.
+async function sincronizarEstadoInicial() {
+  const logs = await buscarJson("/logs");        // mais recentes primeiro
+  if (!logs.length) return;
+
+  ultimoIdProcessado = logs[0].id;
+  [...logs].reverse().forEach(aplicarMudanca);   // do mais antigo ao mais novo
+}
+
+// Busca só o que chegou depois do último id processado.
+async function consultarNovosLogs() {
+  const novos = await buscarJson("/logs/novos?depois_do_id=" + ultimoIdProcessado);
+  for (const log of novos) {
+    aplicarMudanca(log);
+    ultimoIdProcessado = Math.max(ultimoIdProcessado, log.id);
+    definirTextoNoElemento("infoBruto", "Recebido: " + JSON.stringify(log));
   }
-  definirTexto("statusConexao", "Desconectado — reconectando...");
 }
 
-function aoReceberMensagem(mensagem) {
-  const payload = mensagem.payloadString;
-  console.log("Mensagem recebida:", payload);
-  definirTexto("infoBruto", "Recebido: " + payload);
-  processarComando(payload);                      // toca o parser da seção 5
+async function iniciar() {
+  try {
+    await sincronizarEstadoInicial();
+    definirTextoNoElemento("statusConexao", "Conectado à API");
+  } catch (erro) {
+    console.log("Falha ao sincronizar:", erro);
+    definirTextoNoElemento("statusConexao", "API indisponível — tentando de novo...");
+  }
+  repetirConsulta();
 }
 
-// Tenta reconectar sozinho a cada 3s (útil se o Docker subir depois da página).
-setInterval(conectar, 3000);
+// setTimeout em vez de setInterval: evita consultas sobrepostas.
+async function repetirConsulta() {
+  try {
+    await consultarNovosLogs();
+    definirTextoNoElemento("statusConexao", "Conectado à API");
+  } catch (erro) {
+    console.log("Falha na consulta:", erro);
+    definirTextoNoElemento("statusConexao", "API indisponível — tentando de novo...");
+  }
+  setTimeout(repetirConsulta, INTERVALO_CONSULTA_MS);
+}
 
-/* ================================================================
-   7. BARRA DE STATUS (só leitura, apenas reflete o estado atual)
-   ================================================================ */
-function refrescarPainel(ultimoComando) {
-  definirTexto("infoModo", "Modo: " + modoAtual);
-  definirTexto("infoTempos",
-    "V=" + tempoVermelho + "s &#183; A=" + tempoAmarelo + "s &#183; G=" + tempoVerde + "s");
-  if (ultimoComando) {
-    definirTexto("infoComando", "Último comando: " + ultimoComando);
+/* ---------- 6) Barra de status (só leitura) ---------- */
+function atualizarPainelDeStatus(ultimoLog) {
+  definirTextoNoElemento("infoModo", "Ciclo: " + (cicloAtivo ? "ligado" : "desligado"));
+  definirTextoNoElemento(
+    "infoTempos",
+    "V=" + (estadoDasLuzes.vermelho ? "on" : "off") +
+    " · A=" + (estadoDasLuzes.amarelo ? "on" : "off") +
+    " · G=" + (estadoDasLuzes.verde ? "on" : "off")
+  );
+
+  if (ultimoLog) {
+    definirTextoNoElemento(
+      "infoComando",
+      "Último evento: " + ultimoLog.cor + " = " + (ultimoLog.estado ? "ligado" : "desligado") +
+      " (" + new Date(ultimoLog.recebido_em).toLocaleTimeString("pt-BR") + ")"
+    );
   }
 }
 
-refrescarPainel(); // mostra os tempos padrão assim que a página abre
+atualizarPainelDeStatus();  // mostra o painel ao abrir a página
+iniciar();
 
-/* ================================================================
-   8. DIAGNÓSTICO: contador de recarregamentos
-   Se este número subir sem ninguém apertar F5, a página está sendo
-   recarregada por uma ferramenta/EXTENSÃO externa — não pelo código.
-   (sessionStorage sobrevive ao reload da própria aba.)
-   ================================================================ */
-const qtdRecarregamentos = (Number(sessionStorage.getItem("sfRecarregamentos")) || 0) + 1;
-sessionStorage.setItem("sfRecarregamentos", String(qtdRecarregamentos));
-definirTexto("infoReload", "Recarregamentos: " + qtdRecarregamentos);
+/* ---------- 7) Contador de recarregamentos (diagnóstico) ---------- */
+const quantidadeDeRecarregamentos =
+  (Number(sessionStorage.getItem("sfRecarregamentos")) || 0) + 1;
+sessionStorage.setItem("sfRecarregamentos", String(quantidadeDeRecarregamentos));
+definirTextoNoElemento("infoReload", "Recarregamentos: " + quantidadeDeRecarregamentos);

@@ -1,0 +1,116 @@
+1791331700: mosquitto version 2.1.2 starting
+1791331700: Config loaded from /mosquitto/config/mosquitto.conf.
+1791331700: Bridge support available.
+1791331700: Persistence support available.
+1791331700: TLS support available.
+1791331700: TLS-PSK support available.
+1791331700: Websockets support available.
+1791331700: Opening ipv4 listen socket on port 1880.
+1791331700: Opening ipv6 listen socket on port 1880.
+1791331700: Opening ipv4 listen socket on port 8000.
+1791331700: Opening ipv6 listen socket on port 8000.
+1791331700: mosquitto version 2.1.2 running
+1791333501: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1791335302: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1791337103: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1791338904: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1791340705: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1791342506: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1791497740: mosquitto version 2.1.2 starting
+1791497740: Config loaded from /mosquitto/config/mosquitto.conf.
+1791497740: Bridge support available.
+1791497740: Persistence support available.
+1791497740: TLS support available.
+1791497740: TLS-PSK support available.
+1791497740: Websockets support available.
+1791497740: Opening ipv4 listen socket on port 1880.
+1791497740: Opening ipv6 listen socket on port 1880.
+1791497740: Opening ipv4 listen socket on port 8000.
+1791497740: Opening ipv6 listen socket on port 8000.
+1791497740: mosquitto version 2.1.2 running
+1791498489: New connection from 172.18.0.1:60210 on port 8000.
+1791498489: New client connected from 172.18.0.1:60210 as mqttx_f25426f8 (p5, c1, k60).
+1791499198: Client mqttx_f25426f8 [172.18.0.1:60210] disconnected: exceeded timeout.
+1791499203: New connection from 172.18.0.1:49074 on port 8000.
+1791499203: New client connected from 172.18.0.1:49074 as mqttx_f25426f8 (p5, c1, k60).
+1791499541: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1791499859: Client mqttx_f25426f8 [172.18.0.1:49074] disconnected: exceeded timeout.
+1791499864: New connection from 172.18.0.1:44594 on port 8000.
+1791499864: New client connected from 172.18.0.1:44594 as mqttx_f25426f8 (p5, c1, k60).
+1791500459: Client mqttx_f25426f8 [172.18.0.1:44594] disconnected: exceeded timeout.
+1791500463: New connection from 172.18.0.1:59464 on port 8000.
+1791500463: New client connected from 172.18.0.1:59464 as mqttx_f25426f8 (p5, c1, k60).
+1791501059: Client mqttx_f25426f8 [172.18.0.1:59464] disconnected: exceeded timeout.
+1791501063: New connection from 172.18.0.1:36214 on port 8000.
+1791501063: New client connected from 172.18.0.1:36214 as mqttx_f25426f8 (p5, c1, k60).
+1791501342: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1791501659: Client mqttx_f25426f8 [172.18.0.1:36214] disconnected: exceeded timeout.
+1791501663: New connection from 172.18.0.1:52636 on port 8000.
+1791501663: New client connected from 172.18.0.1:52636 as mqttx_f25426f8 (p5, c1, k60).
+1791502319: Client mqttx_f25426f8 [172.18.0.1:52636] disconnected: exceeded timeout.
+1791502323: New connection from 172.18.0.1:54996 on port 8000.
+1791502323: New client connected from 172.18.0.1:54996 as mqttx_f25426f8 (p5, c1, k60).
+1791502859: Client mqttx_f25426f8 [172.18.0.1:54996] disconnected: exceeded timeout.
+1791502863: New connection from 172.18.0.1:59548 on port 8000.
+1791502863: New client connected from 172.18.0.1:59548 as mqttx_f25426f8 (p5, c1, k60).
+1791503142: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1791503579: Client mqttx_f25426f8 [172.18.0.1:59548] disconnected: exceeded timeout.
+1791503583: New connection from 172.18.0.1:59332 on port 8000.
+1791503583: New client connected from 172.18.0.1:59332 as mqttx_f25426f8 (p5, c1, k60).
+1791504659: Client mqttx_f25426f8 [172.18.0.1:59332] disconnected: exceeded timeout.
+1791504663: New connection from 172.18.0.1:55750 on port 8000.
+1791504663: New client connected from 172.18.0.1:55750 as mqttx_f25426f8 (p5, c1, k60).
+1791504944: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1791505198: Client mqttx_f25426f8 [172.18.0.1:55750] disconnected: exceeded timeout.
+1791505203: New connection from 172.18.0.1:49178 on port 8000.
+1791505203: New client connected from 172.18.0.1:49178 as mqttx_f25426f8 (p5, c1, k60).
+1791505978: Client mqttx_f25426f8 [172.18.0.1:49178] disconnected: exceeded timeout.
+1791505983: New connection from 172.18.0.1:41886 on port 8000.
+1791505983: New client connected from 172.18.0.1:41886 as mqttx_f25426f8 (p5, c1, k60).
+1791506073: Client mqttx_f25426f8 [172.18.0.1:41886] disconnected: exceeded timeout.
+1791506744: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1791508545: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1791509157: New connection from 172.18.0.1:58738 on port 1880.
+1791509157: New client connected from 172.18.0.1:58738 as laravel-semaforo (p3, c1, k30).
+1791509157: Client laravel-semaforo [172.18.0.1:58738] disconnected.
+1791509160: New connection from 172.18.0.1:58748 on port 1880.
+1791509160: New client connected from 172.18.0.1:58748 as laravel-semaforo (p3, c1, k30).
+1791509160: Client laravel-semaforo [172.18.0.1:58748] disconnected.
+1791509161: New connection from 172.18.0.1:58754 on port 1880.
+1791509161: New client connected from 172.18.0.1:58754 as laravel-semaforo (p3, c1, k30).
+1791509161: Client laravel-semaforo [172.18.0.1:58754] disconnected: connection closed by client.
+1791509163: New connection from 172.18.0.1:51210 on port 1880.
+1791509163: New client connected from 172.18.0.1:51210 as laravel-semaforo (p3, c1, k30).
+1791509163: Client laravel-semaforo [172.18.0.1:51210] disconnected.
+1791509164: New connection from 172.18.0.1:51212 on port 1880.
+1791509164: New client connected from 172.18.0.1:51212 as laravel-semaforo (p3, c1, k30).
+1791509164: Client laravel-semaforo [172.18.0.1:51212] disconnected: connection closed by client.
+1791509177: New connection from 172.18.0.1:49924 on port 1880.
+1791509177: New client connected from 172.18.0.1:49924 as laravel-semaforo (p3, c1, k30).
+1791509182: New connection from 172.18.0.1:49926 on port 1880.
+1791509182: Client laravel-semaforo [172.18.0.1:49924] disconnected: session taken over.
+1791509182: New client connected from 172.18.0.1:49926 as laravel-semaforo (p3, c1, k30).
+1791509182: Client laravel-semaforo [172.18.0.1:49926] disconnected: connection closed by client.
+1791509184: New connection from 172.18.0.1:45116 on port 1880.
+1791509184: New client connected from 172.18.0.1:45116 as laravel-semaforo (p3, c1, k30).
+1791509184: Client laravel-semaforo [172.18.0.1:45116] disconnected: connection closed by client.
+1791509185: New connection from 172.18.0.1:45128 on port 1880.
+1791509185: New client connected from 172.18.0.1:45128 as laravel-semaforo (p3, c1, k30).
+1791509186: Client laravel-semaforo [172.18.0.1:45128] disconnected: connection closed by client.
+1791509198: New connection from 172.18.0.1:43508 on port 1880.
+1791509198: New client connected from 172.18.0.1:43508 as laravel-semaforo (p3, c1, k30).
+1791509202: New connection from 172.18.0.1:43504 on port 1880.
+1791509202: New client connected from 172.18.0.1:43504 as publisher-teste (p3, c1, k30).
+1791509202: Client publisher-teste [172.18.0.1:43504] disconnected: connection closed by client.
+1791509204: New connection from 172.18.0.1:43520 on port 1880.
+1791509204: New client connected from 172.18.0.1:43520 as publisher-teste (p3, c1, k30).
+1791509204: Client publisher-teste [172.18.0.1:43520] disconnected: connection closed by client.
+1791509207: Client laravel-semaforo [172.18.0.1:43508] disconnected: connection closed by client.
+1791509352: New connection from 172.18.0.1:40874 on port 1880.
+1791509352: New client connected from 172.18.0.1:40874 as laravel-semaforo (p3, c1, k30).
+1791509356: New connection from 172.18.0.1:40884 on port 1880.
+1791509356: New client connected from 172.18.0.1:40884 as publisher-teste-script (p3, c1, k30).
+1791509356: Client publisher-teste-script [172.18.0.1:40884] disconnected: connection closed by client.
+1791509358: Client laravel-semaforo [172.18.0.1:40874] disconnected: connection closed by client.
+1791509889: mosquitto version 2.1.2 terminating
+1791509889: Saving in-memory database to /mosquitto/data//mosquitto.db.
